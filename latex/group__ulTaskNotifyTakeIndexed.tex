@@ -1,0 +1,48 @@
+\hypertarget{group__ulTaskNotifyTakeIndexed}{}\doxysection{ul\+Task\+Notify\+Take\+Indexed}
+\label{group__ulTaskNotifyTakeIndexed}\index{ulTaskNotifyTakeIndexed@{ulTaskNotifyTakeIndexed}}
+task. h 
+\begin{DoxyPre}
+uint32\_t ulTaskNotifyTakeIndexed( UBaseType\_t uxIndexToWaitOn, BaseType\_t xClearCountOnExit, TickType\_t xTicksToWait );
+
+uint32\_t ulTaskNotifyTake( BaseType\_t xClearCountOnExit, TickType\_t xTicksToWait );
+\end{DoxyPre}
+
+
+Waits for a direct to task notification on a particular index in the calling task\textquotesingle{}s notification array in a manner similar to taking a counting semaphore.
+
+See \href{https://www.FreeRTOS.org/RTOS-task-notifications.html}{\texttt{ https\+://www.\+Free\+RTOS.\+org/\+RTOS-\/task-\/notifications.\+html}} for details.
+
+config\+USE\+\_\+\+TASK\+\_\+\+NOTIFICATIONS must be undefined or defined as 1 for this function to be available.
+
+Each task has a private array of \char`\"{}notification values\char`\"{} (or \textquotesingle{}notifications\textquotesingle{}), each of which is a 32-\/bit unsigned integer (uint32\+\_\+t). The constant config\+TASK\+\_\+\+NOTIFICATION\+\_\+\+ARRAY\+\_\+\+ENTRIES sets the number of indexes in the array, and (for backward compatibility) defaults to 1 if left undefined. Prior to Free\+RTOS V10.\+4.\+0 there was only one notification value per task.
+
+Events can be sent to a task using an intermediary object. Examples of such objects are queues, semaphores, mutexes and event groups. Task notifications are a method of sending an event directly to a task without the need for such an intermediary object.
+
+A notification sent to a task can optionally perform an action, such as update, overwrite or increment one of the task\textquotesingle{}s notification values. In that way task notifications can be used to send data to a task, or be used as light weight and fast binary or counting semaphores.
+
+ul\+Task\+Notify\+Take\+Indexed() is intended for use when a task notification is used as a faster and lighter weight binary or counting semaphore alternative. Actual Free\+RTOS semaphores are taken using the x\+Semaphore\+Take() API function, the equivalent action that instead uses a task notification is ul\+Task\+Notify\+Take\+Indexed().
+
+When a task is using its notification value as a binary or counting semaphore other tasks should send notifications to it using the x\+Task\+Notify\+Give\+Indexed() macro, or x\+Task\+Notify\+Index() function with the e\+Action parameter set to e\+Increment.
+
+ul\+Task\+Notify\+Take\+Indexed() can either clear the task\textquotesingle{}s notification value at the array index specified by the ux\+Index\+To\+Wait\+On parameter to zero on exit, in which case the notification value acts like a binary semaphore, or decrement the notification value on exit, in which case the notification value acts like a counting semaphore.
+
+A task can use ul\+Task\+Notify\+Take\+Indexed() to \mbox{[}optionally\mbox{]} block to wait for the task\textquotesingle{}s notification value to be non-\/zero. The task does not consume any CPU time while it is in the Blocked state.
+
+Where as x\+Task\+Notify\+Wait\+Indexed() will return when a notification is pending, ul\+Task\+Notify\+Take\+Indexed() will return when the task\textquotesingle{}s notification value is not zero.
+
+{\bfseries{NOTE}} Each notification within the array operates independently -\/ a task can only block on one notification within the array at a time and will not be unblocked by a notification sent to any other array index.
+
+Backward compatibility information\+: Prior to Free\+RTOS V10.\+4.\+0 each task had a single \char`\"{}notification value\char`\"{}, and all task notification API functions operated on that value. Replacing the single notification value with an array of notification values necessitated a new set of API functions that could address specific notifications within the array. ul\+Task\+Notify\+Take() is the original API function, and remains backward compatible by always operating on the notification value at index 0 in the array. Calling ul\+Task\+Notify\+Take() is equivalent to calling ul\+Task\+Notify\+Take\+Indexed() with the ux\+Index\+To\+Wait\+On parameter set to 0.
+
+
+\begin{DoxyParams}{Parameters}
+{\em ux\+Index\+To\+Wait\+On} & The index within the calling task\textquotesingle{}s array of notification values on which the calling task will wait for a notification to be non-\/zero. ux\+Index\+To\+Wait\+On must be less than config\+TASK\+\_\+\+NOTIFICATION\+\_\+\+ARRAY\+\_\+\+ENTRIES. x\+Task\+Notify\+Take() does not have this parameter and always waits for notifications on index 0.\\
+\hline
+{\em x\+Clear\+Count\+On\+Exit} & if x\+Clear\+Count\+On\+Exit is pd\+FALSE then the task\textquotesingle{}s notification value is decremented when the function exits. In this way the notification value acts like a counting semaphore. If x\+Clear\+Count\+On\+Exit is not pd\+FALSE then the task\textquotesingle{}s notification value is cleared to zero when the function exits. In this way the notification value acts like a binary semaphore.\\
+\hline
+{\em x\+Ticks\+To\+Wait} & The maximum amount of time that the task should wait in the Blocked state for the task\textquotesingle{}s notification value to be greater than zero, should the count not already be greater than zero when ul\+Task\+Notify\+Take() was called. The task will not consume any processing time while it is in the Blocked state. This is specified in kernel ticks, the macro pd\+MS\+\_\+\+TO\+\_\+\+TICSK( value\+\_\+in\+\_\+ms ) can be used to convert a time specified in milliseconds to a time specified in ticks.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The task\textquotesingle{}s notification count before it is either cleared to zero or decremented (see the x\+Clear\+Count\+On\+Exit parameter). 
+\end{DoxyReturn}

@@ -1,0 +1,46 @@
+\hypertarget{structQueueDef__t}{}\doxysection{Queue\+Def\+\_\+t Struct Reference}
+\label{structQueueDef__t}\index{QueueDef\_t@{QueueDef\_t}}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structQueueDef__t_ae305dd380bec318fe0227b90ff0f0561}\label{structQueueDef__t_ae305dd380bec318fe0227b90ff0f0561}} 
+int8\+\_\+t $\ast$ {\bfseries pc\+Head}
+\item 
+\mbox{\Hypertarget{structQueueDef__t_abbeba61affd4386f21a071850157fdaa}\label{structQueueDef__t_abbeba61affd4386f21a071850157fdaa}} 
+int8\+\_\+t $\ast$ {\bfseries pc\+Write\+To}
+\item 
+\mbox{\Hypertarget{structQueueDef__t_acf2f7e835390748db978a851cd579e8a}\label{structQueueDef__t_acf2f7e835390748db978a851cd579e8a}} 
+\begin{tabbing}
+xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=\kill
+union \{\\
+\>\mbox{\hyperlink{structQueuePointers}{QueuePointers\_t}} {\bfseries xQueue}\\
+\>\mbox{\hyperlink{structSemaphoreData}{SemaphoreData\_t}} {\bfseries xSemaphore}\\
+\} {\bfseries u}\\
+
+\end{tabbing}\item 
+\mbox{\Hypertarget{structQueueDef__t_a95f7cad97aecfa9e8552809e8eb24e66}\label{structQueueDef__t_a95f7cad97aecfa9e8552809e8eb24e66}} 
+\mbox{\hyperlink{structxLIST}{List\+\_\+t}} {\bfseries x\+Tasks\+Waiting\+To\+Send}
+\item 
+\mbox{\Hypertarget{structQueueDef__t_a38bc69d9c4aba912bfb5f4c09584910a}\label{structQueueDef__t_a38bc69d9c4aba912bfb5f4c09584910a}} 
+\mbox{\hyperlink{structxLIST}{List\+\_\+t}} {\bfseries x\+Tasks\+Waiting\+To\+Receive}
+\item 
+\mbox{\Hypertarget{structQueueDef__t_a8dcc164b8ea56ac6738f8b9903e152e1}\label{structQueueDef__t_a8dcc164b8ea56ac6738f8b9903e152e1}} 
+volatile UBase\+Type\+\_\+t {\bfseries ux\+Messages\+Waiting}
+\item 
+\mbox{\Hypertarget{structQueueDef__t_ab58d68221c68f7e98286ed744300d330}\label{structQueueDef__t_ab58d68221c68f7e98286ed744300d330}} 
+UBase\+Type\+\_\+t {\bfseries ux\+Length}
+\item 
+\mbox{\Hypertarget{structQueueDef__t_a1c3d685543756f166671cffdf9bba44c}\label{structQueueDef__t_a1c3d685543756f166671cffdf9bba44c}} 
+UBase\+Type\+\_\+t {\bfseries ux\+Item\+Size}
+\item 
+\mbox{\Hypertarget{structQueueDef__t_a83ba5053c165df669a2a882141edc024}\label{structQueueDef__t_a83ba5053c165df669a2a882141edc024}} 
+volatile int8\+\_\+t {\bfseries c\+Rx\+Lock}
+\item 
+\mbox{\Hypertarget{structQueueDef__t_ae0c6a7fe977267e750be2de1f180bd14}\label{structQueueDef__t_ae0c6a7fe977267e750be2de1f180bd14}} 
+volatile int8\+\_\+t {\bfseries c\+Tx\+Lock}
+\end{DoxyCompactItemize}
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+lib/\+Arduino\+\_\+\+Free\+RTOS/src/queue.\+c\end{DoxyCompactItemize}

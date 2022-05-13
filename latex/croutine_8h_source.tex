@@ -1,0 +1,162 @@
+\hypertarget{croutine_8h_source}{}\doxysection{croutine.\+h}
+\label{croutine_8h_source}\index{lib/Arduino\_FreeRTOS/src/croutine.h@{lib/Arduino\_FreeRTOS/src/croutine.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{comment}{/*}}
+\DoxyCodeLine{2 \textcolor{comment}{ * FreeRTOS Kernel V10.4.3}}
+\DoxyCodeLine{3 \textcolor{comment}{ * Copyright (C) 2020 Amazon.com, Inc. or its affiliates.  All Rights Reserved.}}
+\DoxyCodeLine{4 \textcolor{comment}{ *}}
+\DoxyCodeLine{5 \textcolor{comment}{ * Permission is hereby granted, free of charge, to any person obtaining a copy of}}
+\DoxyCodeLine{6 \textcolor{comment}{ * this software and associated documentation files (the "{}Software"{}), to deal in}}
+\DoxyCodeLine{7 \textcolor{comment}{ * the Software without restriction, including without limitation the rights to}}
+\DoxyCodeLine{8 \textcolor{comment}{ * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of}}
+\DoxyCodeLine{9 \textcolor{comment}{ * the Software, and to permit persons to whom the Software is furnished to do so,}}
+\DoxyCodeLine{10 \textcolor{comment}{ * subject to the following conditions:}}
+\DoxyCodeLine{11 \textcolor{comment}{ *}}
+\DoxyCodeLine{12 \textcolor{comment}{ * The above copyright notice and this permission notice shall be included in all}}
+\DoxyCodeLine{13 \textcolor{comment}{ * copies or substantial portions of the Software.}}
+\DoxyCodeLine{14 \textcolor{comment}{ *}}
+\DoxyCodeLine{15 \textcolor{comment}{ * THE SOFTWARE IS PROVIDED "{}AS IS"{}, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR}}
+\DoxyCodeLine{16 \textcolor{comment}{ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS}}
+\DoxyCodeLine{17 \textcolor{comment}{ * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR}}
+\DoxyCodeLine{18 \textcolor{comment}{ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER}}
+\DoxyCodeLine{19 \textcolor{comment}{ * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN}}
+\DoxyCodeLine{20 \textcolor{comment}{ * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.}}
+\DoxyCodeLine{21 \textcolor{comment}{ *}}
+\DoxyCodeLine{22 \textcolor{comment}{ * https://www.FreeRTOS.org}}
+\DoxyCodeLine{23 \textcolor{comment}{ * https://github.com/FreeRTOS}}
+\DoxyCodeLine{24 \textcolor{comment}{ *}}
+\DoxyCodeLine{25 \textcolor{comment}{ */}}
+\DoxyCodeLine{26 }
+\DoxyCodeLine{27 \textcolor{preprocessor}{\#ifndef CO\_ROUTINE\_H}}
+\DoxyCodeLine{28 \textcolor{preprocessor}{\#define CO\_ROUTINE\_H}}
+\DoxyCodeLine{29 }
+\DoxyCodeLine{30 \textcolor{preprocessor}{\#ifndef INC\_ARDUINO\_FREERTOS\_H}}
+\DoxyCodeLine{31 \textcolor{preprocessor}{    \#error "{}include Arduino\_FreeRTOS.h must appear in source files before include croutine.h"{}}}
+\DoxyCodeLine{32 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{33 }
+\DoxyCodeLine{34 \textcolor{preprocessor}{\#include "{}list.h"{}}}
+\DoxyCodeLine{35 }
+\DoxyCodeLine{36 \textcolor{comment}{/* *INDENT-\/OFF* */}}
+\DoxyCodeLine{37 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{38     \textcolor{keyword}{extern} \textcolor{stringliteral}{"{}C"{}} \{}
+\DoxyCodeLine{39 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{40 \textcolor{comment}{/* *INDENT-\/ON* */}}
+\DoxyCodeLine{41 }
+\DoxyCodeLine{42 \textcolor{comment}{/* Used to hide the implementation of the co-\/routine control block.  The}}
+\DoxyCodeLine{43 \textcolor{comment}{ * control block structure however has to be included in the header due to}}
+\DoxyCodeLine{44 \textcolor{comment}{ * the macro implementation of the co-\/routine functionality. */}}
+\DoxyCodeLine{45 \textcolor{keyword}{typedef} \textcolor{keywordtype}{void} * CoRoutineHandle\_t;}
+\DoxyCodeLine{46 }
+\DoxyCodeLine{47 \textcolor{comment}{/* Defines the prototype to which co-\/routine functions must conform. */}}
+\DoxyCodeLine{48 \textcolor{keyword}{typedef} void (* crCOROUTINE\_CODE)( CoRoutineHandle\_t,}
+\DoxyCodeLine{49                                    UBaseType\_t );}
+\DoxyCodeLine{50 }
+\DoxyCodeLine{51 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{structcorCoRoutineControlBlock}{corCoRoutineControlBlock}}}
+\DoxyCodeLine{52 \{}
+\DoxyCodeLine{53     crCOROUTINE\_CODE pxCoRoutineFunction;}
+\DoxyCodeLine{54     \mbox{\hyperlink{structxLIST__ITEM}{ListItem\_t}} xGenericListItem; \textcolor{comment}{/*< List item used to place the CRCB in ready and blocked queues. */}}
+\DoxyCodeLine{55     \mbox{\hyperlink{structxLIST__ITEM}{ListItem\_t}} xEventListItem;   \textcolor{comment}{/*< List item used to place the CRCB in event lists. */}}
+\DoxyCodeLine{56     UBaseType\_t uxPriority;      \textcolor{comment}{/*< The priority of the co-\/routine in relation to other co-\/routines. */}}
+\DoxyCodeLine{57     UBaseType\_t uxIndex;         \textcolor{comment}{/*< Used to distinguish between co-\/routines when multiple co-\/routines use the same co-\/routine function. */}}
+\DoxyCodeLine{58     uint16\_t uxState;            \textcolor{comment}{/*< Used internally by the co-\/routine implementation. */}}
+\DoxyCodeLine{59 \} \mbox{\hyperlink{structcorCoRoutineControlBlock}{CRCB\_t}};                        \textcolor{comment}{/* Co-\/routine control block.  Note must be identical in size down to uxPriority with TCB\_t. */}}
+\DoxyCodeLine{60 }
+\DoxyCodeLine{134 BaseType\_t xCoRoutineCreate( crCOROUTINE\_CODE pxCoRoutineCode,}
+\DoxyCodeLine{135                              UBaseType\_t uxPriority,}
+\DoxyCodeLine{136                              UBaseType\_t uxIndex );}
+\DoxyCodeLine{137 }
+\DoxyCodeLine{138 }
+\DoxyCodeLine{179 \textcolor{keywordtype}{void} vCoRoutineSchedule( \textcolor{keywordtype}{void} );}
+\DoxyCodeLine{180 }
+\DoxyCodeLine{212 \textcolor{preprocessor}{\#define crSTART( pxCRCB )                            \(\backslash\)}}
+\DoxyCodeLine{213 \textcolor{preprocessor}{    switch( ( ( CRCB\_t * ) ( pxCRCB ) )-\/>uxState ) \{ \(\backslash\)}}
+\DoxyCodeLine{214 \textcolor{preprocessor}{        case 0:}}
+\DoxyCodeLine{215 }
+\DoxyCodeLine{247 \textcolor{preprocessor}{\#define crEND()    \}}}
+\DoxyCodeLine{248 }
+\DoxyCodeLine{249 \textcolor{comment}{/*}}
+\DoxyCodeLine{250 \textcolor{comment}{ * These macros are intended for internal use by the co-\/routine implementation}}
+\DoxyCodeLine{251 \textcolor{comment}{ * only.  The macros should not be used directly by application writers.}}
+\DoxyCodeLine{252 \textcolor{comment}{ */}}
+\DoxyCodeLine{253 \textcolor{preprocessor}{\#define crSET\_STATE0( xHandle )                                       \(\backslash\)}}
+\DoxyCodeLine{254 \textcolor{preprocessor}{    ( ( CRCB\_t * ) ( xHandle ) )-\/>uxState = ( \_\_LINE\_\_ * 2 ); return; \(\backslash\)}}
+\DoxyCodeLine{255 \textcolor{preprocessor}{    case ( \_\_LINE\_\_ * 2 ):}}
+\DoxyCodeLine{256 \textcolor{preprocessor}{\#define crSET\_STATE1( xHandle )                                               \(\backslash\)}}
+\DoxyCodeLine{257 \textcolor{preprocessor}{    ( ( CRCB\_t * ) ( xHandle ) )-\/>uxState = ( ( \_\_LINE\_\_ * 2 ) + 1 ); return; \(\backslash\)}}
+\DoxyCodeLine{258 \textcolor{preprocessor}{    case ( ( \_\_LINE\_\_ * 2 ) + 1 ):}}
+\DoxyCodeLine{259 }
+\DoxyCodeLine{308 \textcolor{preprocessor}{\#define crDELAY( xHandle, xTicksToDelay )                      \(\backslash\)}}
+\DoxyCodeLine{309 \textcolor{preprocessor}{    if( ( xTicksToDelay ) > 0 )                                \(\backslash\)}}
+\DoxyCodeLine{310 \textcolor{preprocessor}{    \{                                                          \(\backslash\)}}
+\DoxyCodeLine{311 \textcolor{preprocessor}{        vCoRoutineAddToDelayedList( ( xTicksToDelay ), NULL ); \(\backslash\)}}
+\DoxyCodeLine{312 \textcolor{preprocessor}{    \}                                                          \(\backslash\)}}
+\DoxyCodeLine{313 \textcolor{preprocessor}{    crSET\_STATE0( ( xHandle ) );}}
+\DoxyCodeLine{314 }
+\DoxyCodeLine{400 \textcolor{preprocessor}{\#define crQUEUE\_SEND( xHandle, pxQueue, pvItemToQueue, xTicksToWait, pxResult )           \(\backslash\)}}
+\DoxyCodeLine{401 \textcolor{preprocessor}{    \{                                                                                     \(\backslash\)}}
+\DoxyCodeLine{402 \textcolor{preprocessor}{        *( pxResult ) = xQueueCRSend( ( pxQueue ), ( pvItemToQueue ), ( xTicksToWait ) ); \(\backslash\)}}
+\DoxyCodeLine{403 \textcolor{preprocessor}{        if( *( pxResult ) == errQUEUE\_BLOCKED )                                           \(\backslash\)}}
+\DoxyCodeLine{404 \textcolor{preprocessor}{        \{                                                                                 \(\backslash\)}}
+\DoxyCodeLine{405 \textcolor{preprocessor}{            crSET\_STATE0( ( xHandle ) );                                                  \(\backslash\)}}
+\DoxyCodeLine{406 \textcolor{preprocessor}{            *pxResult = xQueueCRSend( ( pxQueue ), ( pvItemToQueue ), 0 );                \(\backslash\)}}
+\DoxyCodeLine{407 \textcolor{preprocessor}{        \}                                                                                 \(\backslash\)}}
+\DoxyCodeLine{408 \textcolor{preprocessor}{        if( *pxResult == errQUEUE\_YIELD )                                                 \(\backslash\)}}
+\DoxyCodeLine{409 \textcolor{preprocessor}{        \{                                                                                 \(\backslash\)}}
+\DoxyCodeLine{410 \textcolor{preprocessor}{            crSET\_STATE1( ( xHandle ) );                                                  \(\backslash\)}}
+\DoxyCodeLine{411 \textcolor{preprocessor}{            *pxResult = pdPASS;                                                           \(\backslash\)}}
+\DoxyCodeLine{412 \textcolor{preprocessor}{        \}                                                                                 \(\backslash\)}}
+\DoxyCodeLine{413 \textcolor{preprocessor}{    \}}}
+\DoxyCodeLine{414 }
+\DoxyCodeLine{494 \textcolor{preprocessor}{\#define crQUEUE\_RECEIVE( xHandle, pxQueue, pvBuffer, xTicksToWait, pxResult )           \(\backslash\)}}
+\DoxyCodeLine{495 \textcolor{preprocessor}{    \{                                                                                   \(\backslash\)}}
+\DoxyCodeLine{496 \textcolor{preprocessor}{        *( pxResult ) = xQueueCRReceive( ( pxQueue ), ( pvBuffer ), ( xTicksToWait ) ); \(\backslash\)}}
+\DoxyCodeLine{497 \textcolor{preprocessor}{        if( *( pxResult ) == errQUEUE\_BLOCKED )                                         \(\backslash\)}}
+\DoxyCodeLine{498 \textcolor{preprocessor}{        \{                                                                               \(\backslash\)}}
+\DoxyCodeLine{499 \textcolor{preprocessor}{            crSET\_STATE0( ( xHandle ) );                                                \(\backslash\)}}
+\DoxyCodeLine{500 \textcolor{preprocessor}{            *( pxResult ) = xQueueCRReceive( ( pxQueue ), ( pvBuffer ), 0 );            \(\backslash\)}}
+\DoxyCodeLine{501 \textcolor{preprocessor}{        \}                                                                               \(\backslash\)}}
+\DoxyCodeLine{502 \textcolor{preprocessor}{        if( *( pxResult ) == errQUEUE\_YIELD )                                           \(\backslash\)}}
+\DoxyCodeLine{503 \textcolor{preprocessor}{        \{                                                                               \(\backslash\)}}
+\DoxyCodeLine{504 \textcolor{preprocessor}{            crSET\_STATE1( ( xHandle ) );                                                \(\backslash\)}}
+\DoxyCodeLine{505 \textcolor{preprocessor}{            *( pxResult ) = pdPASS;                                                     \(\backslash\)}}
+\DoxyCodeLine{506 \textcolor{preprocessor}{        \}                                                                               \(\backslash\)}}
+\DoxyCodeLine{507 \textcolor{preprocessor}{    \}}}
+\DoxyCodeLine{508 }
+\DoxyCodeLine{605 \textcolor{preprocessor}{\#define crQUEUE\_SEND\_FROM\_ISR( pxQueue, pvItemToQueue, xCoRoutinePreviouslyWoken ) \(\backslash\)}}
+\DoxyCodeLine{606 \textcolor{preprocessor}{    xQueueCRSendFromISR( ( pxQueue ), ( pvItemToQueue ), ( xCoRoutinePreviouslyWoken ) )}}
+\DoxyCodeLine{607 }
+\DoxyCodeLine{608 }
+\DoxyCodeLine{721 \textcolor{preprocessor}{\#define crQUEUE\_RECEIVE\_FROM\_ISR( pxQueue, pvBuffer, pxCoRoutineWoken ) \(\backslash\)}}
+\DoxyCodeLine{722 \textcolor{preprocessor}{    xQueueCRReceiveFromISR( ( pxQueue ), ( pvBuffer ), ( pxCoRoutineWoken ) )}}
+\DoxyCodeLine{723 }
+\DoxyCodeLine{724 \textcolor{comment}{/*}}
+\DoxyCodeLine{725 \textcolor{comment}{ * This function is intended for internal use by the co-\/routine macros only.}}
+\DoxyCodeLine{726 \textcolor{comment}{ * The macro nature of the co-\/routine implementation requires that the}}
+\DoxyCodeLine{727 \textcolor{comment}{ * prototype appears here.  The function should not be used by application}}
+\DoxyCodeLine{728 \textcolor{comment}{ * writers.}}
+\DoxyCodeLine{729 \textcolor{comment}{ *}}
+\DoxyCodeLine{730 \textcolor{comment}{ * Removes the current co-\/routine from its ready list and places it in the}}
+\DoxyCodeLine{731 \textcolor{comment}{ * appropriate delayed list.}}
+\DoxyCodeLine{732 \textcolor{comment}{ */}}
+\DoxyCodeLine{733 \textcolor{keywordtype}{void} vCoRoutineAddToDelayedList( TickType\_t xTicksToDelay,}
+\DoxyCodeLine{734                                  \mbox{\hyperlink{structxLIST}{List\_t}} * pxEventList );}
+\DoxyCodeLine{735 }
+\DoxyCodeLine{736 \textcolor{comment}{/*}}
+\DoxyCodeLine{737 \textcolor{comment}{ * This function is intended for internal use by the queue implementation only.}}
+\DoxyCodeLine{738 \textcolor{comment}{ * The function should not be used by application writers.}}
+\DoxyCodeLine{739 \textcolor{comment}{ *}}
+\DoxyCodeLine{740 \textcolor{comment}{ * Removes the highest priority co-\/routine from the event list and places it in}}
+\DoxyCodeLine{741 \textcolor{comment}{ * the pending ready list.}}
+\DoxyCodeLine{742 \textcolor{comment}{ */}}
+\DoxyCodeLine{743 BaseType\_t xCoRoutineRemoveFromEventList( \textcolor{keyword}{const} \mbox{\hyperlink{structxLIST}{List\_t}} * pxEventList );}
+\DoxyCodeLine{744 }
+\DoxyCodeLine{745 \textcolor{comment}{/* *INDENT-\/OFF* */}}
+\DoxyCodeLine{746 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{747     \}}
+\DoxyCodeLine{748 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{749 \textcolor{comment}{/* *INDENT-\/ON* */}}
+\DoxyCodeLine{750 }
+\DoxyCodeLine{751 \textcolor{preprocessor}{\#endif }\textcolor{comment}{/* CO\_ROUTINE\_H */}\textcolor{preprocessor}{}}
+
+\end{DoxyCode}

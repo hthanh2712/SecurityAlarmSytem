@@ -1,0 +1,106 @@
+\hypertarget{setup_8h_source}{}\doxysection{setup.\+h}
+\label{setup_8h_source}\index{include/setup.h@{include/setup.h}}
+\mbox{\hyperlink{setup_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#include <Arduino.h>}}
+\DoxyCodeLine{2 \textcolor{preprocessor}{\#include <arduinoFFT.h>}}
+\DoxyCodeLine{3 \textcolor{preprocessor}{\#include <Keypad.h>}}
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#include <LiquidCrystal.h>}}
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#include <Arduino\_FreeRTOS.h>}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#include <stdio.h>}}
+\DoxyCodeLine{7 \textcolor{preprocessor}{\#include <stdlib.h>}}
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#include <unistd.h>}}
+\DoxyCodeLine{9 \textcolor{preprocessor}{\#include <queue.h>}}
+\DoxyCodeLine{10 \textcolor{preprocessor}{\#include <task.h>}}
+\DoxyCodeLine{11 \textcolor{preprocessor}{\#include <timers.h>}}
+\DoxyCodeLine{12 }
+\DoxyCodeLine{13 \textcolor{comment}{/*}}
+\DoxyCodeLine{14 \textcolor{comment}{ * Port manipulation setup}}
+\DoxyCodeLine{15 \textcolor{comment}{*/}}
+\DoxyCodeLine{16 }
+\DoxyCodeLine{17 \textcolor{comment}{// define bits}}
+\DoxyCodeLine{18 \textcolor{preprocessor}{\#define BIT\_7 (1<<7)}}
+\DoxyCodeLine{19 \textcolor{preprocessor}{\#define BIT\_6 (1<<6)}}
+\DoxyCodeLine{20 \textcolor{preprocessor}{\#define BIT\_5 (1<<5)}}
+\DoxyCodeLine{21 \textcolor{preprocessor}{\#define BIT\_4 (1<<4) }}
+\DoxyCodeLine{22 \textcolor{preprocessor}{\#define BIT\_3 (1<<3) }}
+\DoxyCodeLine{23 \textcolor{preprocessor}{\#define BIT\_2 (1<<2) }}
+\DoxyCodeLine{24 \textcolor{preprocessor}{\#define BIT\_1 (1<<1) }}
+\DoxyCodeLine{25 \textcolor{preprocessor}{\#define BIT\_0 (1<<0)}}
+\DoxyCodeLine{26 }
+\DoxyCodeLine{27 \textcolor{comment}{// setup off-\/board LED in pin D50 (PB5)}}
+\DoxyCodeLine{28 \textcolor{preprocessor}{\#define LEDPORT PORTB  }\textcolor{comment}{// PORT for LED}}
+\DoxyCodeLine{29 \textcolor{preprocessor}{\#define LEDDDR DDRB    }\textcolor{comment}{// DDR for LED}}
+\DoxyCodeLine{30 }
+\DoxyCodeLine{31 \textcolor{comment}{// Setup buzzer}}
+\DoxyCodeLine{32 \textcolor{preprocessor}{\#define BUZZERDDR DDRH }\textcolor{comment}{// DDR for buzzer}}
+\DoxyCodeLine{33 \textcolor{preprocessor}{\#define TIMER4\_CONTROL\_REG\_A TCCR4A }\textcolor{comment}{// buzzer control register A}}
+\DoxyCodeLine{34 \textcolor{preprocessor}{\#define TIMER4\_CONTROL\_REG\_B TCCR4B }\textcolor{comment}{// buzzer control register B}}
+\DoxyCodeLine{35 \textcolor{preprocessor}{\#define TIMER4\_TOGGLE OCR4C }\textcolor{comment}{// toggle bit for buzzer}}
+\DoxyCodeLine{36 }
+\DoxyCodeLine{37 \textcolor{comment}{// additional setups for home security system}}
+\DoxyCodeLine{38 \textcolor{preprocessor}{\#define TRIGPIN\_PORT PORTH  }\textcolor{comment}{// PORT for sensor}}
+\DoxyCodeLine{39 \textcolor{preprocessor}{\#define TRIGPIN\_DDR DDRH    }\textcolor{comment}{// DDR for sensor}}
+\DoxyCodeLine{40 }
+\DoxyCodeLine{41 \textcolor{preprocessor}{\#define ECHOPIN\_PORT PORTB }}
+\DoxyCodeLine{42 \textcolor{preprocessor}{\#define ECHOPIN\_DDR DDRB   }}
+\DoxyCodeLine{43 \textcolor{preprocessor}{\#define echoPin 10}}
+\DoxyCodeLine{45 }
+\DoxyCodeLine{46 \textcolor{comment}{// define tasks for Blink \& AnalogRead}}
+\DoxyCodeLine{47 \textcolor{keyword}{extern} \textcolor{keywordtype}{void} \mbox{\hyperlink{setup_8h_a749f67d48321416b08ec4902c010634c}{TaskBlink\_OffBoard}}( \textcolor{keywordtype}{void} *pvParameters ); \textcolor{comment}{// task RT-\/1}}
+\DoxyCodeLine{48 \textcolor{keyword}{extern} \textcolor{keywordtype}{void} \mbox{\hyperlink{setup_8h_a960b642b2eecb120b20d79b01ca3cba2}{TaskPlayingTone}}(\textcolor{keywordtype}{void} *pvParameters);      \textcolor{comment}{// task RT-\/2}}
+\DoxyCodeLine{49 \textcolor{keyword}{extern} \textcolor{keywordtype}{void} \mbox{\hyperlink{setup_8h_a7ca3e95963bf383119e73f529d418f80}{RT3p0}}(\textcolor{keywordtype}{void} *pvParameters);}
+\DoxyCodeLine{50 \textcolor{keyword}{extern} \textcolor{keywordtype}{void} \mbox{\hyperlink{setup_8h_acf7572117322f265d1801d58d8db459a}{RT3p1}}(\textcolor{keywordtype}{void} *pvParameters);}
+\DoxyCodeLine{51 \textcolor{keyword}{extern} \textcolor{keywordtype}{void} \mbox{\hyperlink{setup_8h_a204bcb9974cf5833867f103552e0c4c0}{RT4}}(\textcolor{keywordtype}{void} *pvParameters);}
+\DoxyCodeLine{52 }
+\DoxyCodeLine{54 }
+\DoxyCodeLine{55 \textcolor{comment}{/*}}
+\DoxyCodeLine{56 \textcolor{comment}{ * Setup for security and alarm system project }}
+\DoxyCodeLine{57 \textcolor{comment}{*/}}
+\DoxyCodeLine{58 }
+\DoxyCodeLine{59 \textcolor{keywordtype}{long} \mbox{\hyperlink{setup_8h_a49411c0db3bc12e9d548e069021b0645}{duration}};}
+\DoxyCodeLine{60 \textcolor{keywordtype}{int} \mbox{\hyperlink{setup_8h_afb9412686cd344ad61757c1c19ba8a87}{distance}}, \mbox{\hyperlink{setup_8h_aca4a027565bb0aedac75f5a293317b2e}{initialDistance}}, \mbox{\hyperlink{setup_8h_a249f5e1e3c8affcc05b3572cdfe24164}{currentDistance}}, \mbox{\hyperlink{setup_8h_acb559820d9ca11295b4500f179ef6392}{i}};}
+\DoxyCodeLine{61 \textcolor{keywordtype}{int} \mbox{\hyperlink{setup_8h_a928e85a922e156af9aa25d972c18181a}{screenOffMsg}} =0;}
+\DoxyCodeLine{62 String \mbox{\hyperlink{setup_8h_acbd76b816d055b7a642c219fd9751020}{password}}=\textcolor{stringliteral}{"{}0000"{}};}
+\DoxyCodeLine{63 String \mbox{\hyperlink{setup_8h_a309b0772394b2ea6887b2e82bb42bd94}{tempPassword}};}
+\DoxyCodeLine{64 \textcolor{keywordtype}{boolean} \mbox{\hyperlink{setup_8h_ac9adbb85bed6f840b1bad3c05ff7a851}{activated}} = \textcolor{keyword}{false}; \textcolor{comment}{// State of the alarm}}
+\DoxyCodeLine{65 \textcolor{keywordtype}{boolean} \mbox{\hyperlink{setup_8h_aeb6a6c42b44694fa3ffab75cbcb6a903}{isActivated}};}
+\DoxyCodeLine{66 \textcolor{keywordtype}{boolean} \mbox{\hyperlink{setup_8h_a096e308fe7c0a07aaf410a7121072d47}{activateAlarm}} = \textcolor{keyword}{false};}
+\DoxyCodeLine{67 \textcolor{keywordtype}{boolean} \mbox{\hyperlink{setup_8h_a933c355fe98ae57807d050e8d7795d59}{alarmActivated}} = \textcolor{keyword}{false};}
+\DoxyCodeLine{68 \textcolor{keywordtype}{boolean} \mbox{\hyperlink{setup_8h_a5c90cfaf4c7c68337214e85f5b066bc2}{enteredPassword}}; \textcolor{comment}{// State of the entered password to stop the alarm}}
+\DoxyCodeLine{69 \textcolor{keywordtype}{boolean} \mbox{\hyperlink{setup_8h_a4ac9c13b2dc6a9a8ff311eea950ccdf5}{passChangeMode}} = \textcolor{keyword}{false};}
+\DoxyCodeLine{70 \textcolor{keywordtype}{boolean} \mbox{\hyperlink{setup_8h_aa7d04818226ec40f4b94602e449a0160}{passChanged}} = \textcolor{keyword}{false};}
+\DoxyCodeLine{71 }
+\DoxyCodeLine{72 \textcolor{keyword}{const} \textcolor{keywordtype}{byte} \mbox{\hyperlink{setup_8h_a829655a147df70dd4cc94eae40a2204e}{ROWS}} = 4; \textcolor{comment}{//four rows}}
+\DoxyCodeLine{73 \textcolor{keyword}{const} \textcolor{keywordtype}{byte} \mbox{\hyperlink{setup_8h_aefd90f1160eaa105bc910d4d7c46b815}{COLS}} = 4; \textcolor{comment}{//four columns}}
+\DoxyCodeLine{74 \textcolor{keywordtype}{char} \mbox{\hyperlink{setup_8h_a2bc32809e2da2cf4d1c5d8068d1cebe2}{keypressed}};}
+\DoxyCodeLine{75 }
+\DoxyCodeLine{76 \textcolor{comment}{//define the cymbols on the buttons of the keypads}}
+\DoxyCodeLine{77 \textcolor{keywordtype}{char} \mbox{\hyperlink{setup_8h_abac26e7dc1b1e77065c58597699bda3d}{keyMap}}[\mbox{\hyperlink{setup_8h_a829655a147df70dd4cc94eae40a2204e}{ROWS}}][\mbox{\hyperlink{setup_8h_aefd90f1160eaa105bc910d4d7c46b815}{COLS}}] = \{}
+\DoxyCodeLine{78   \{\textcolor{charliteral}{'1'},\textcolor{charliteral}{'2'},\textcolor{charliteral}{'3'},\textcolor{charliteral}{'A'}\},}
+\DoxyCodeLine{79   \{\textcolor{charliteral}{'4'},\textcolor{charliteral}{'5'},\textcolor{charliteral}{'6'},\textcolor{charliteral}{'B'}\},}
+\DoxyCodeLine{80   \{\textcolor{charliteral}{'7'},\textcolor{charliteral}{'8'},\textcolor{charliteral}{'9'},\textcolor{charliteral}{'C'}\},}
+\DoxyCodeLine{81   \{\textcolor{charliteral}{'*'},\textcolor{charliteral}{'0'},\textcolor{charliteral}{'\#'},\textcolor{charliteral}{'D'}\}}
+\DoxyCodeLine{82 \};}
+\DoxyCodeLine{83 }
+\DoxyCodeLine{84 \textcolor{keywordtype}{byte} \mbox{\hyperlink{setup_8h_a6d6753e0ae098b31e2f84d4024e361cf}{rowPins}}[\mbox{\hyperlink{setup_8h_a829655a147df70dd4cc94eae40a2204e}{ROWS}}] = \{14, 15, 16, 17\}; \textcolor{comment}{// Row pinouts of the keypad}}
+\DoxyCodeLine{85 \textcolor{keywordtype}{byte} \mbox{\hyperlink{setup_8h_aa9fece7b062124080e4b2976f9a8b675}{colPins}}[\mbox{\hyperlink{setup_8h_aefd90f1160eaa105bc910d4d7c46b815}{COLS}}] = \{18, 19, 20, 21\}; \textcolor{comment}{// Column pinouts of the keypad}}
+\DoxyCodeLine{86 }
+\DoxyCodeLine{87 Keypad \mbox{\hyperlink{setup_8h_a3adfe9ec4b25ddbe7c2450ab09a47886}{myKeypad}} = Keypad( makeKeymap(\mbox{\hyperlink{setup_8h_abac26e7dc1b1e77065c58597699bda3d}{keyMap}}), \mbox{\hyperlink{setup_8h_a6d6753e0ae098b31e2f84d4024e361cf}{rowPins}}, \mbox{\hyperlink{setup_8h_aa9fece7b062124080e4b2976f9a8b675}{colPins}}, \mbox{\hyperlink{setup_8h_a829655a147df70dd4cc94eae40a2204e}{ROWS}}, \mbox{\hyperlink{setup_8h_aefd90f1160eaa105bc910d4d7c46b815}{COLS}}); }
+\DoxyCodeLine{88 LiquidCrystal \mbox{\hyperlink{setup_8h_a9677c0437ba3c61c5b13ec0323ac5c32}{lcd}}(1, 2, 4, 5, 6, 7); \textcolor{comment}{// Creates an LC object. Parameters: (rs, enable, d4, d5, d6, d7) }}
+\DoxyCodeLine{89 }
+\DoxyCodeLine{90 \textcolor{comment}{// define task RT-\/1 for Blink }}
+\DoxyCodeLine{91 \textcolor{keywordtype}{void} \mbox{\hyperlink{setup_8h_a3d3beba9d8dd8f6cb4b31d4395404054}{Task\_BlinkOffBoard}}(\textcolor{keywordtype}{void} *pvParameters); }
+\DoxyCodeLine{92 }
+\DoxyCodeLine{93 \textcolor{comment}{// define tasks for home security system project}}
+\DoxyCodeLine{94 \textcolor{keywordtype}{void} \mbox{\hyperlink{setup_8h_a9b37e02004df4d0fff15866ca16eaad5}{Task\_ActivateAlarm}}(\textcolor{keywordtype}{void} *pvParameters); }
+\DoxyCodeLine{95 \textcolor{keywordtype}{void} \mbox{\hyperlink{setup_8h_a67dec0da8281fc172bc5287421c4f924}{Task\_CheckAlarm}}(\textcolor{keywordtype}{void} *pvParameters);}
+\DoxyCodeLine{96 \textcolor{keywordtype}{void} \mbox{\hyperlink{setup_8h_a1745a3d13d3c2bf9e87fabf59bd4617a}{handleLED}}(\textcolor{keywordtype}{void} *pvParameters);}
+\DoxyCodeLine{97 \textcolor{keywordtype}{void} \mbox{\hyperlink{setup_8h_a276b396ddefc68352790255cc68a87ca}{handleBuzz}}(\textcolor{keywordtype}{void} *pvParameters);}
+\DoxyCodeLine{98 \textcolor{keywordtype}{void} \mbox{\hyperlink{setup_8h_adde299440aa8a50af78dc0a705748697}{enterPassword}}(); }
+\DoxyCodeLine{99 \textcolor{keywordtype}{void} \mbox{\hyperlink{setup_8h_ae85428f19548b3f1f5cb295c2591342f}{changePassword}}();}
+\DoxyCodeLine{100 \textcolor{keywordtype}{long} \mbox{\hyperlink{setup_8h_abd565138f43c1381fc6f87deab386be7}{getDistance}}();}
+\DoxyCodeLine{101 \textcolor{keywordtype}{void} \mbox{\hyperlink{setup_8h_a0ceaee687a22fd7c75c815f825bde1df}{buzzerOn}}();}
+\DoxyCodeLine{102 \textcolor{keywordtype}{void} \mbox{\hyperlink{setup_8h_a94813053b130fc29c9be01d98c30c577}{buzzerOff}}();}
+
+\end{DoxyCode}

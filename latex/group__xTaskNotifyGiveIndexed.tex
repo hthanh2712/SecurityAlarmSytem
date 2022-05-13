@@ -1,0 +1,38 @@
+\hypertarget{group__xTaskNotifyGiveIndexed}{}\doxysection{x\+Task\+Notify\+Give\+Indexed}
+\label{group__xTaskNotifyGiveIndexed}\index{xTaskNotifyGiveIndexed@{xTaskNotifyGiveIndexed}}
+task. h 
+\begin{DoxyPre}BaseType\_t xTaskNotifyGiveIndexed( TaskHandle\_t xTaskToNotify, UBaseType\_t uxIndexToNotify );\end{DoxyPre}
+ 
+\begin{DoxyPre}BaseType\_t xTaskNotifyGive( TaskHandle\_t xTaskToNotify );\end{DoxyPre}
+
+
+Sends a direct to task notification to a particular index in the target task\textquotesingle{}s notification array in a manner similar to giving a counting semaphore.
+
+See \href{https://www.FreeRTOS.org/RTOS-task-notifications.html}{\texttt{ https\+://www.\+Free\+RTOS.\+org/\+RTOS-\/task-\/notifications.\+html}} for more details.
+
+config\+USE\+\_\+\+TASK\+\_\+\+NOTIFICATIONS must be undefined or defined as 1 for these macros to be available.
+
+Each task has a private array of \char`\"{}notification values\char`\"{} (or \textquotesingle{}notifications\textquotesingle{}), each of which is a 32-\/bit unsigned integer (uint32\+\_\+t). The constant config\+TASK\+\_\+\+NOTIFICATION\+\_\+\+ARRAY\+\_\+\+ENTRIES sets the number of indexes in the array, and (for backward compatibility) defaults to 1 if left undefined. Prior to Free\+RTOS V10.\+4.\+0 there was only one notification value per task.
+
+Events can be sent to a task using an intermediary object. Examples of such objects are queues, semaphores, mutexes and event groups. Task notifications are a method of sending an event directly to a task without the need for such an intermediary object.
+
+A notification sent to a task can optionally perform an action, such as update, overwrite or increment one of the task\textquotesingle{}s notification values. In that way task notifications can be used to send data to a task, or be used as light weight and fast binary or counting semaphores.
+
+x\+Task\+Notify\+Give\+Indexed() is a helper macro intended for use when task notifications are used as light weight and faster binary or counting semaphore equivalents. Actual Free\+RTOS semaphores are given using the x\+Semaphore\+Give() API function, the equivalent action that instead uses a task notification is x\+Task\+Notify\+Give\+Indexed().
+
+When task notifications are being used as a binary or counting semaphore equivalent then the task being notified should wait for the notification using the ul\+Task\+Notification\+Take\+Indexed() API function rather than the x\+Task\+Notify\+Wait\+Indexed() API function.
+
+{\bfseries{NOTE}} Each notification within the array operates independently -\/ a task can only block on one notification within the array at a time and will not be unblocked by a notification sent to any other array index.
+
+Backward compatibility information\+: Prior to Free\+RTOS V10.\+4.\+0 each task had a single \char`\"{}notification value\char`\"{}, and all task notification API functions operated on that value. Replacing the single notification value with an array of notification values necessitated a new set of API functions that could address specific notifications within the array. x\+Task\+Notify\+Give() is the original API function, and remains backward compatible by always operating on the notification value at index 0 in the array. Calling x\+Task\+Notify\+Give() is equivalent to calling x\+Task\+Notify\+Give\+Indexed() with the ux\+Index\+To\+Notify parameter set to 0.
+
+
+\begin{DoxyParams}{Parameters}
+{\em x\+Task\+To\+Notify} & The handle of the task being notified. The handle to a task can be returned from the x\+Task\+Create() API function used to create the task, and the handle of the currently running task can be obtained by calling x\+Task\+Get\+Current\+Task\+Handle().\\
+\hline
+{\em ux\+Index\+To\+Notify} & The index within the target task\textquotesingle{}s array of notification values to which the notification is to be sent. ux\+Index\+To\+Notify must be less than config\+TASK\+\_\+\+NOTIFICATION\+\_\+\+ARRAY\+\_\+\+ENTRIES. x\+Task\+Notify\+Give() does not have this parameter and always sends notifications to index 0.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+x\+Task\+Notify\+Give() is a macro that calls x\+Task\+Notify() with the e\+Action parameter set to e\+Increment -\/ so pd\+PASS is always returned. 
+\end{DoxyReturn}

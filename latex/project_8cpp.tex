@@ -1,0 +1,390 @@
+\hypertarget{project_8cpp}{}\doxysection{src/project.cpp File Reference}
+\label{project_8cpp}\index{src/project.cpp@{src/project.cpp}}
+{\ttfamily \#include $<$Arduino.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}Arduino\+\_\+\+Free\+RTOS.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}setup.\+h\char`\"{}}\newline
+{\ttfamily \#include $<$Liquid\+Crystal.\+h$>$}\newline
+{\ttfamily \#include $<$Keypad.\+h$>$}\newline
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+Liquid\+Crystal \mbox{\hyperlink{project_8cpp_a9677c0437ba3c61c5b13ec0323ac5c32}{lcd}} (1, 2, 4, 5, 6, 7)
+\item 
+void \mbox{\hyperlink{project_8cpp_a3d3beba9d8dd8f6cb4b31d4395404054}{Task\+\_\+\+Blink\+Off\+Board}} (void $\ast$pv\+Parameters)
+\begin{DoxyCompactList}\small\item\em Task RT-\/1\+: Turns an off-\/board LED ON for 100 ms, then OFF for 200ms, repeatedly. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{project_8cpp_a9b37e02004df4d0fff15866ca16eaad5}{Task\+\_\+\+Activate\+Alarm}} (void $\ast$pv\+Parameters)
+\begin{DoxyCompactList}\small\item\em Arms the alarm system. Displays countdown on LCD and triggers auditory and visual alarms if correct passcode is not entered during the countdown. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{project_8cpp_a8e86be3c9386d104e5c1523dadef4b82}{Task\+\_\+\+Check\+Distance}} (void $\ast$pv\+Parameters)
+\begin{DoxyCompactList}\small\item\em Polls the ultrasonic sensor to determine if there is something \char`\"{}close\char`\"{} to the sensor. Triggers password request when approached. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{project_8cpp_a945ed6ac801b682ea607d67f9a43860f}{handle\+Led}} (void $\ast$pv\+Parameters)
+\begin{DoxyCompactList}\small\item\em Initialize the alarm\textquotesingle{}s LED. If the alarm is activated, turn on the LED. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{project_8cpp_a276b396ddefc68352790255cc68a87ca}{handle\+Buzz}} (void $\ast$pv\+Parameters)
+\begin{DoxyCompactList}\small\item\em Initialize the buzzer. If the alarm is activates, turn on the buzzer. \end{DoxyCompactList}\item 
+long \mbox{\hyperlink{project_8cpp_abd565138f43c1381fc6f87deab386be7}{get\+Distance}} ()
+\begin{DoxyCompactList}\small\item\em Get the measured distance from the ultrasonic sensor. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{project_8cpp_adde299440aa8a50af78dc0a705748697}{enter\+Password}} ()
+\begin{DoxyCompactList}\small\item\em Handles password entry via the keypad. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{project_8cpp_a0ceaee687a22fd7c75c815f825bde1df}{buzzer\+On}} ()
+\begin{DoxyCompactList}\small\item\em Turns the buzzer on when called. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{project_8cpp_a94813053b130fc29c9be01d98c30c577}{buzzer\+Off}} ()
+\begin{DoxyCompactList}\small\item\em Turns the buzzer off when called. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{project_8cpp_a4fc01d736fe50cf5b977f755b675f11d}{setup}} ()
+\begin{DoxyCompactList}\small\item\em Initializes serial and creates RTOS tasks. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{project_8cpp_afe461d27b9c48d5921c00d521181f12f}{loop}} ()
+\begin{DoxyCompactList}\small\item\em Not used by Free\+RTOS. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{project_8cpp_a2dd2e4310e195b8d6edfce8c3d42e42f}{initialize\+LCD}} (void $\ast$pv\+Parameters)
+\begin{DoxyCompactList}\small\item\em Initialize the LCD screen. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+long \mbox{\hyperlink{project_8cpp_a49411c0db3bc12e9d548e069021b0645}{duration}}
+\item 
+int \mbox{\hyperlink{project_8cpp_afb9412686cd344ad61757c1c19ba8a87}{distance}}
+\item 
+int \mbox{\hyperlink{project_8cpp_aca4a027565bb0aedac75f5a293317b2e}{initial\+Distance}}
+\item 
+int \mbox{\hyperlink{project_8cpp_a249f5e1e3c8affcc05b3572cdfe24164}{current\+Distance}}
+\item 
+int \mbox{\hyperlink{project_8cpp_acb559820d9ca11295b4500f179ef6392}{i}}
+\item 
+int \mbox{\hyperlink{project_8cpp_a928e85a922e156af9aa25d972c18181a}{screen\+Off\+Msg}} =0
+\item 
+String \mbox{\hyperlink{project_8cpp_acbd76b816d055b7a642c219fd9751020}{password}} =\char`\"{}1234\char`\"{}
+\item 
+String \mbox{\hyperlink{project_8cpp_a309b0772394b2ea6887b2e82bb42bd94}{temp\+Password}}
+\item 
+boolean \mbox{\hyperlink{project_8cpp_ac9adbb85bed6f840b1bad3c05ff7a851}{activated}} = false
+\item 
+boolean \mbox{\hyperlink{project_8cpp_aeb6a6c42b44694fa3ffab75cbcb6a903}{is\+Activated}}
+\item 
+boolean \mbox{\hyperlink{project_8cpp_a096e308fe7c0a07aaf410a7121072d47}{activate\+Alarm}} = false
+\item 
+boolean \mbox{\hyperlink{project_8cpp_a933c355fe98ae57807d050e8d7795d59}{alarm\+Activated}} = false
+\item 
+boolean \mbox{\hyperlink{project_8cpp_a5c90cfaf4c7c68337214e85f5b066bc2}{entered\+Password}}
+\item 
+boolean \mbox{\hyperlink{project_8cpp_a4ac9c13b2dc6a9a8ff311eea950ccdf5}{pass\+Change\+Mode}} = false
+\item 
+boolean \mbox{\hyperlink{project_8cpp_aa7d04818226ec40f4b94602e449a0160}{pass\+Changed}} = false
+\item 
+const byte \mbox{\hyperlink{project_8cpp_a829655a147df70dd4cc94eae40a2204e}{ROWS}} = 4
+\item 
+const byte \mbox{\hyperlink{project_8cpp_aefd90f1160eaa105bc910d4d7c46b815}{COLS}} = 4
+\item 
+char \mbox{\hyperlink{project_8cpp_a2bc32809e2da2cf4d1c5d8068d1cebe2}{keypressed}}
+\item 
+char \mbox{\hyperlink{project_8cpp_abac26e7dc1b1e77065c58597699bda3d}{key\+Map}} \mbox{[}\mbox{\hyperlink{project_8cpp_a829655a147df70dd4cc94eae40a2204e}{ROWS}}\mbox{]}\mbox{[}\mbox{\hyperlink{project_8cpp_aefd90f1160eaa105bc910d4d7c46b815}{COLS}}\mbox{]}
+\item 
+byte \mbox{\hyperlink{project_8cpp_a6d6753e0ae098b31e2f84d4024e361cf}{row\+Pins}} \mbox{[}\mbox{\hyperlink{project_8cpp_a829655a147df70dd4cc94eae40a2204e}{ROWS}}\mbox{]} = \{14, 15, 16, 17\}
+\item 
+byte \mbox{\hyperlink{project_8cpp_aa9fece7b062124080e4b2976f9a8b675}{col\+Pins}} \mbox{[}\mbox{\hyperlink{project_8cpp_aefd90f1160eaa105bc910d4d7c46b815}{COLS}}\mbox{]} = \{18, 19, 20, 21\}
+\item 
+Keypad \mbox{\hyperlink{project_8cpp_a3adfe9ec4b25ddbe7c2450ab09a47886}{my\+Keypad}} = Keypad( make\+Keymap(\mbox{\hyperlink{project_8cpp_abac26e7dc1b1e77065c58597699bda3d}{key\+Map}}), \mbox{\hyperlink{project_8cpp_a6d6753e0ae098b31e2f84d4024e361cf}{row\+Pins}}, \mbox{\hyperlink{project_8cpp_aa9fece7b062124080e4b2976f9a8b675}{col\+Pins}}, \mbox{\hyperlink{project_8cpp_a829655a147df70dd4cc94eae40a2204e}{ROWS}}, \mbox{\hyperlink{project_8cpp_aefd90f1160eaa105bc910d4d7c46b815}{COLS}})
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{project_8cpp_a94813053b130fc29c9be01d98c30c577}\label{project_8cpp_a94813053b130fc29c9be01d98c30c577}} 
+\index{project.cpp@{project.cpp}!buzzerOff@{buzzerOff}}
+\index{buzzerOff@{buzzerOff}!project.cpp@{project.cpp}}
+\doxysubsubsection{\texorpdfstring{buzzerOff()}{buzzerOff()}}
+{\footnotesize\ttfamily void buzzer\+Off (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Turns the buzzer off when called. 
+
+\mbox{\Hypertarget{project_8cpp_a0ceaee687a22fd7c75c815f825bde1df}\label{project_8cpp_a0ceaee687a22fd7c75c815f825bde1df}} 
+\index{project.cpp@{project.cpp}!buzzerOn@{buzzerOn}}
+\index{buzzerOn@{buzzerOn}!project.cpp@{project.cpp}}
+\doxysubsubsection{\texorpdfstring{buzzerOn()}{buzzerOn()}}
+{\footnotesize\ttfamily void buzzer\+On (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Turns the buzzer on when called. 
+
+\mbox{\Hypertarget{project_8cpp_adde299440aa8a50af78dc0a705748697}\label{project_8cpp_adde299440aa8a50af78dc0a705748697}} 
+\index{project.cpp@{project.cpp}!enterPassword@{enterPassword}}
+\index{enterPassword@{enterPassword}!project.cpp@{project.cpp}}
+\doxysubsubsection{\texorpdfstring{enterPassword()}{enterPassword()}}
+{\footnotesize\ttfamily void enter\+Password (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Handles password entry via the keypad. 
+
+\mbox{\Hypertarget{project_8cpp_abd565138f43c1381fc6f87deab386be7}\label{project_8cpp_abd565138f43c1381fc6f87deab386be7}} 
+\index{project.cpp@{project.cpp}!getDistance@{getDistance}}
+\index{getDistance@{getDistance}!project.cpp@{project.cpp}}
+\doxysubsubsection{\texorpdfstring{getDistance()}{getDistance()}}
+{\footnotesize\ttfamily long get\+Distance (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Get the measured distance from the ultrasonic sensor. 
+
+\begin{DoxyReturn}{Returns}
+long variable distance 
+\end{DoxyReturn}
+\mbox{\Hypertarget{project_8cpp_a276b396ddefc68352790255cc68a87ca}\label{project_8cpp_a276b396ddefc68352790255cc68a87ca}} 
+\index{project.cpp@{project.cpp}!handleBuzz@{handleBuzz}}
+\index{handleBuzz@{handleBuzz}!project.cpp@{project.cpp}}
+\doxysubsubsection{\texorpdfstring{handleBuzz()}{handleBuzz()}}
+{\footnotesize\ttfamily void handle\+Buzz (\begin{DoxyParamCaption}\item[{void $\ast$}]{pv\+Parameters }\end{DoxyParamCaption})}
+
+
+
+Initialize the buzzer. If the alarm is activates, turn on the buzzer. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pv\+Parameters} & Allocate stack space for parameters. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{project_8cpp_a945ed6ac801b682ea607d67f9a43860f}\label{project_8cpp_a945ed6ac801b682ea607d67f9a43860f}} 
+\index{project.cpp@{project.cpp}!handleLed@{handleLed}}
+\index{handleLed@{handleLed}!project.cpp@{project.cpp}}
+\doxysubsubsection{\texorpdfstring{handleLed()}{handleLed()}}
+{\footnotesize\ttfamily void handle\+Led (\begin{DoxyParamCaption}\item[{void $\ast$}]{pv\+Parameters }\end{DoxyParamCaption})}
+
+
+
+Initialize the alarm\textquotesingle{}s LED. If the alarm is activated, turn on the LED. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pv\+Parameters} & Allocate stack space for parameters. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{project_8cpp_a2dd2e4310e195b8d6edfce8c3d42e42f}\label{project_8cpp_a2dd2e4310e195b8d6edfce8c3d42e42f}} 
+\index{project.cpp@{project.cpp}!initializeLCD@{initializeLCD}}
+\index{initializeLCD@{initializeLCD}!project.cpp@{project.cpp}}
+\doxysubsubsection{\texorpdfstring{initializeLCD()}{initializeLCD()}}
+{\footnotesize\ttfamily void initialize\+LCD (\begin{DoxyParamCaption}\item[{void $\ast$}]{pv\+Parameters }\end{DoxyParamCaption})}
+
+
+
+Initialize the LCD screen. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pv\+Parameters} & Allocate stack space for parameters. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{project_8cpp_a9677c0437ba3c61c5b13ec0323ac5c32}\label{project_8cpp_a9677c0437ba3c61c5b13ec0323ac5c32}} 
+\index{project.cpp@{project.cpp}!lcd@{lcd}}
+\index{lcd@{lcd}!project.cpp@{project.cpp}}
+\doxysubsubsection{\texorpdfstring{lcd()}{lcd()}}
+{\footnotesize\ttfamily Liquid\+Crystal lcd (\begin{DoxyParamCaption}\item[{1}]{,  }\item[{2}]{,  }\item[{4}]{,  }\item[{5}]{,  }\item[{6}]{,  }\item[{7}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{project_8cpp_afe461d27b9c48d5921c00d521181f12f}\label{project_8cpp_afe461d27b9c48d5921c00d521181f12f}} 
+\index{project.cpp@{project.cpp}!loop@{loop}}
+\index{loop@{loop}!project.cpp@{project.cpp}}
+\doxysubsubsection{\texorpdfstring{loop()}{loop()}}
+{\footnotesize\ttfamily void loop (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Not used by Free\+RTOS. 
+
+\mbox{\Hypertarget{project_8cpp_a4fc01d736fe50cf5b977f755b675f11d}\label{project_8cpp_a4fc01d736fe50cf5b977f755b675f11d}} 
+\index{project.cpp@{project.cpp}!setup@{setup}}
+\index{setup@{setup}!project.cpp@{project.cpp}}
+\doxysubsubsection{\texorpdfstring{setup()}{setup()}}
+{\footnotesize\ttfamily void setup (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Initializes serial and creates RTOS tasks. 
+
+\mbox{\Hypertarget{project_8cpp_a9b37e02004df4d0fff15866ca16eaad5}\label{project_8cpp_a9b37e02004df4d0fff15866ca16eaad5}} 
+\index{project.cpp@{project.cpp}!Task\_ActivateAlarm@{Task\_ActivateAlarm}}
+\index{Task\_ActivateAlarm@{Task\_ActivateAlarm}!project.cpp@{project.cpp}}
+\doxysubsubsection{\texorpdfstring{Task\_ActivateAlarm()}{Task\_ActivateAlarm()}}
+{\footnotesize\ttfamily void Task\+\_\+\+Activate\+Alarm (\begin{DoxyParamCaption}\item[{void $\ast$}]{pv\+Parameters }\end{DoxyParamCaption})}
+
+
+
+Arms the alarm system. Displays countdown on LCD and triggers auditory and visual alarms if correct passcode is not entered during the countdown. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pv\+Parameters} & Allocate stack space for parameters. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{project_8cpp_a3d3beba9d8dd8f6cb4b31d4395404054}\label{project_8cpp_a3d3beba9d8dd8f6cb4b31d4395404054}} 
+\index{project.cpp@{project.cpp}!Task\_BlinkOffBoard@{Task\_BlinkOffBoard}}
+\index{Task\_BlinkOffBoard@{Task\_BlinkOffBoard}!project.cpp@{project.cpp}}
+\doxysubsubsection{\texorpdfstring{Task\_BlinkOffBoard()}{Task\_BlinkOffBoard()}}
+{\footnotesize\ttfamily void Task\+\_\+\+Blink\+Off\+Board (\begin{DoxyParamCaption}\item[{void $\ast$}]{pv\+Parameters }\end{DoxyParamCaption})}
+
+
+
+Task RT-\/1\+: Turns an off-\/board LED ON for 100 ms, then OFF for 200ms, repeatedly. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pv\+Parameters} & Allocate stack space for parameters. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{project_8cpp_a8e86be3c9386d104e5c1523dadef4b82}\label{project_8cpp_a8e86be3c9386d104e5c1523dadef4b82}} 
+\index{project.cpp@{project.cpp}!Task\_CheckDistance@{Task\_CheckDistance}}
+\index{Task\_CheckDistance@{Task\_CheckDistance}!project.cpp@{project.cpp}}
+\doxysubsubsection{\texorpdfstring{Task\_CheckDistance()}{Task\_CheckDistance()}}
+{\footnotesize\ttfamily void Task\+\_\+\+Check\+Distance (\begin{DoxyParamCaption}\item[{void $\ast$}]{pv\+Parameters }\end{DoxyParamCaption})}
+
+
+
+Polls the ultrasonic sensor to determine if there is something \char`\"{}close\char`\"{} to the sensor. Triggers password request when approached. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pv\+Parameters} & Allocate stack space for parameters. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{project_8cpp_a096e308fe7c0a07aaf410a7121072d47}\label{project_8cpp_a096e308fe7c0a07aaf410a7121072d47}} 
+\index{project.cpp@{project.cpp}!activateAlarm@{activateAlarm}}
+\index{activateAlarm@{activateAlarm}!project.cpp@{project.cpp}}
+\doxysubsubsection{\texorpdfstring{activateAlarm}{activateAlarm}}
+{\footnotesize\ttfamily boolean activate\+Alarm = false}
+
+\mbox{\Hypertarget{project_8cpp_ac9adbb85bed6f840b1bad3c05ff7a851}\label{project_8cpp_ac9adbb85bed6f840b1bad3c05ff7a851}} 
+\index{project.cpp@{project.cpp}!activated@{activated}}
+\index{activated@{activated}!project.cpp@{project.cpp}}
+\doxysubsubsection{\texorpdfstring{activated}{activated}}
+{\footnotesize\ttfamily boolean activated = false}
+
+\mbox{\Hypertarget{project_8cpp_a933c355fe98ae57807d050e8d7795d59}\label{project_8cpp_a933c355fe98ae57807d050e8d7795d59}} 
+\index{project.cpp@{project.cpp}!alarmActivated@{alarmActivated}}
+\index{alarmActivated@{alarmActivated}!project.cpp@{project.cpp}}
+\doxysubsubsection{\texorpdfstring{alarmActivated}{alarmActivated}}
+{\footnotesize\ttfamily boolean alarm\+Activated = false}
+
+\mbox{\Hypertarget{project_8cpp_aa9fece7b062124080e4b2976f9a8b675}\label{project_8cpp_aa9fece7b062124080e4b2976f9a8b675}} 
+\index{project.cpp@{project.cpp}!colPins@{colPins}}
+\index{colPins@{colPins}!project.cpp@{project.cpp}}
+\doxysubsubsection{\texorpdfstring{colPins}{colPins}}
+{\footnotesize\ttfamily byte col\+Pins\mbox{[}\mbox{\hyperlink{project_8cpp_aefd90f1160eaa105bc910d4d7c46b815}{COLS}}\mbox{]} = \{18, 19, 20, 21\}}
+
+\mbox{\Hypertarget{project_8cpp_aefd90f1160eaa105bc910d4d7c46b815}\label{project_8cpp_aefd90f1160eaa105bc910d4d7c46b815}} 
+\index{project.cpp@{project.cpp}!COLS@{COLS}}
+\index{COLS@{COLS}!project.cpp@{project.cpp}}
+\doxysubsubsection{\texorpdfstring{COLS}{COLS}}
+{\footnotesize\ttfamily const byte COLS = 4}
+
+\mbox{\Hypertarget{project_8cpp_a249f5e1e3c8affcc05b3572cdfe24164}\label{project_8cpp_a249f5e1e3c8affcc05b3572cdfe24164}} 
+\index{project.cpp@{project.cpp}!currentDistance@{currentDistance}}
+\index{currentDistance@{currentDistance}!project.cpp@{project.cpp}}
+\doxysubsubsection{\texorpdfstring{currentDistance}{currentDistance}}
+{\footnotesize\ttfamily int current\+Distance}
+
+\mbox{\Hypertarget{project_8cpp_afb9412686cd344ad61757c1c19ba8a87}\label{project_8cpp_afb9412686cd344ad61757c1c19ba8a87}} 
+\index{project.cpp@{project.cpp}!distance@{distance}}
+\index{distance@{distance}!project.cpp@{project.cpp}}
+\doxysubsubsection{\texorpdfstring{distance}{distance}}
+{\footnotesize\ttfamily int distance}
+
+\mbox{\Hypertarget{project_8cpp_a49411c0db3bc12e9d548e069021b0645}\label{project_8cpp_a49411c0db3bc12e9d548e069021b0645}} 
+\index{project.cpp@{project.cpp}!duration@{duration}}
+\index{duration@{duration}!project.cpp@{project.cpp}}
+\doxysubsubsection{\texorpdfstring{duration}{duration}}
+{\footnotesize\ttfamily long duration}
+
+\mbox{\Hypertarget{project_8cpp_a5c90cfaf4c7c68337214e85f5b066bc2}\label{project_8cpp_a5c90cfaf4c7c68337214e85f5b066bc2}} 
+\index{project.cpp@{project.cpp}!enteredPassword@{enteredPassword}}
+\index{enteredPassword@{enteredPassword}!project.cpp@{project.cpp}}
+\doxysubsubsection{\texorpdfstring{enteredPassword}{enteredPassword}}
+{\footnotesize\ttfamily boolean entered\+Password}
+
+\mbox{\Hypertarget{project_8cpp_acb559820d9ca11295b4500f179ef6392}\label{project_8cpp_acb559820d9ca11295b4500f179ef6392}} 
+\index{project.cpp@{project.cpp}!i@{i}}
+\index{i@{i}!project.cpp@{project.cpp}}
+\doxysubsubsection{\texorpdfstring{i}{i}}
+{\footnotesize\ttfamily int i}
+
+\mbox{\Hypertarget{project_8cpp_aca4a027565bb0aedac75f5a293317b2e}\label{project_8cpp_aca4a027565bb0aedac75f5a293317b2e}} 
+\index{project.cpp@{project.cpp}!initialDistance@{initialDistance}}
+\index{initialDistance@{initialDistance}!project.cpp@{project.cpp}}
+\doxysubsubsection{\texorpdfstring{initialDistance}{initialDistance}}
+{\footnotesize\ttfamily int initial\+Distance}
+
+\mbox{\Hypertarget{project_8cpp_aeb6a6c42b44694fa3ffab75cbcb6a903}\label{project_8cpp_aeb6a6c42b44694fa3ffab75cbcb6a903}} 
+\index{project.cpp@{project.cpp}!isActivated@{isActivated}}
+\index{isActivated@{isActivated}!project.cpp@{project.cpp}}
+\doxysubsubsection{\texorpdfstring{isActivated}{isActivated}}
+{\footnotesize\ttfamily boolean is\+Activated}
+
+\mbox{\Hypertarget{project_8cpp_abac26e7dc1b1e77065c58597699bda3d}\label{project_8cpp_abac26e7dc1b1e77065c58597699bda3d}} 
+\index{project.cpp@{project.cpp}!keyMap@{keyMap}}
+\index{keyMap@{keyMap}!project.cpp@{project.cpp}}
+\doxysubsubsection{\texorpdfstring{keyMap}{keyMap}}
+{\footnotesize\ttfamily char key\+Map\mbox{[}\mbox{\hyperlink{project_8cpp_a829655a147df70dd4cc94eae40a2204e}{ROWS}}\mbox{]}\mbox{[}\mbox{\hyperlink{project_8cpp_aefd90f1160eaa105bc910d4d7c46b815}{COLS}}\mbox{]}}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{= \{}
+\DoxyCodeLine{  \{\textcolor{charliteral}{'1'},\textcolor{charliteral}{'2'},\textcolor{charliteral}{'3'},\textcolor{charliteral}{'A'}\},}
+\DoxyCodeLine{  \{\textcolor{charliteral}{'4'},\textcolor{charliteral}{'5'},\textcolor{charliteral}{'6'},\textcolor{charliteral}{'B'}\},}
+\DoxyCodeLine{  \{\textcolor{charliteral}{'7'},\textcolor{charliteral}{'8'},\textcolor{charliteral}{'9'},\textcolor{charliteral}{'C'}\},}
+\DoxyCodeLine{  \{\textcolor{charliteral}{'*'},\textcolor{charliteral}{'0'},\textcolor{charliteral}{'\#'},\textcolor{charliteral}{'D'}\}}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{project_8cpp_a2bc32809e2da2cf4d1c5d8068d1cebe2}\label{project_8cpp_a2bc32809e2da2cf4d1c5d8068d1cebe2}} 
+\index{project.cpp@{project.cpp}!keypressed@{keypressed}}
+\index{keypressed@{keypressed}!project.cpp@{project.cpp}}
+\doxysubsubsection{\texorpdfstring{keypressed}{keypressed}}
+{\footnotesize\ttfamily char keypressed}
+
+\mbox{\Hypertarget{project_8cpp_a3adfe9ec4b25ddbe7c2450ab09a47886}\label{project_8cpp_a3adfe9ec4b25ddbe7c2450ab09a47886}} 
+\index{project.cpp@{project.cpp}!myKeypad@{myKeypad}}
+\index{myKeypad@{myKeypad}!project.cpp@{project.cpp}}
+\doxysubsubsection{\texorpdfstring{myKeypad}{myKeypad}}
+{\footnotesize\ttfamily Keypad my\+Keypad = Keypad( make\+Keymap(\mbox{\hyperlink{project_8cpp_abac26e7dc1b1e77065c58597699bda3d}{key\+Map}}), \mbox{\hyperlink{project_8cpp_a6d6753e0ae098b31e2f84d4024e361cf}{row\+Pins}}, \mbox{\hyperlink{project_8cpp_aa9fece7b062124080e4b2976f9a8b675}{col\+Pins}}, \mbox{\hyperlink{project_8cpp_a829655a147df70dd4cc94eae40a2204e}{ROWS}}, \mbox{\hyperlink{project_8cpp_aefd90f1160eaa105bc910d4d7c46b815}{COLS}})}
+
+\mbox{\Hypertarget{project_8cpp_aa7d04818226ec40f4b94602e449a0160}\label{project_8cpp_aa7d04818226ec40f4b94602e449a0160}} 
+\index{project.cpp@{project.cpp}!passChanged@{passChanged}}
+\index{passChanged@{passChanged}!project.cpp@{project.cpp}}
+\doxysubsubsection{\texorpdfstring{passChanged}{passChanged}}
+{\footnotesize\ttfamily boolean pass\+Changed = false}
+
+\mbox{\Hypertarget{project_8cpp_a4ac9c13b2dc6a9a8ff311eea950ccdf5}\label{project_8cpp_a4ac9c13b2dc6a9a8ff311eea950ccdf5}} 
+\index{project.cpp@{project.cpp}!passChangeMode@{passChangeMode}}
+\index{passChangeMode@{passChangeMode}!project.cpp@{project.cpp}}
+\doxysubsubsection{\texorpdfstring{passChangeMode}{passChangeMode}}
+{\footnotesize\ttfamily boolean pass\+Change\+Mode = false}
+
+\mbox{\Hypertarget{project_8cpp_acbd76b816d055b7a642c219fd9751020}\label{project_8cpp_acbd76b816d055b7a642c219fd9751020}} 
+\index{project.cpp@{project.cpp}!password@{password}}
+\index{password@{password}!project.cpp@{project.cpp}}
+\doxysubsubsection{\texorpdfstring{password}{password}}
+{\footnotesize\ttfamily String password =\char`\"{}1234\char`\"{}}
+
+\mbox{\Hypertarget{project_8cpp_a6d6753e0ae098b31e2f84d4024e361cf}\label{project_8cpp_a6d6753e0ae098b31e2f84d4024e361cf}} 
+\index{project.cpp@{project.cpp}!rowPins@{rowPins}}
+\index{rowPins@{rowPins}!project.cpp@{project.cpp}}
+\doxysubsubsection{\texorpdfstring{rowPins}{rowPins}}
+{\footnotesize\ttfamily byte row\+Pins\mbox{[}\mbox{\hyperlink{project_8cpp_a829655a147df70dd4cc94eae40a2204e}{ROWS}}\mbox{]} = \{14, 15, 16, 17\}}
+
+\mbox{\Hypertarget{project_8cpp_a829655a147df70dd4cc94eae40a2204e}\label{project_8cpp_a829655a147df70dd4cc94eae40a2204e}} 
+\index{project.cpp@{project.cpp}!ROWS@{ROWS}}
+\index{ROWS@{ROWS}!project.cpp@{project.cpp}}
+\doxysubsubsection{\texorpdfstring{ROWS}{ROWS}}
+{\footnotesize\ttfamily const byte ROWS = 4}
+
+\mbox{\Hypertarget{project_8cpp_a928e85a922e156af9aa25d972c18181a}\label{project_8cpp_a928e85a922e156af9aa25d972c18181a}} 
+\index{project.cpp@{project.cpp}!screenOffMsg@{screenOffMsg}}
+\index{screenOffMsg@{screenOffMsg}!project.cpp@{project.cpp}}
+\doxysubsubsection{\texorpdfstring{screenOffMsg}{screenOffMsg}}
+{\footnotesize\ttfamily int screen\+Off\+Msg =0}
+
+\mbox{\Hypertarget{project_8cpp_a309b0772394b2ea6887b2e82bb42bd94}\label{project_8cpp_a309b0772394b2ea6887b2e82bb42bd94}} 
+\index{project.cpp@{project.cpp}!tempPassword@{tempPassword}}
+\index{tempPassword@{tempPassword}!project.cpp@{project.cpp}}
+\doxysubsubsection{\texorpdfstring{tempPassword}{tempPassword}}
+{\footnotesize\ttfamily String temp\+Password}
+

@@ -1,0 +1,86 @@
+\hypertarget{FreeRTOSVariant_8h_source}{}\doxysection{Free\+RTOSVariant.\+h}
+\label{FreeRTOSVariant_8h_source}\index{lib/Arduino\_FreeRTOS/src/FreeRTOSVariant.h@{lib/Arduino\_FreeRTOS/src/FreeRTOSVariant.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{comment}{/*}}
+\DoxyCodeLine{2 \textcolor{comment}{ * Copyright (C) 2020 Phillip Stevens  All Rights Reserved.}}
+\DoxyCodeLine{3 \textcolor{comment}{ *}}
+\DoxyCodeLine{4 \textcolor{comment}{ * Permission is hereby granted, free of charge, to any person obtaining a copy of}}
+\DoxyCodeLine{5 \textcolor{comment}{ * this software and associated documentation files (the "{}Software"{}), to deal in}}
+\DoxyCodeLine{6 \textcolor{comment}{ * the Software without restriction, including without limitation the rights to}}
+\DoxyCodeLine{7 \textcolor{comment}{ * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of}}
+\DoxyCodeLine{8 \textcolor{comment}{ * the Software, and to permit persons to whom the Software is furnished to do so,}}
+\DoxyCodeLine{9 \textcolor{comment}{ * subject to the following conditions:}}
+\DoxyCodeLine{10 \textcolor{comment}{ *}}
+\DoxyCodeLine{11 \textcolor{comment}{ * The above copyright notice and this permission notice shall be included in all}}
+\DoxyCodeLine{12 \textcolor{comment}{ * copies or substantial portions of the Software.}}
+\DoxyCodeLine{13 \textcolor{comment}{ *}}
+\DoxyCodeLine{14 \textcolor{comment}{ * THE SOFTWARE IS PROVIDED "{}AS IS"{}, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR}}
+\DoxyCodeLine{15 \textcolor{comment}{ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS}}
+\DoxyCodeLine{16 \textcolor{comment}{ * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR}}
+\DoxyCodeLine{17 \textcolor{comment}{ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER}}
+\DoxyCodeLine{18 \textcolor{comment}{ * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN}}
+\DoxyCodeLine{19 \textcolor{comment}{ * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.}}
+\DoxyCodeLine{20 \textcolor{comment}{ *}}
+\DoxyCodeLine{21 \textcolor{comment}{ *}}
+\DoxyCodeLine{22 \textcolor{comment}{ * This file is NOT part of the FreeRTOS distribution.}}
+\DoxyCodeLine{23 \textcolor{comment}{ *}}
+\DoxyCodeLine{24 \textcolor{comment}{ */}}
+\DoxyCodeLine{25 }
+\DoxyCodeLine{26 \textcolor{preprocessor}{\#ifndef freeRTOSVariant\_h}}
+\DoxyCodeLine{27 \textcolor{preprocessor}{\#define freeRTOSVariant\_h}}
+\DoxyCodeLine{28 }
+\DoxyCodeLine{29 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{30 \textcolor{keyword}{extern} \textcolor{stringliteral}{"{}C"{}} \{}
+\DoxyCodeLine{31 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{32 }
+\DoxyCodeLine{33 \textcolor{preprocessor}{\#include <avr/io.h>}}
+\DoxyCodeLine{34 \textcolor{preprocessor}{\#include <avr/wdt.h>}}
+\DoxyCodeLine{35 }
+\DoxyCodeLine{36 \textcolor{comment}{// System Tick -\/ Scheduler timer}}
+\DoxyCodeLine{37 \textcolor{comment}{// Use the Watchdog timer, and choose the rate at which scheduler interrupts will occur.}}
+\DoxyCodeLine{38 }
+\DoxyCodeLine{39 \textcolor{preprocessor}{\#ifndef portUSE\_WDTO}}
+\DoxyCodeLine{40 \textcolor{preprocessor}{    \#define portUSE\_WDTO        WDTO\_15MS    }\textcolor{comment}{// portUSE\_WDTO to use the Watchdog Timer for xTaskIncrementTick}}
+\DoxyCodeLine{41 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{42 }
+\DoxyCodeLine{43 \textcolor{comment}{/* Watchdog period options:     WDTO\_15MS}}
+\DoxyCodeLine{44 \textcolor{comment}{                                WDTO\_30MS}}
+\DoxyCodeLine{45 \textcolor{comment}{                                WDTO\_60MS}}
+\DoxyCodeLine{46 \textcolor{comment}{                                WDTO\_120MS}}
+\DoxyCodeLine{47 \textcolor{comment}{                                WDTO\_250MS}}
+\DoxyCodeLine{48 \textcolor{comment}{                                WDTO\_500MS}}
+\DoxyCodeLine{49 \textcolor{comment}{                                WDTO\_1S}}
+\DoxyCodeLine{50 \textcolor{comment}{                                WDTO\_2S}}
+\DoxyCodeLine{51 \textcolor{comment}{*/}}
+\DoxyCodeLine{52 \textcolor{comment}{//    xxx Watchdog Timer is 128kHz nominal, but 120 kHz at 5V DC and 25 degrees is actually more accurate, from data sheet.}}
+\DoxyCodeLine{53 \textcolor{preprocessor}{\#define configTICK\_RATE\_HZ      ( (TickType\_t)( (uint32\_t)128000 >> (portUSE\_WDTO + 11) ) )  }\textcolor{comment}{// 2\string^11 = 2048 WDT scaler for 128kHz Timer}}
+\DoxyCodeLine{54 }
+\DoxyCodeLine{55 \textcolor{comment}{/*-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/*/}}
+\DoxyCodeLine{56 }
+\DoxyCodeLine{57 \textcolor{preprocessor}{\#ifndef INC\_TASK\_H}}
+\DoxyCodeLine{58 \textcolor{preprocessor}{\#include "{}Arduino\_FreeRTOS.h"{}}}
+\DoxyCodeLine{59 \textcolor{preprocessor}{\#include "{}task.h"{}}}
+\DoxyCodeLine{60 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{61 }
+\DoxyCodeLine{62 \textcolor{keywordtype}{void} initVariant(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{63 }
+\DoxyCodeLine{64 \textcolor{keywordtype}{void} vApplicationIdleHook( \textcolor{keywordtype}{void} );}
+\DoxyCodeLine{65 }
+\DoxyCodeLine{66 \textcolor{keywordtype}{void} vApplicationMallocFailedHook( \textcolor{keywordtype}{void} );}
+\DoxyCodeLine{67 \textcolor{keywordtype}{void} vApplicationStackOverflowHook( TaskHandle\_t xTask, \textcolor{keywordtype}{char} * pcTaskName );}
+\DoxyCodeLine{68 }
+\DoxyCodeLine{69 \textcolor{keywordtype}{void} vApplicationGetIdleTaskMemory( \mbox{\hyperlink{structxSTATIC__TCB}{StaticTask\_t}} ** ppxIdleTaskTCBBuffer,}
+\DoxyCodeLine{70                                     StackType\_t ** ppxIdleTaskStackBuffer,}
+\DoxyCodeLine{71                                     configSTACK\_DEPTH\_TYPE * pulIdleTaskStackSize );}
+\DoxyCodeLine{72 \textcolor{keywordtype}{void} vApplicationGetTimerTaskMemory( \mbox{\hyperlink{structxSTATIC__TCB}{StaticTask\_t}} ** ppxTimerTaskTCBBuffer,}
+\DoxyCodeLine{73                                      StackType\_t ** ppxTimerTaskStackBuffer,}
+\DoxyCodeLine{74                                      configSTACK\_DEPTH\_TYPE * pulTimerTaskStackSize );}
+\DoxyCodeLine{75 }
+\DoxyCodeLine{76 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{77 \}}
+\DoxyCodeLine{78 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{79 }
+\DoxyCodeLine{80 \textcolor{preprocessor}{\#endif }\textcolor{comment}{// freeRTOSVariant\_h}}
+
+\end{DoxyCode}

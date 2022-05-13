@@ -1,0 +1,100 @@
+\hypertarget{fft_8cpp}{}\doxysection{src/fft.cpp File Reference}
+\label{fft_8cpp}\index{src/fft.cpp@{src/fft.cpp}}
+{\ttfamily \#include $<$assert.\+h$>$}\newline
+{\ttfamily \#include $<$math.\+h$>$}\newline
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structcomplex}{complex}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{fft_8cpp_a3d866bcc3e6368bb95201907177c539b}{q}}~3  /$\ast$ for 2$^\wedge$3 points $\ast$/
+\item 
+\#define \mbox{\hyperlink{fft_8cpp_a0240ac851181b84ac374872dc5434ee4}{N}}~(1$<$$<$\mbox{\hyperlink{fft_8cpp_a3d866bcc3e6368bb95201907177c539b}{q}})  /$\ast$ N-\/point \mbox{\hyperlink{RT-OS_8cpp_a06dc8755eca604de4444291b9dfe17a0}{FFT}}, i\+FFT $\ast$/
+\item 
+\#define \mbox{\hyperlink{fft_8cpp_a598a3330b3c21701223ee0ca14316eca}{PI}}~3.\+14159265358979323846264338327950288
+\end{DoxyCompactItemize}
+\doxysubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef float \mbox{\hyperlink{fft_8cpp_a031f8951175b43076c2084a6c2173410}{real}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{fft_8cpp_aeb96fb30ca0a115853495e3c1b291656}{fft}} (\mbox{\hyperlink{structcomplex}{complex}} $\ast$v, int n, \mbox{\hyperlink{structcomplex}{complex}} $\ast$tmp)
+\begin{DoxyCompactList}\small\item\em Construct a new fft object. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{fft_8cpp_a137ad456f43f7e8f327daddea481f07f}{ifft}} (\mbox{\hyperlink{structcomplex}{complex}} $\ast$v, int n, \mbox{\hyperlink{structcomplex}{complex}} $\ast$tmp)
+\begin{DoxyCompactList}\small\item\em Construct a new ifft object ifft(v,\+N)\+: \mbox{[}0\mbox{]} If N==1 then return. \mbox{[}1\mbox{]} For k = 0 to N/2-\/1, let ve\mbox{[}k\mbox{]} = v\mbox{[}2$\ast$k\mbox{]} \mbox{[}2\mbox{]} Compute ifft(ve, N/2); \mbox{[}3\mbox{]} For k = 0 to N/2-\/1, let vo\mbox{[}k\mbox{]} = v\mbox{[}2$\ast$k+1\mbox{]} \mbox{[}4\mbox{]} Compute ifft(vo, N/2); \mbox{[}5\mbox{]} For m = 0 to N/2-\/1, do \mbox{[}6\mbox{]} through \mbox{[}9\mbox{]} \mbox{[}6\mbox{]} Let w.\+re = cos(2$\ast$\+PI$\ast$m/N) \mbox{[}7\mbox{]} Let w.\+im = sin(2$\ast$\+PI$\ast$m/N) \mbox{[}8\mbox{]} Let v\mbox{[}m\mbox{]} = ve\mbox{[}m\mbox{]} + w$\ast$vo\mbox{[}m\mbox{]} \mbox{[}9\mbox{]} Let v\mbox{[}m+\+N/2\mbox{]} = ve\mbox{[}m\mbox{]} -\/ w$\ast$vo\mbox{[}m\mbox{]}. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{fft_8cpp_a840291bc02cba5474a4cb46a9b9566fe}{main}} (void)
+\begin{DoxyCompactList}\small\item\em Factored discrete Fourier transform, or FFT, and its inverse i\+FFT. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{fft_8cpp_a0240ac851181b84ac374872dc5434ee4}\label{fft_8cpp_a0240ac851181b84ac374872dc5434ee4}} 
+\index{fft.cpp@{fft.cpp}!N@{N}}
+\index{N@{N}!fft.cpp@{fft.cpp}}
+\doxysubsubsection{\texorpdfstring{N}{N}}
+{\footnotesize\ttfamily \#define N~(1$<$$<$\mbox{\hyperlink{fft_8cpp_a3d866bcc3e6368bb95201907177c539b}{q}})  /$\ast$ N-\/point \mbox{\hyperlink{RT-OS_8cpp_a06dc8755eca604de4444291b9dfe17a0}{FFT}}, i\+FFT $\ast$/}
+
+\mbox{\Hypertarget{fft_8cpp_a598a3330b3c21701223ee0ca14316eca}\label{fft_8cpp_a598a3330b3c21701223ee0ca14316eca}} 
+\index{fft.cpp@{fft.cpp}!PI@{PI}}
+\index{PI@{PI}!fft.cpp@{fft.cpp}}
+\doxysubsubsection{\texorpdfstring{PI}{PI}}
+{\footnotesize\ttfamily \#define PI~3.\+14159265358979323846264338327950288}
+
+\mbox{\Hypertarget{fft_8cpp_a3d866bcc3e6368bb95201907177c539b}\label{fft_8cpp_a3d866bcc3e6368bb95201907177c539b}} 
+\index{fft.cpp@{fft.cpp}!q@{q}}
+\index{q@{q}!fft.cpp@{fft.cpp}}
+\doxysubsubsection{\texorpdfstring{q}{q}}
+{\footnotesize\ttfamily \#define q~3  /$\ast$ for 2$^\wedge$3 points $\ast$/}
+
+
+
+\doxysubsection{Typedef Documentation}
+\mbox{\Hypertarget{fft_8cpp_a031f8951175b43076c2084a6c2173410}\label{fft_8cpp_a031f8951175b43076c2084a6c2173410}} 
+\index{fft.cpp@{fft.cpp}!real@{real}}
+\index{real@{real}!fft.cpp@{fft.cpp}}
+\doxysubsubsection{\texorpdfstring{real}{real}}
+{\footnotesize\ttfamily typedef float \mbox{\hyperlink{fft_8cpp_a031f8951175b43076c2084a6c2173410}{real}}}
+
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{fft_8cpp_aeb96fb30ca0a115853495e3c1b291656}\label{fft_8cpp_aeb96fb30ca0a115853495e3c1b291656}} 
+\index{fft.cpp@{fft.cpp}!fft@{fft}}
+\index{fft@{fft}!fft.cpp@{fft.cpp}}
+\doxysubsubsection{\texorpdfstring{fft()}{fft()}}
+{\footnotesize\ttfamily void fft (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structcomplex}{complex}} $\ast$}]{v,  }\item[{int}]{n,  }\item[{\mbox{\hyperlink{structcomplex}{complex}} $\ast$}]{tmp }\end{DoxyParamCaption})}
+
+
+
+Construct a new fft object. 
+
+fft(v,\+N)\+: \mbox{[}0\mbox{]} If N==1 then return. \mbox{[}1\mbox{]} For k = 0 to N/2-\/1, let ve\mbox{[}k\mbox{]} = v\mbox{[}2$\ast$k\mbox{]} \mbox{[}2\mbox{]} Compute fft(ve, N/2); \mbox{[}3\mbox{]} For k = 0 to N/2-\/1, let vo\mbox{[}k\mbox{]} = v\mbox{[}2$\ast$k+1\mbox{]} \mbox{[}4\mbox{]} Compute fft(vo, N/2); \mbox{[}5\mbox{]} For m = 0 to N/2-\/1, do \mbox{[}6\mbox{]} through \mbox{[}9\mbox{]} \mbox{[}6\mbox{]} Let w.\+re = cos(2$\ast$\+PI$\ast$m/N) \mbox{[}7\mbox{]} Let w.\+im = -\/sin(2$\ast$\+PI$\ast$m/N) \mbox{[}8\mbox{]} Let v\mbox{[}m\mbox{]} = ve\mbox{[}m\mbox{]} + w$\ast$vo\mbox{[}m\mbox{]} \mbox{[}9\mbox{]} Let v\mbox{[}m+\+N/2\mbox{]} = ve\mbox{[}m\mbox{]} -\/ w$\ast$vo\mbox{[}m\mbox{]} \mbox{\Hypertarget{fft_8cpp_a137ad456f43f7e8f327daddea481f07f}\label{fft_8cpp_a137ad456f43f7e8f327daddea481f07f}} 
+\index{fft.cpp@{fft.cpp}!ifft@{ifft}}
+\index{ifft@{ifft}!fft.cpp@{fft.cpp}}
+\doxysubsubsection{\texorpdfstring{ifft()}{ifft()}}
+{\footnotesize\ttfamily void ifft (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structcomplex}{complex}} $\ast$}]{v,  }\item[{int}]{n,  }\item[{\mbox{\hyperlink{structcomplex}{complex}} $\ast$}]{tmp }\end{DoxyParamCaption})}
+
+
+
+Construct a new ifft object ifft(v,\+N)\+: \mbox{[}0\mbox{]} If N==1 then return. \mbox{[}1\mbox{]} For k = 0 to N/2-\/1, let ve\mbox{[}k\mbox{]} = v\mbox{[}2$\ast$k\mbox{]} \mbox{[}2\mbox{]} Compute ifft(ve, N/2); \mbox{[}3\mbox{]} For k = 0 to N/2-\/1, let vo\mbox{[}k\mbox{]} = v\mbox{[}2$\ast$k+1\mbox{]} \mbox{[}4\mbox{]} Compute ifft(vo, N/2); \mbox{[}5\mbox{]} For m = 0 to N/2-\/1, do \mbox{[}6\mbox{]} through \mbox{[}9\mbox{]} \mbox{[}6\mbox{]} Let w.\+re = cos(2$\ast$\+PI$\ast$m/N) \mbox{[}7\mbox{]} Let w.\+im = sin(2$\ast$\+PI$\ast$m/N) \mbox{[}8\mbox{]} Let v\mbox{[}m\mbox{]} = ve\mbox{[}m\mbox{]} + w$\ast$vo\mbox{[}m\mbox{]} \mbox{[}9\mbox{]} Let v\mbox{[}m+\+N/2\mbox{]} = ve\mbox{[}m\mbox{]} -\/ w$\ast$vo\mbox{[}m\mbox{]}. 
+
+\mbox{\Hypertarget{fft_8cpp_a840291bc02cba5474a4cb46a9b9566fe}\label{fft_8cpp_a840291bc02cba5474a4cb46a9b9566fe}} 
+\index{fft.cpp@{fft.cpp}!main@{main}}
+\index{main@{main}!fft.cpp@{fft.cpp}}
+\doxysubsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily int main (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Factored discrete Fourier transform, or FFT, and its inverse i\+FFT. 
+
+\begin{DoxyReturn}{Returns}
+int 
+\end{DoxyReturn}

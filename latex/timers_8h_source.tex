@@ -1,0 +1,197 @@
+\hypertarget{timers_8h_source}{}\doxysection{timers.\+h}
+\label{timers_8h_source}\index{lib/Arduino\_FreeRTOS/src/timers.h@{lib/Arduino\_FreeRTOS/src/timers.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{comment}{/*}}
+\DoxyCodeLine{2 \textcolor{comment}{ * FreeRTOS Kernel V10.4.3}}
+\DoxyCodeLine{3 \textcolor{comment}{ * Copyright (C) 2020 Amazon.com, Inc. or its affiliates.  All Rights Reserved.}}
+\DoxyCodeLine{4 \textcolor{comment}{ *}}
+\DoxyCodeLine{5 \textcolor{comment}{ * Permission is hereby granted, free of charge, to any person obtaining a copy of}}
+\DoxyCodeLine{6 \textcolor{comment}{ * this software and associated documentation files (the "{}Software"{}), to deal in}}
+\DoxyCodeLine{7 \textcolor{comment}{ * the Software without restriction, including without limitation the rights to}}
+\DoxyCodeLine{8 \textcolor{comment}{ * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of}}
+\DoxyCodeLine{9 \textcolor{comment}{ * the Software, and to permit persons to whom the Software is furnished to do so,}}
+\DoxyCodeLine{10 \textcolor{comment}{ * subject to the following conditions:}}
+\DoxyCodeLine{11 \textcolor{comment}{ *}}
+\DoxyCodeLine{12 \textcolor{comment}{ * The above copyright notice and this permission notice shall be included in all}}
+\DoxyCodeLine{13 \textcolor{comment}{ * copies or substantial portions of the Software.}}
+\DoxyCodeLine{14 \textcolor{comment}{ *}}
+\DoxyCodeLine{15 \textcolor{comment}{ * THE SOFTWARE IS PROVIDED "{}AS IS"{}, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR}}
+\DoxyCodeLine{16 \textcolor{comment}{ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS}}
+\DoxyCodeLine{17 \textcolor{comment}{ * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR}}
+\DoxyCodeLine{18 \textcolor{comment}{ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER}}
+\DoxyCodeLine{19 \textcolor{comment}{ * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN}}
+\DoxyCodeLine{20 \textcolor{comment}{ * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.}}
+\DoxyCodeLine{21 \textcolor{comment}{ *}}
+\DoxyCodeLine{22 \textcolor{comment}{ * https://www.FreeRTOS.org}}
+\DoxyCodeLine{23 \textcolor{comment}{ * https://github.com/FreeRTOS}}
+\DoxyCodeLine{24 \textcolor{comment}{ *}}
+\DoxyCodeLine{25 \textcolor{comment}{ */}}
+\DoxyCodeLine{26 }
+\DoxyCodeLine{27 }
+\DoxyCodeLine{28 \textcolor{preprocessor}{\#ifndef TIMERS\_H}}
+\DoxyCodeLine{29 \textcolor{preprocessor}{\#define TIMERS\_H}}
+\DoxyCodeLine{30 }
+\DoxyCodeLine{31 \textcolor{preprocessor}{\#ifndef INC\_ARDUINO\_FREERTOS\_H}}
+\DoxyCodeLine{32 \textcolor{preprocessor}{    \#error "{}include Arduino\_FreeRTOS.h must appear in source files before include timers.h"{}}}
+\DoxyCodeLine{33 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{34 }
+\DoxyCodeLine{35 \textcolor{comment}{/*lint -\/save -\/e537 This headers are only multiply included if the application code}}
+\DoxyCodeLine{36 \textcolor{comment}{ * happens to also be including task.h. */}}
+\DoxyCodeLine{37 \textcolor{preprocessor}{\#include "{}task.h"{}}}
+\DoxyCodeLine{38 \textcolor{comment}{/*lint -\/restore */}}
+\DoxyCodeLine{39 }
+\DoxyCodeLine{40 \textcolor{comment}{/* *INDENT-\/OFF* */}}
+\DoxyCodeLine{41 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{42     \textcolor{keyword}{extern} \textcolor{stringliteral}{"{}C"{}} \{}
+\DoxyCodeLine{43 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{44 \textcolor{comment}{/* *INDENT-\/ON* */}}
+\DoxyCodeLine{45 }
+\DoxyCodeLine{46 \textcolor{comment}{/*-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{47 \textcolor{comment}{* MACROS AND DEFINITIONS}}
+\DoxyCodeLine{48 \textcolor{comment}{*-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/*/}}
+\DoxyCodeLine{49 }
+\DoxyCodeLine{50 \textcolor{comment}{/* IDs for commands that can be sent/received on the timer queue.  These are to}}
+\DoxyCodeLine{51 \textcolor{comment}{ * be used solely through the macros that make up the public software timer API,}}
+\DoxyCodeLine{52 \textcolor{comment}{ * as defined below.  The commands that are sent from interrupts must use the}}
+\DoxyCodeLine{53 \textcolor{comment}{ * highest numbers as tmrFIRST\_FROM\_ISR\_COMMAND is used to determine if the task}}
+\DoxyCodeLine{54 \textcolor{comment}{ * or interrupt version of the queue send function should be used. */}}
+\DoxyCodeLine{55 \textcolor{preprocessor}{\#define tmrCOMMAND\_EXECUTE\_CALLBACK\_FROM\_ISR    ( ( BaseType\_t ) -\/2 )}}
+\DoxyCodeLine{56 \textcolor{preprocessor}{\#define tmrCOMMAND\_EXECUTE\_CALLBACK             ( ( BaseType\_t ) -\/1 )}}
+\DoxyCodeLine{57 \textcolor{preprocessor}{\#define tmrCOMMAND\_START\_DONT\_TRACE             ( ( BaseType\_t ) 0 )}}
+\DoxyCodeLine{58 \textcolor{preprocessor}{\#define tmrCOMMAND\_START                        ( ( BaseType\_t ) 1 )}}
+\DoxyCodeLine{59 \textcolor{preprocessor}{\#define tmrCOMMAND\_RESET                        ( ( BaseType\_t ) 2 )}}
+\DoxyCodeLine{60 \textcolor{preprocessor}{\#define tmrCOMMAND\_STOP                         ( ( BaseType\_t ) 3 )}}
+\DoxyCodeLine{61 \textcolor{preprocessor}{\#define tmrCOMMAND\_CHANGE\_PERIOD                ( ( BaseType\_t ) 4 )}}
+\DoxyCodeLine{62 \textcolor{preprocessor}{\#define tmrCOMMAND\_DELETE                       ( ( BaseType\_t ) 5 )}}
+\DoxyCodeLine{63 }
+\DoxyCodeLine{64 \textcolor{preprocessor}{\#define tmrFIRST\_FROM\_ISR\_COMMAND               ( ( BaseType\_t ) 6 )}}
+\DoxyCodeLine{65 \textcolor{preprocessor}{\#define tmrCOMMAND\_START\_FROM\_ISR               ( ( BaseType\_t ) 6 )}}
+\DoxyCodeLine{66 \textcolor{preprocessor}{\#define tmrCOMMAND\_RESET\_FROM\_ISR               ( ( BaseType\_t ) 7 )}}
+\DoxyCodeLine{67 \textcolor{preprocessor}{\#define tmrCOMMAND\_STOP\_FROM\_ISR                ( ( BaseType\_t ) 8 )}}
+\DoxyCodeLine{68 \textcolor{preprocessor}{\#define tmrCOMMAND\_CHANGE\_PERIOD\_FROM\_ISR       ( ( BaseType\_t ) 9 )}}
+\DoxyCodeLine{69 }
+\DoxyCodeLine{70 }
+\DoxyCodeLine{77 \textcolor{keyword}{struct }\mbox{\hyperlink{structTimerDef__t}{TimerDef\_t}};}
+\DoxyCodeLine{78 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{structTimerDef__t}{TimerDef\_t}} * \mbox{\hyperlink{structTimerDef__t}{TimerHandle\_t}};}
+\DoxyCodeLine{79 }
+\DoxyCodeLine{80 \textcolor{comment}{/*}}
+\DoxyCodeLine{81 \textcolor{comment}{ * Defines the prototype to which timer callback functions must conform.}}
+\DoxyCodeLine{82 \textcolor{comment}{ */}}
+\DoxyCodeLine{83 \textcolor{keyword}{typedef} void (* TimerCallbackFunction\_t)( \mbox{\hyperlink{structTimerDef__t}{TimerHandle\_t}} xTimer );}
+\DoxyCodeLine{84 }
+\DoxyCodeLine{85 \textcolor{comment}{/*}}
+\DoxyCodeLine{86 \textcolor{comment}{ * Defines the prototype to which functions used with the}}
+\DoxyCodeLine{87 \textcolor{comment}{ * xTimerPendFunctionCallFromISR() function must conform.}}
+\DoxyCodeLine{88 \textcolor{comment}{ */}}
+\DoxyCodeLine{89 \textcolor{keyword}{typedef} void (* PendedFunction\_t)( \textcolor{keywordtype}{void} *,}
+\DoxyCodeLine{90                                    uint32\_t );}
+\DoxyCodeLine{91 }
+\DoxyCodeLine{229 \textcolor{preprocessor}{\#if ( configSUPPORT\_DYNAMIC\_ALLOCATION == 1 )}}
+\DoxyCodeLine{230     \mbox{\hyperlink{structTimerDef__t}{TimerHandle\_t}} xTimerCreate( \textcolor{keyword}{const} \textcolor{keywordtype}{char} * \textcolor{keyword}{const} pcTimerName, \textcolor{comment}{/*lint !e971 Unqualified char types are allowed for strings and single characters only. */}}
+\DoxyCodeLine{231                                 \textcolor{keyword}{const} TickType\_t xTimerPeriodInTicks,}
+\DoxyCodeLine{232                                 \textcolor{keyword}{const} UBaseType\_t uxAutoReload,}
+\DoxyCodeLine{233                                 \textcolor{keywordtype}{void} * \textcolor{keyword}{const} pvTimerID,}
+\DoxyCodeLine{234                                 TimerCallbackFunction\_t pxCallbackFunction ) PRIVILEGED\_FUNCTION;}
+\DoxyCodeLine{235 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{236 }
+\DoxyCodeLine{359 \textcolor{preprocessor}{\#if ( configSUPPORT\_STATIC\_ALLOCATION == 1 )}}
+\DoxyCodeLine{360     \mbox{\hyperlink{structTimerDef__t}{TimerHandle\_t}} xTimerCreateStatic( \textcolor{keyword}{const} \textcolor{keywordtype}{char} * \textcolor{keyword}{const} pcTimerName, \textcolor{comment}{/*lint !e971 Unqualified char types are allowed for strings and single characters only. */}}
+\DoxyCodeLine{361                                       \textcolor{keyword}{const} TickType\_t xTimerPeriodInTicks,}
+\DoxyCodeLine{362                                       \textcolor{keyword}{const} UBaseType\_t uxAutoReload,}
+\DoxyCodeLine{363                                       \textcolor{keywordtype}{void} * \textcolor{keyword}{const} pvTimerID,}
+\DoxyCodeLine{364                                       TimerCallbackFunction\_t pxCallbackFunction,}
+\DoxyCodeLine{365                                       \mbox{\hyperlink{structxSTATIC__TIMER}{StaticTimer\_t}} * pxTimerBuffer ) PRIVILEGED\_FUNCTION;}
+\DoxyCodeLine{366 \textcolor{preprocessor}{\#endif }\textcolor{comment}{/* configSUPPORT\_STATIC\_ALLOCATION */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{367 }
+\DoxyCodeLine{388 \textcolor{keywordtype}{void} * pvTimerGetTimerID( \textcolor{keyword}{const} \mbox{\hyperlink{structTimerDef__t}{TimerHandle\_t}} xTimer ) PRIVILEGED\_FUNCTION;}
+\DoxyCodeLine{389 }
+\DoxyCodeLine{409 \textcolor{keywordtype}{void} vTimerSetTimerID( \mbox{\hyperlink{structTimerDef__t}{TimerHandle\_t}} xTimer,}
+\DoxyCodeLine{410                        \textcolor{keywordtype}{void} * pvNewID ) PRIVILEGED\_FUNCTION;}
+\DoxyCodeLine{411 }
+\DoxyCodeLine{447 BaseType\_t xTimerIsTimerActive( \mbox{\hyperlink{structTimerDef__t}{TimerHandle\_t}} xTimer ) PRIVILEGED\_FUNCTION;}
+\DoxyCodeLine{448 }
+\DoxyCodeLine{455 TaskHandle\_t xTimerGetTimerDaemonTaskHandle( \textcolor{keywordtype}{void} ) PRIVILEGED\_FUNCTION;}
+\DoxyCodeLine{456 }
+\DoxyCodeLine{507 \textcolor{preprocessor}{\#define xTimerStart( xTimer, xTicksToWait ) \(\backslash\)}}
+\DoxyCodeLine{508 \textcolor{preprocessor}{    xTimerGenericCommand( ( xTimer ), tmrCOMMAND\_START, ( xTaskGetTickCount() ), NULL, ( xTicksToWait ) )}}
+\DoxyCodeLine{509 }
+\DoxyCodeLine{550 \textcolor{preprocessor}{\#define xTimerStop( xTimer, xTicksToWait ) \(\backslash\)}}
+\DoxyCodeLine{551 \textcolor{preprocessor}{    xTimerGenericCommand( ( xTimer ), tmrCOMMAND\_STOP, 0U, NULL, ( xTicksToWait ) )}}
+\DoxyCodeLine{552 }
+\DoxyCodeLine{631 \textcolor{preprocessor}{\#define xTimerChangePeriod( xTimer, xNewPeriod, xTicksToWait ) \(\backslash\)}}
+\DoxyCodeLine{632 \textcolor{preprocessor}{    xTimerGenericCommand( ( xTimer ), tmrCOMMAND\_CHANGE\_PERIOD, ( xNewPeriod ), NULL, ( xTicksToWait ) )}}
+\DoxyCodeLine{633 }
+\DoxyCodeLine{670 \textcolor{preprocessor}{\#define xTimerDelete( xTimer, xTicksToWait ) \(\backslash\)}}
+\DoxyCodeLine{671 \textcolor{preprocessor}{    xTimerGenericCommand( ( xTimer ), tmrCOMMAND\_DELETE, 0U, NULL, ( xTicksToWait ) )}}
+\DoxyCodeLine{672 }
+\DoxyCodeLine{795 \textcolor{preprocessor}{\#define xTimerReset( xTimer, xTicksToWait ) \(\backslash\)}}
+\DoxyCodeLine{796 \textcolor{preprocessor}{    xTimerGenericCommand( ( xTimer ), tmrCOMMAND\_RESET, ( xTaskGetTickCount() ), NULL, ( xTicksToWait ) )}}
+\DoxyCodeLine{797 }
+\DoxyCodeLine{882 \textcolor{preprocessor}{\#define xTimerStartFromISR( xTimer, pxHigherPriorityTaskWoken ) \(\backslash\)}}
+\DoxyCodeLine{883 \textcolor{preprocessor}{    xTimerGenericCommand( ( xTimer ), tmrCOMMAND\_START\_FROM\_ISR, ( xTaskGetTickCountFromISR() ), ( pxHigherPriorityTaskWoken ), 0U )}}
+\DoxyCodeLine{884 }
+\DoxyCodeLine{946 \textcolor{preprocessor}{\#define xTimerStopFromISR( xTimer, pxHigherPriorityTaskWoken ) \(\backslash\)}}
+\DoxyCodeLine{947 \textcolor{preprocessor}{    xTimerGenericCommand( ( xTimer ), tmrCOMMAND\_STOP\_FROM\_ISR, 0, ( pxHigherPriorityTaskWoken ), 0U )}}
+\DoxyCodeLine{948 }
+\DoxyCodeLine{1020 \textcolor{preprocessor}{\#define xTimerChangePeriodFromISR( xTimer, xNewPeriod, pxHigherPriorityTaskWoken ) \(\backslash\)}}
+\DoxyCodeLine{1021 \textcolor{preprocessor}{    xTimerGenericCommand( ( xTimer ), tmrCOMMAND\_CHANGE\_PERIOD\_FROM\_ISR, ( xNewPeriod ), ( pxHigherPriorityTaskWoken ), 0U )}}
+\DoxyCodeLine{1022 }
+\DoxyCodeLine{1107 \textcolor{preprocessor}{\#define xTimerResetFromISR( xTimer, pxHigherPriorityTaskWoken ) \(\backslash\)}}
+\DoxyCodeLine{1108 \textcolor{preprocessor}{    xTimerGenericCommand( ( xTimer ), tmrCOMMAND\_RESET\_FROM\_ISR, ( xTaskGetTickCountFromISR() ), ( pxHigherPriorityTaskWoken ), 0U )}}
+\DoxyCodeLine{1109 }
+\DoxyCodeLine{1110 }
+\DoxyCodeLine{1199 BaseType\_t xTimerPendFunctionCallFromISR( PendedFunction\_t xFunctionToPend,}
+\DoxyCodeLine{1200                                           \textcolor{keywordtype}{void} * pvParameter1,}
+\DoxyCodeLine{1201                                           uint32\_t ulParameter2,}
+\DoxyCodeLine{1202                                           BaseType\_t * pxHigherPriorityTaskWoken ) PRIVILEGED\_FUNCTION;}
+\DoxyCodeLine{1203 }
+\DoxyCodeLine{1236 BaseType\_t xTimerPendFunctionCall( PendedFunction\_t xFunctionToPend,}
+\DoxyCodeLine{1237                                    \textcolor{keywordtype}{void} * pvParameter1,}
+\DoxyCodeLine{1238                                    uint32\_t ulParameter2,}
+\DoxyCodeLine{1239                                    TickType\_t xTicksToWait ) PRIVILEGED\_FUNCTION;}
+\DoxyCodeLine{1240 }
+\DoxyCodeLine{1250 \textcolor{keyword}{const} \textcolor{keywordtype}{char} * pcTimerGetName( \mbox{\hyperlink{structTimerDef__t}{TimerHandle\_t}} xTimer ) PRIVILEGED\_FUNCTION; \textcolor{comment}{/*lint !e971 Unqualified char types are allowed for strings and single characters only. */}}
+\DoxyCodeLine{1251 }
+\DoxyCodeLine{1267 \textcolor{keywordtype}{void} vTimerSetReloadMode( \mbox{\hyperlink{structTimerDef__t}{TimerHandle\_t}} xTimer,}
+\DoxyCodeLine{1268                           \textcolor{keyword}{const} UBaseType\_t uxAutoReload ) PRIVILEGED\_FUNCTION;}
+\DoxyCodeLine{1269 }
+\DoxyCodeLine{1282 UBaseType\_t uxTimerGetReloadMode( \mbox{\hyperlink{structTimerDef__t}{TimerHandle\_t}} xTimer ) PRIVILEGED\_FUNCTION;}
+\DoxyCodeLine{1283 }
+\DoxyCodeLine{1293 TickType\_t xTimerGetPeriod( \mbox{\hyperlink{structTimerDef__t}{TimerHandle\_t}} xTimer ) PRIVILEGED\_FUNCTION;}
+\DoxyCodeLine{1294 }
+\DoxyCodeLine{1308 TickType\_t xTimerGetExpiryTime( \mbox{\hyperlink{structTimerDef__t}{TimerHandle\_t}} xTimer ) PRIVILEGED\_FUNCTION;}
+\DoxyCodeLine{1309 }
+\DoxyCodeLine{1310 \textcolor{comment}{/*}}
+\DoxyCodeLine{1311 \textcolor{comment}{ * Functions beyond this part are not part of the public API and are intended}}
+\DoxyCodeLine{1312 \textcolor{comment}{ * for use by the kernel only.}}
+\DoxyCodeLine{1313 \textcolor{comment}{ */}}
+\DoxyCodeLine{1314 BaseType\_t xTimerCreateTimerTask( \textcolor{keywordtype}{void} ) PRIVILEGED\_FUNCTION;}
+\DoxyCodeLine{1315 BaseType\_t xTimerGenericCommand( \mbox{\hyperlink{structTimerDef__t}{TimerHandle\_t}} xTimer,}
+\DoxyCodeLine{1316                                  \textcolor{keyword}{const} BaseType\_t xCommandID,}
+\DoxyCodeLine{1317                                  \textcolor{keyword}{const} TickType\_t xOptionalValue,}
+\DoxyCodeLine{1318                                  BaseType\_t * \textcolor{keyword}{const} pxHigherPriorityTaskWoken,}
+\DoxyCodeLine{1319                                  \textcolor{keyword}{const} TickType\_t xTicksToWait ) PRIVILEGED\_FUNCTION;}
+\DoxyCodeLine{1320 }
+\DoxyCodeLine{1321 \textcolor{preprocessor}{\#if ( configUSE\_TRACE\_FACILITY == 1 )}}
+\DoxyCodeLine{1322     \textcolor{keywordtype}{void} vTimerSetTimerNumber( \mbox{\hyperlink{structTimerDef__t}{TimerHandle\_t}} xTimer,}
+\DoxyCodeLine{1323                                UBaseType\_t uxTimerNumber ) PRIVILEGED\_FUNCTION;}
+\DoxyCodeLine{1324     UBaseType\_t uxTimerGetTimerNumber( \mbox{\hyperlink{structTimerDef__t}{TimerHandle\_t}} xTimer ) PRIVILEGED\_FUNCTION;}
+\DoxyCodeLine{1325 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{1326 }
+\DoxyCodeLine{1327 \textcolor{preprocessor}{\#if ( configSUPPORT\_STATIC\_ALLOCATION == 1 )}}
+\DoxyCodeLine{1328 }
+\DoxyCodeLine{1340     \textcolor{keywordtype}{void} vApplicationGetTimerTaskMemory( \mbox{\hyperlink{structxSTATIC__TCB}{StaticTask\_t}} ** ppxTimerTaskTCBBuffer,}
+\DoxyCodeLine{1341                                           StackType\_t ** ppxTimerTaskStackBuffer,}
+\DoxyCodeLine{1342                                           configSTACK\_DEPTH\_TYPE * pulTimerTaskStackSize );}
+\DoxyCodeLine{1343 }
+\DoxyCodeLine{1344 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{1345 }
+\DoxyCodeLine{1346 \textcolor{comment}{/* *INDENT-\/OFF* */}}
+\DoxyCodeLine{1347 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{1348     \}}
+\DoxyCodeLine{1349 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{1350 \textcolor{comment}{/* *INDENT-\/ON* */}}
+\DoxyCodeLine{1351 \textcolor{preprocessor}{\#endif }\textcolor{comment}{/* TIMERS\_H */}\textcolor{preprocessor}{}}
+
+\end{DoxyCode}

@@ -1,0 +1,130 @@
+\hypertarget{event__groups_8h_source}{}\doxysection{event\+\_\+groups.\+h}
+\label{event__groups_8h_source}\index{lib/Arduino\_FreeRTOS/src/event\_groups.h@{lib/Arduino\_FreeRTOS/src/event\_groups.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{comment}{/*}}
+\DoxyCodeLine{2 \textcolor{comment}{ * FreeRTOS Kernel V10.4.3}}
+\DoxyCodeLine{3 \textcolor{comment}{ * Copyright (C) 2020 Amazon.com, Inc. or its affiliates.  All Rights Reserved.}}
+\DoxyCodeLine{4 \textcolor{comment}{ *}}
+\DoxyCodeLine{5 \textcolor{comment}{ * Permission is hereby granted, free of charge, to any person obtaining a copy of}}
+\DoxyCodeLine{6 \textcolor{comment}{ * this software and associated documentation files (the "{}Software"{}), to deal in}}
+\DoxyCodeLine{7 \textcolor{comment}{ * the Software without restriction, including without limitation the rights to}}
+\DoxyCodeLine{8 \textcolor{comment}{ * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of}}
+\DoxyCodeLine{9 \textcolor{comment}{ * the Software, and to permit persons to whom the Software is furnished to do so,}}
+\DoxyCodeLine{10 \textcolor{comment}{ * subject to the following conditions:}}
+\DoxyCodeLine{11 \textcolor{comment}{ *}}
+\DoxyCodeLine{12 \textcolor{comment}{ * The above copyright notice and this permission notice shall be included in all}}
+\DoxyCodeLine{13 \textcolor{comment}{ * copies or substantial portions of the Software.}}
+\DoxyCodeLine{14 \textcolor{comment}{ *}}
+\DoxyCodeLine{15 \textcolor{comment}{ * THE SOFTWARE IS PROVIDED "{}AS IS"{}, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR}}
+\DoxyCodeLine{16 \textcolor{comment}{ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS}}
+\DoxyCodeLine{17 \textcolor{comment}{ * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR}}
+\DoxyCodeLine{18 \textcolor{comment}{ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER}}
+\DoxyCodeLine{19 \textcolor{comment}{ * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN}}
+\DoxyCodeLine{20 \textcolor{comment}{ * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.}}
+\DoxyCodeLine{21 \textcolor{comment}{ *}}
+\DoxyCodeLine{22 \textcolor{comment}{ * https://www.FreeRTOS.org}}
+\DoxyCodeLine{23 \textcolor{comment}{ * https://github.com/FreeRTOS}}
+\DoxyCodeLine{24 \textcolor{comment}{ *}}
+\DoxyCodeLine{25 \textcolor{comment}{ */}}
+\DoxyCodeLine{26 }
+\DoxyCodeLine{27 \textcolor{preprocessor}{\#ifndef EVENT\_GROUPS\_H}}
+\DoxyCodeLine{28 \textcolor{preprocessor}{\#define EVENT\_GROUPS\_H}}
+\DoxyCodeLine{29 }
+\DoxyCodeLine{30 \textcolor{preprocessor}{\#ifndef INC\_ARDUINO\_FREERTOS\_H}}
+\DoxyCodeLine{31 \textcolor{preprocessor}{    \#error "{}include Arduino\_FreeRTOS.h"{}} must appear in source files before "{}include event\_groups.h"{}}
+\DoxyCodeLine{32 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{33 }
+\DoxyCodeLine{34 \textcolor{comment}{/* FreeRTOS includes. */}}
+\DoxyCodeLine{35 \textcolor{preprocessor}{\#include "{}timers.h"{}}}
+\DoxyCodeLine{36 }
+\DoxyCodeLine{37 \textcolor{comment}{/* *INDENT-\/OFF* */}}
+\DoxyCodeLine{38 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{39     \textcolor{keyword}{extern} \textcolor{stringliteral}{"{}C"{}} \{}
+\DoxyCodeLine{40 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{41 \textcolor{comment}{/* *INDENT-\/ON* */}}
+\DoxyCodeLine{42 }
+\DoxyCodeLine{82 \textcolor{keyword}{struct }\mbox{\hyperlink{structEventGroupDef__t}{EventGroupDef\_t}};}
+\DoxyCodeLine{83 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{structEventGroupDef__t}{EventGroupDef\_t}}   * \mbox{\hyperlink{structEventGroupDef__t}{EventGroupHandle\_t}};}
+\DoxyCodeLine{84 }
+\DoxyCodeLine{85 \textcolor{comment}{/*}}
+\DoxyCodeLine{86 \textcolor{comment}{ * The type that holds event bits always matches TickType\_t -\/ therefore the}}
+\DoxyCodeLine{87 \textcolor{comment}{ * number of bits it holds is set by configUSE\_16\_BIT\_TICKS (16 bits if set to 1,}}
+\DoxyCodeLine{88 \textcolor{comment}{ * 32 bits if set to 0.}}
+\DoxyCodeLine{89 \textcolor{comment}{ *}}
+\DoxyCodeLine{90 \textcolor{comment}{ * \(\backslash\)defgroup EventBits\_t EventBits\_t}}
+\DoxyCodeLine{91 \textcolor{comment}{ * \(\backslash\)ingroup EventGroup}}
+\DoxyCodeLine{92 \textcolor{comment}{ */}}
+\DoxyCodeLine{93 \textcolor{keyword}{typedef} TickType\_t               EventBits\_t;}
+\DoxyCodeLine{94 }
+\DoxyCodeLine{147 \textcolor{preprocessor}{\#if ( configSUPPORT\_DYNAMIC\_ALLOCATION == 1 )}}
+\DoxyCodeLine{148     \mbox{\hyperlink{structEventGroupDef__t}{EventGroupHandle\_t}} xEventGroupCreate( \textcolor{keywordtype}{void} ) PRIVILEGED\_FUNCTION;}
+\DoxyCodeLine{149 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{150 }
+\DoxyCodeLine{200 \textcolor{preprocessor}{\#if ( configSUPPORT\_STATIC\_ALLOCATION == 1 )}}
+\DoxyCodeLine{201     \mbox{\hyperlink{structEventGroupDef__t}{EventGroupHandle\_t}} xEventGroupCreateStatic( \mbox{\hyperlink{structxSTATIC__EVENT__GROUP}{StaticEventGroup\_t}} * pxEventGroupBuffer ) PRIVILEGED\_FUNCTION;}
+\DoxyCodeLine{202 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{203 }
+\DoxyCodeLine{296 EventBits\_t xEventGroupWaitBits( \mbox{\hyperlink{structEventGroupDef__t}{EventGroupHandle\_t}} xEventGroup,}
+\DoxyCodeLine{297                                  \textcolor{keyword}{const} EventBits\_t uxBitsToWaitFor,}
+\DoxyCodeLine{298                                  \textcolor{keyword}{const} BaseType\_t xClearOnExit,}
+\DoxyCodeLine{299                                  \textcolor{keyword}{const} BaseType\_t xWaitForAllBits,}
+\DoxyCodeLine{300                                  TickType\_t xTicksToWait ) PRIVILEGED\_FUNCTION;}
+\DoxyCodeLine{301 }
+\DoxyCodeLine{357 EventBits\_t xEventGroupClearBits( \mbox{\hyperlink{structEventGroupDef__t}{EventGroupHandle\_t}} xEventGroup,}
+\DoxyCodeLine{358                                   \textcolor{keyword}{const} EventBits\_t uxBitsToClear ) PRIVILEGED\_FUNCTION;}
+\DoxyCodeLine{359 }
+\DoxyCodeLine{413 \textcolor{preprocessor}{\#if ( configUSE\_TRACE\_FACILITY == 1 )}}
+\DoxyCodeLine{414     BaseType\_t xEventGroupClearBitsFromISR( \mbox{\hyperlink{structEventGroupDef__t}{EventGroupHandle\_t}} xEventGroup,}
+\DoxyCodeLine{415                                             \textcolor{keyword}{const} EventBits\_t uxBitsToClear ) PRIVILEGED\_FUNCTION;}
+\DoxyCodeLine{416 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{417 \textcolor{preprocessor}{    \#define xEventGroupClearBitsFromISR( xEventGroup, uxBitsToClear ) \(\backslash\)}}
+\DoxyCodeLine{418 \textcolor{preprocessor}{    xTimerPendFunctionCallFromISR( vEventGroupClearBitsCallback, ( void * ) xEventGroup, ( uint32\_t ) uxBitsToClear, NULL )}}
+\DoxyCodeLine{419 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{420 }
+\DoxyCodeLine{493 EventBits\_t xEventGroupSetBits( \mbox{\hyperlink{structEventGroupDef__t}{EventGroupHandle\_t}} xEventGroup,}
+\DoxyCodeLine{494                                 \textcolor{keyword}{const} EventBits\_t uxBitsToSet ) PRIVILEGED\_FUNCTION;}
+\DoxyCodeLine{495 }
+\DoxyCodeLine{568 \textcolor{preprocessor}{\#if ( configUSE\_TRACE\_FACILITY == 1 )}}
+\DoxyCodeLine{569     BaseType\_t xEventGroupSetBitsFromISR( \mbox{\hyperlink{structEventGroupDef__t}{EventGroupHandle\_t}} xEventGroup,}
+\DoxyCodeLine{570                                           \textcolor{keyword}{const} EventBits\_t uxBitsToSet,}
+\DoxyCodeLine{571                                           BaseType\_t * pxHigherPriorityTaskWoken ) PRIVILEGED\_FUNCTION;}
+\DoxyCodeLine{572 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{573 \textcolor{preprocessor}{    \#define xEventGroupSetBitsFromISR( xEventGroup, uxBitsToSet, pxHigherPriorityTaskWoken ) \(\backslash\)}}
+\DoxyCodeLine{574 \textcolor{preprocessor}{    xTimerPendFunctionCallFromISR( vEventGroupSetBitsCallback, ( void * ) xEventGroup, ( uint32\_t ) uxBitsToSet, pxHigherPriorityTaskWoken )}}
+\DoxyCodeLine{575 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{576 }
+\DoxyCodeLine{701 EventBits\_t xEventGroupSync( \mbox{\hyperlink{structEventGroupDef__t}{EventGroupHandle\_t}} xEventGroup,}
+\DoxyCodeLine{702                              \textcolor{keyword}{const} EventBits\_t uxBitsToSet,}
+\DoxyCodeLine{703                              \textcolor{keyword}{const} EventBits\_t uxBitsToWaitFor,}
+\DoxyCodeLine{704                              TickType\_t xTicksToWait ) PRIVILEGED\_FUNCTION;}
+\DoxyCodeLine{705 }
+\DoxyCodeLine{706 }
+\DoxyCodeLine{723 \textcolor{preprocessor}{\#define xEventGroupGetBits( xEventGroup )    xEventGroupClearBits( xEventGroup, 0 )}}
+\DoxyCodeLine{724 }
+\DoxyCodeLine{740 EventBits\_t xEventGroupGetBitsFromISR( \mbox{\hyperlink{structEventGroupDef__t}{EventGroupHandle\_t}} xEventGroup ) PRIVILEGED\_FUNCTION;}
+\DoxyCodeLine{741 }
+\DoxyCodeLine{754 \textcolor{keywordtype}{void} vEventGroupDelete( \mbox{\hyperlink{structEventGroupDef__t}{EventGroupHandle\_t}} xEventGroup ) PRIVILEGED\_FUNCTION;}
+\DoxyCodeLine{755 }
+\DoxyCodeLine{756 \textcolor{comment}{/* For internal use only. */}}
+\DoxyCodeLine{757 \textcolor{keywordtype}{void} vEventGroupSetBitsCallback( \textcolor{keywordtype}{void} * pvEventGroup,}
+\DoxyCodeLine{758                                  \textcolor{keyword}{const} uint32\_t ulBitsToSet ) PRIVILEGED\_FUNCTION;}
+\DoxyCodeLine{759 \textcolor{keywordtype}{void} vEventGroupClearBitsCallback( \textcolor{keywordtype}{void} * pvEventGroup,}
+\DoxyCodeLine{760                                    \textcolor{keyword}{const} uint32\_t ulBitsToClear ) PRIVILEGED\_FUNCTION;}
+\DoxyCodeLine{761 }
+\DoxyCodeLine{762 }
+\DoxyCodeLine{763 \textcolor{preprocessor}{\#if ( configUSE\_TRACE\_FACILITY == 1 )}}
+\DoxyCodeLine{764     UBaseType\_t uxEventGroupGetNumber( \textcolor{keywordtype}{void} * xEventGroup ) PRIVILEGED\_FUNCTION;}
+\DoxyCodeLine{765     \textcolor{keywordtype}{void} vEventGroupSetNumber( \textcolor{keywordtype}{void} * xEventGroup,}
+\DoxyCodeLine{766                                UBaseType\_t uxEventGroupNumber ) PRIVILEGED\_FUNCTION;}
+\DoxyCodeLine{767 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{768 }
+\DoxyCodeLine{769 \textcolor{comment}{/* *INDENT-\/OFF* */}}
+\DoxyCodeLine{770 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{771     \}}
+\DoxyCodeLine{772 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{773 \textcolor{comment}{/* *INDENT-\/ON* */}}
+\DoxyCodeLine{774 }
+\DoxyCodeLine{775 \textcolor{preprocessor}{\#endif }\textcolor{comment}{/* EVENT\_GROUPS\_H */}\textcolor{preprocessor}{}}
+
+\end{DoxyCode}

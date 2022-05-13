@@ -1,0 +1,13 @@
+\hypertarget{group__xTaskNotifyAndQueryIndexedFromISR}{}\doxysection{x\+Task\+Notify\+And\+Query\+Indexed\+From\+ISR}
+\label{group__xTaskNotifyAndQueryIndexedFromISR}\index{xTaskNotifyAndQueryIndexedFromISR@{xTaskNotifyAndQueryIndexedFromISR}}
+task. h 
+\begin{DoxyPre}BaseType\_t xTaskNotifyAndQueryIndexedFromISR( TaskHandle\_t xTaskToNotify, UBaseType\_t uxIndexToNotify, uint32\_t ulValue, eNotifyAction eAction, uint32\_t *pulPreviousNotificationValue, BaseType\_t *pxHigherPriorityTaskWoken );\end{DoxyPre}
+ 
+\begin{DoxyPre}BaseType\_t xTaskNotifyAndQueryFromISR( TaskHandle\_t xTaskToNotify, uint32\_t ulValue, eNotifyAction eAction, uint32\_t *pulPreviousNotificationValue, BaseType\_t *pxHigherPriorityTaskWoken );\end{DoxyPre}
+
+
+See \href{https://www.FreeRTOS.org/RTOS-task-notifications.html}{\texttt{ https\+://www.\+Free\+RTOS.\+org/\+RTOS-\/task-\/notifications.\+html}} for details.
+
+x\+Task\+Notify\+And\+Query\+Indexed\+From\+ISR() performs the same operation as x\+Task\+Notify\+Indexed\+From\+ISR() with the addition that it also returns the subject task\textquotesingle{}s prior notification value (the notification value at the time the function is called rather than at the time the function returns) in the additional pul\+Previous\+Notify\+Value parameter.
+
+x\+Task\+Notify\+And\+Query\+From\+ISR() performs the same operation as x\+Task\+Notify\+From\+ISR() with the addition that it also returns the subject task\textquotesingle{}s prior notification value (the notification value at the time the function is called rather than at the time the function returns) in the additional pul\+Previous\+Notify\+Value parameter. 

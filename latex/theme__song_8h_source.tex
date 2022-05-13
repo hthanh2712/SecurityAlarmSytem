@@ -1,0 +1,25 @@
+\hypertarget{theme__song_8h_source}{}\doxysection{theme\+\_\+song.\+h}
+\label{theme__song_8h_source}\index{include/theme\_song.h@{include/theme\_song.h}}
+\mbox{\hyperlink{theme__song_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#include <Arduino.h>}}
+\DoxyCodeLine{2 }
+\DoxyCodeLine{3 \textcolor{preprocessor}{\#define NOTE\_d4 426 }\textcolor{comment}{// 293 Hz}}
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#define NOTE\_e4 379 }\textcolor{comment}{// 329 Hz}}
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#define NOTE\_c4 479 }\textcolor{comment}{// 261 Hz}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#define NOTE\_c3 961 }\textcolor{comment}{// 130 Hz}}
+\DoxyCodeLine{7 \textcolor{preprocessor}{\#define NOTE\_g3 637 }\textcolor{comment}{// 196 Hz}}
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#define NOTE\_null 0 }\textcolor{comment}{// pause}}
+\DoxyCodeLine{9 }
+\DoxyCodeLine{10 \textcolor{comment}{// Setup speaker}}
+\DoxyCodeLine{11 \textcolor{preprocessor}{\#define SPEAKERDDR DDRL }\textcolor{comment}{// DDR for speaker}}
+\DoxyCodeLine{12 \textcolor{preprocessor}{\#define TIMER5\_CONTROL\_REG\_A TCCR5A }\textcolor{comment}{// speaker control register A}}
+\DoxyCodeLine{13 \textcolor{preprocessor}{\#define TIMER5\_CONTROL\_REG\_B TCCR5B }\textcolor{comment}{// speaker control register B}}
+\DoxyCodeLine{14 \textcolor{preprocessor}{\#define TIMER5\_TOGGLE OCR5A }\textcolor{comment}{// toggle bit for speaker, on pin D46 (PL3)}}
+\DoxyCodeLine{15 }
+\DoxyCodeLine{16 \textcolor{keyword}{extern} \textcolor{keywordtype}{int} \mbox{\hyperlink{theme__song_8h_a67b3bcdab54c81a832f69fc42fd74a4e}{theme\_done}}; \textcolor{comment}{// flag for whether the theme has finished playing}}
+\DoxyCodeLine{17 }
+\DoxyCodeLine{18 \textcolor{keywordtype}{void} \mbox{\hyperlink{theme__song_8h_a578333b257a6d37ba5c4ede0efaf6e39}{theme}}();}
+\DoxyCodeLine{19 \textcolor{keywordtype}{void} \mbox{\hyperlink{theme__song_8h_a2e55eef56532e2bf6b9730e5bf314bb0}{silence}}();}
+
+\end{DoxyCode}

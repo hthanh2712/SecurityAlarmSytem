@@ -1,0 +1,610 @@
+\hypertarget{setup_8h}{}\doxysection{include/setup.h File Reference}
+\label{setup_8h}\index{include/setup.h@{include/setup.h}}
+{\ttfamily \#include $<$Arduino.\+h$>$}\newline
+{\ttfamily \#include $<$arduino\+FFT.\+h$>$}\newline
+{\ttfamily \#include $<$Keypad.\+h$>$}\newline
+{\ttfamily \#include $<$Liquid\+Crystal.\+h$>$}\newline
+{\ttfamily \#include $<$Arduino\+\_\+\+Free\+RTOS.\+h$>$}\newline
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include $<$unistd.\+h$>$}\newline
+{\ttfamily \#include $<$queue.\+h$>$}\newline
+{\ttfamily \#include $<$task.\+h$>$}\newline
+{\ttfamily \#include $<$timers.\+h$>$}\newline
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{setup_8h_a4ad58adf84157aebea2a98cc9402212a}{BIT\+\_\+7}}~(1$<$$<$7)
+\item 
+\#define \mbox{\hyperlink{setup_8h_a7ecb78fe8c01d9722a06f10691495309}{BIT\+\_\+6}}~(1$<$$<$6)
+\item 
+\#define \mbox{\hyperlink{setup_8h_aae7fda97814f05bfe68c0f6bb2ef9f11}{BIT\+\_\+5}}~(1$<$$<$5)
+\item 
+\#define \mbox{\hyperlink{setup_8h_a3506434dff748a6be0d75a338a95e673}{BIT\+\_\+4}}~(1$<$$<$4)
+\item 
+\#define \mbox{\hyperlink{setup_8h_a2cad0186598ab53983a3bca9b09b0a51}{BIT\+\_\+3}}~(1$<$$<$3)
+\item 
+\#define \mbox{\hyperlink{setup_8h_ab94e068b5073d729aad6b2aeb613916c}{BIT\+\_\+2}}~(1$<$$<$2)
+\item 
+\#define \mbox{\hyperlink{setup_8h_aec9fa7211b7c9a686f2cd522cad7989d}{BIT\+\_\+1}}~(1$<$$<$1)
+\item 
+\#define \mbox{\hyperlink{setup_8h_add6d2693f5d356b091088437148f939b}{BIT\+\_\+0}}~(1$<$$<$0)
+\item 
+\#define \mbox{\hyperlink{setup_8h_afc9565c547105e5535bd356fa93ae10b}{LEDPORT}}~PORTB
+\item 
+\#define \mbox{\hyperlink{setup_8h_a4e61b89de08b0b5ee01b8d31e4be4a83}{LEDDDR}}~DDRB
+\item 
+\#define \mbox{\hyperlink{setup_8h_aa64197f9f23694a693e56046b6e87b71}{BUZZERDDR}}~DDRH
+\item 
+\#define \mbox{\hyperlink{setup_8h_a3db165c7284863dc58c9e915117157bf}{TIMER4\+\_\+\+CONTROL\+\_\+\+REG\+\_\+A}}~TCCR4A
+\item 
+\#define \mbox{\hyperlink{setup_8h_af3812e44c3a5217ea45b75331453c6c3}{TIMER4\+\_\+\+CONTROL\+\_\+\+REG\+\_\+B}}~TCCR4B
+\item 
+\#define \mbox{\hyperlink{setup_8h_ac3d2a2dfd370d8c43198383c5f65a1b2}{TIMER4\+\_\+\+TOGGLE}}~OCR4C
+\item 
+\#define \mbox{\hyperlink{setup_8h_afcd6c956d61bae72be8624a9c5afab18}{TRIGPIN\+\_\+\+PORT}}~PORTH
+\item 
+\#define \mbox{\hyperlink{setup_8h_a27a8a49c193a8de59602f827e2340797}{TRIGPIN\+\_\+\+DDR}}~DDRH
+\item 
+\#define \mbox{\hyperlink{setup_8h_afec4de25b85dea7422d7ef274e005f59}{ECHOPIN\+\_\+\+PORT}}~PORTB
+\item 
+\#define \mbox{\hyperlink{setup_8h_aa8977475694dcf87ae4cae03c213f839}{ECHOPIN\+\_\+\+DDR}}~DDRB
+\item 
+\#define \mbox{\hyperlink{setup_8h_a56811be58e9ac98a4d85f1af9e973453}{echo\+Pin}}~10
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{setup_8h_a749f67d48321416b08ec4902c010634c}{Task\+Blink\+\_\+\+Off\+Board}} (void $\ast$pv\+Parameters)
+\begin{DoxyCompactList}\small\item\em Task RT-\/1\+: Blink offboard LED at a rate of 100ms on and 200ms off, repeatedly. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{setup_8h_a960b642b2eecb120b20d79b01ca3cba2}{Task\+Playing\+Tone}} (void $\ast$pv\+Parameters)
+\begin{DoxyCompactList}\small\item\em Task RT-\/2\+: Play \char`\"{}\+Close Encounters Theme three times with 1.\+5s pause between playbacks.\char`\"{}. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{setup_8h_a7ca3e95963bf383119e73f529d418f80}{RT3p0}} (void $\ast$pv\+Parameters)
+\begin{DoxyCompactList}\small\item\em Task RT-\/3p0\+: Generates an array of N pseudorandom doubles, initializes a Free\+RTOS queue, then calls Task RT-\/3p1. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{setup_8h_acf7572117322f265d1801d58d8db459a}{RT3p1}} (void $\ast$pv\+Parameters)
+\begin{DoxyCompactList}\small\item\em Task RT3p1\+: Blocks other tasks and signals for the FFT to run. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{setup_8h_a204bcb9974cf5833867f103552e0c4c0}{RT4}} (void $\ast$pv\+Parameters)
+\begin{DoxyCompactList}\small\item\em Calculate FFT and report the \char`\"{}wall-\/clock time\char`\"{} taken by the FFT. \end{DoxyCompactList}\item 
+Liquid\+Crystal \mbox{\hyperlink{setup_8h_a9677c0437ba3c61c5b13ec0323ac5c32}{lcd}} (1, 2, 4, 5, 6, 7)
+\item 
+void \mbox{\hyperlink{setup_8h_a3d3beba9d8dd8f6cb4b31d4395404054}{Task\+\_\+\+Blink\+Off\+Board}} (void $\ast$pv\+Parameters)
+\begin{DoxyCompactList}\small\item\em Task RT-\/1\+: Turns an off-\/board LED ON for 100 ms, then OFF for 200ms, repeatedly. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{setup_8h_a9b37e02004df4d0fff15866ca16eaad5}{Task\+\_\+\+Activate\+Alarm}} (void $\ast$pv\+Parameters)
+\begin{DoxyCompactList}\small\item\em Arms the alarm system. Displays countdown on LCD and triggers auditory and visual alarms if correct passcode is not entered during the countdown. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{setup_8h_a67dec0da8281fc172bc5287421c4f924}{Task\+\_\+\+Check\+Alarm}} (void $\ast$pv\+Parameters)
+\begin{DoxyCompactList}\small\item\em Polls the ultrasonic sensor to determine if there is something \char`\"{}close\char`\"{} to the sensor. Triggers password request when approached. If alarm is not activate, choose between two options -\/ activate or change passcode. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{setup_8h_a1745a3d13d3c2bf9e87fabf59bd4617a}{handle\+LED}} (void $\ast$pv\+Parameters)
+\begin{DoxyCompactList}\small\item\em Initialize the alarm\textquotesingle{}s LED. If the alarm is activated, turn on the LED. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{setup_8h_a276b396ddefc68352790255cc68a87ca}{handle\+Buzz}} (void $\ast$pv\+Parameters)
+\begin{DoxyCompactList}\small\item\em Initialize the buzzer. If the alarm is activates and the distance is closer, turn on the buzzer until entering correct password. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{setup_8h_adde299440aa8a50af78dc0a705748697}{enter\+Password}} ()
+\begin{DoxyCompactList}\small\item\em Handles password entry via the keypad. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{setup_8h_ae85428f19548b3f1f5cb295c2591342f}{change\+Password}} ()
+\begin{DoxyCompactList}\small\item\em Changes the passcode via the keypad. \end{DoxyCompactList}\item 
+long \mbox{\hyperlink{setup_8h_abd565138f43c1381fc6f87deab386be7}{get\+Distance}} ()
+\begin{DoxyCompactList}\small\item\em Get the measured distance from the ultrasonic sensor. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{setup_8h_a0ceaee687a22fd7c75c815f825bde1df}{buzzer\+On}} ()
+\begin{DoxyCompactList}\small\item\em Turns the buzzer on when called. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{setup_8h_a94813053b130fc29c9be01d98c30c577}{buzzer\+Off}} ()
+\begin{DoxyCompactList}\small\item\em Turns the buzzer off when called. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+long \mbox{\hyperlink{setup_8h_a49411c0db3bc12e9d548e069021b0645}{duration}}
+\item 
+int \mbox{\hyperlink{setup_8h_afb9412686cd344ad61757c1c19ba8a87}{distance}}
+\item 
+int \mbox{\hyperlink{setup_8h_aca4a027565bb0aedac75f5a293317b2e}{initial\+Distance}}
+\item 
+int \mbox{\hyperlink{setup_8h_a249f5e1e3c8affcc05b3572cdfe24164}{current\+Distance}}
+\item 
+int \mbox{\hyperlink{setup_8h_acb559820d9ca11295b4500f179ef6392}{i}}
+\item 
+int \mbox{\hyperlink{setup_8h_a928e85a922e156af9aa25d972c18181a}{screen\+Off\+Msg}} =0
+\item 
+String \mbox{\hyperlink{setup_8h_acbd76b816d055b7a642c219fd9751020}{password}} =\char`\"{}0000\char`\"{}
+\item 
+String \mbox{\hyperlink{setup_8h_a309b0772394b2ea6887b2e82bb42bd94}{temp\+Password}}
+\item 
+boolean \mbox{\hyperlink{setup_8h_ac9adbb85bed6f840b1bad3c05ff7a851}{activated}} = false
+\item 
+boolean \mbox{\hyperlink{setup_8h_aeb6a6c42b44694fa3ffab75cbcb6a903}{is\+Activated}}
+\item 
+boolean \mbox{\hyperlink{setup_8h_a096e308fe7c0a07aaf410a7121072d47}{activate\+Alarm}} = false
+\item 
+boolean \mbox{\hyperlink{setup_8h_a933c355fe98ae57807d050e8d7795d59}{alarm\+Activated}} = false
+\item 
+boolean \mbox{\hyperlink{setup_8h_a5c90cfaf4c7c68337214e85f5b066bc2}{entered\+Password}}
+\item 
+boolean \mbox{\hyperlink{setup_8h_a4ac9c13b2dc6a9a8ff311eea950ccdf5}{pass\+Change\+Mode}} = false
+\item 
+boolean \mbox{\hyperlink{setup_8h_aa7d04818226ec40f4b94602e449a0160}{pass\+Changed}} = false
+\item 
+const byte \mbox{\hyperlink{setup_8h_a829655a147df70dd4cc94eae40a2204e}{ROWS}} = 4
+\item 
+const byte \mbox{\hyperlink{setup_8h_aefd90f1160eaa105bc910d4d7c46b815}{COLS}} = 4
+\item 
+char \mbox{\hyperlink{setup_8h_a2bc32809e2da2cf4d1c5d8068d1cebe2}{keypressed}}
+\item 
+char \mbox{\hyperlink{setup_8h_abac26e7dc1b1e77065c58597699bda3d}{key\+Map}} \mbox{[}\mbox{\hyperlink{setup_8h_a829655a147df70dd4cc94eae40a2204e}{ROWS}}\mbox{]}\mbox{[}\mbox{\hyperlink{setup_8h_aefd90f1160eaa105bc910d4d7c46b815}{COLS}}\mbox{]}
+\item 
+byte \mbox{\hyperlink{setup_8h_a6d6753e0ae098b31e2f84d4024e361cf}{row\+Pins}} \mbox{[}\mbox{\hyperlink{setup_8h_a829655a147df70dd4cc94eae40a2204e}{ROWS}}\mbox{]} = \{14, 15, 16, 17\}
+\item 
+byte \mbox{\hyperlink{setup_8h_aa9fece7b062124080e4b2976f9a8b675}{col\+Pins}} \mbox{[}\mbox{\hyperlink{setup_8h_aefd90f1160eaa105bc910d4d7c46b815}{COLS}}\mbox{]} = \{18, 19, 20, 21\}
+\item 
+Keypad \mbox{\hyperlink{setup_8h_a3adfe9ec4b25ddbe7c2450ab09a47886}{my\+Keypad}} = Keypad( make\+Keymap(\mbox{\hyperlink{setup_8h_abac26e7dc1b1e77065c58597699bda3d}{key\+Map}}), \mbox{\hyperlink{setup_8h_a6d6753e0ae098b31e2f84d4024e361cf}{row\+Pins}}, \mbox{\hyperlink{setup_8h_aa9fece7b062124080e4b2976f9a8b675}{col\+Pins}}, \mbox{\hyperlink{setup_8h_a829655a147df70dd4cc94eae40a2204e}{ROWS}}, \mbox{\hyperlink{setup_8h_aefd90f1160eaa105bc910d4d7c46b815}{COLS}})
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{setup_8h_add6d2693f5d356b091088437148f939b}\label{setup_8h_add6d2693f5d356b091088437148f939b}} 
+\index{setup.h@{setup.h}!BIT\_0@{BIT\_0}}
+\index{BIT\_0@{BIT\_0}!setup.h@{setup.h}}
+\doxysubsubsection{\texorpdfstring{BIT\_0}{BIT\_0}}
+{\footnotesize\ttfamily \#define BIT\+\_\+0~(1$<$$<$0)}
+
+\mbox{\Hypertarget{setup_8h_aec9fa7211b7c9a686f2cd522cad7989d}\label{setup_8h_aec9fa7211b7c9a686f2cd522cad7989d}} 
+\index{setup.h@{setup.h}!BIT\_1@{BIT\_1}}
+\index{BIT\_1@{BIT\_1}!setup.h@{setup.h}}
+\doxysubsubsection{\texorpdfstring{BIT\_1}{BIT\_1}}
+{\footnotesize\ttfamily \#define BIT\+\_\+1~(1$<$$<$1)}
+
+\mbox{\Hypertarget{setup_8h_ab94e068b5073d729aad6b2aeb613916c}\label{setup_8h_ab94e068b5073d729aad6b2aeb613916c}} 
+\index{setup.h@{setup.h}!BIT\_2@{BIT\_2}}
+\index{BIT\_2@{BIT\_2}!setup.h@{setup.h}}
+\doxysubsubsection{\texorpdfstring{BIT\_2}{BIT\_2}}
+{\footnotesize\ttfamily \#define BIT\+\_\+2~(1$<$$<$2)}
+
+\mbox{\Hypertarget{setup_8h_a2cad0186598ab53983a3bca9b09b0a51}\label{setup_8h_a2cad0186598ab53983a3bca9b09b0a51}} 
+\index{setup.h@{setup.h}!BIT\_3@{BIT\_3}}
+\index{BIT\_3@{BIT\_3}!setup.h@{setup.h}}
+\doxysubsubsection{\texorpdfstring{BIT\_3}{BIT\_3}}
+{\footnotesize\ttfamily \#define BIT\+\_\+3~(1$<$$<$3)}
+
+\mbox{\Hypertarget{setup_8h_a3506434dff748a6be0d75a338a95e673}\label{setup_8h_a3506434dff748a6be0d75a338a95e673}} 
+\index{setup.h@{setup.h}!BIT\_4@{BIT\_4}}
+\index{BIT\_4@{BIT\_4}!setup.h@{setup.h}}
+\doxysubsubsection{\texorpdfstring{BIT\_4}{BIT\_4}}
+{\footnotesize\ttfamily \#define BIT\+\_\+4~(1$<$$<$4)}
+
+\mbox{\Hypertarget{setup_8h_aae7fda97814f05bfe68c0f6bb2ef9f11}\label{setup_8h_aae7fda97814f05bfe68c0f6bb2ef9f11}} 
+\index{setup.h@{setup.h}!BIT\_5@{BIT\_5}}
+\index{BIT\_5@{BIT\_5}!setup.h@{setup.h}}
+\doxysubsubsection{\texorpdfstring{BIT\_5}{BIT\_5}}
+{\footnotesize\ttfamily \#define BIT\+\_\+5~(1$<$$<$5)}
+
+\mbox{\Hypertarget{setup_8h_a7ecb78fe8c01d9722a06f10691495309}\label{setup_8h_a7ecb78fe8c01d9722a06f10691495309}} 
+\index{setup.h@{setup.h}!BIT\_6@{BIT\_6}}
+\index{BIT\_6@{BIT\_6}!setup.h@{setup.h}}
+\doxysubsubsection{\texorpdfstring{BIT\_6}{BIT\_6}}
+{\footnotesize\ttfamily \#define BIT\+\_\+6~(1$<$$<$6)}
+
+\mbox{\Hypertarget{setup_8h_a4ad58adf84157aebea2a98cc9402212a}\label{setup_8h_a4ad58adf84157aebea2a98cc9402212a}} 
+\index{setup.h@{setup.h}!BIT\_7@{BIT\_7}}
+\index{BIT\_7@{BIT\_7}!setup.h@{setup.h}}
+\doxysubsubsection{\texorpdfstring{BIT\_7}{BIT\_7}}
+{\footnotesize\ttfamily \#define BIT\+\_\+7~(1$<$$<$7)}
+
+\mbox{\Hypertarget{setup_8h_aa64197f9f23694a693e56046b6e87b71}\label{setup_8h_aa64197f9f23694a693e56046b6e87b71}} 
+\index{setup.h@{setup.h}!BUZZERDDR@{BUZZERDDR}}
+\index{BUZZERDDR@{BUZZERDDR}!setup.h@{setup.h}}
+\doxysubsubsection{\texorpdfstring{BUZZERDDR}{BUZZERDDR}}
+{\footnotesize\ttfamily \#define BUZZERDDR~DDRH}
+
+\mbox{\Hypertarget{setup_8h_a56811be58e9ac98a4d85f1af9e973453}\label{setup_8h_a56811be58e9ac98a4d85f1af9e973453}} 
+\index{setup.h@{setup.h}!echoPin@{echoPin}}
+\index{echoPin@{echoPin}!setup.h@{setup.h}}
+\doxysubsubsection{\texorpdfstring{echoPin}{echoPin}}
+{\footnotesize\ttfamily \#define echo\+Pin~10}
+
+\mbox{\Hypertarget{setup_8h_aa8977475694dcf87ae4cae03c213f839}\label{setup_8h_aa8977475694dcf87ae4cae03c213f839}} 
+\index{setup.h@{setup.h}!ECHOPIN\_DDR@{ECHOPIN\_DDR}}
+\index{ECHOPIN\_DDR@{ECHOPIN\_DDR}!setup.h@{setup.h}}
+\doxysubsubsection{\texorpdfstring{ECHOPIN\_DDR}{ECHOPIN\_DDR}}
+{\footnotesize\ttfamily \#define ECHOPIN\+\_\+\+DDR~DDRB}
+
+\mbox{\Hypertarget{setup_8h_afec4de25b85dea7422d7ef274e005f59}\label{setup_8h_afec4de25b85dea7422d7ef274e005f59}} 
+\index{setup.h@{setup.h}!ECHOPIN\_PORT@{ECHOPIN\_PORT}}
+\index{ECHOPIN\_PORT@{ECHOPIN\_PORT}!setup.h@{setup.h}}
+\doxysubsubsection{\texorpdfstring{ECHOPIN\_PORT}{ECHOPIN\_PORT}}
+{\footnotesize\ttfamily \#define ECHOPIN\+\_\+\+PORT~PORTB}
+
+\mbox{\Hypertarget{setup_8h_a4e61b89de08b0b5ee01b8d31e4be4a83}\label{setup_8h_a4e61b89de08b0b5ee01b8d31e4be4a83}} 
+\index{setup.h@{setup.h}!LEDDDR@{LEDDDR}}
+\index{LEDDDR@{LEDDDR}!setup.h@{setup.h}}
+\doxysubsubsection{\texorpdfstring{LEDDDR}{LEDDDR}}
+{\footnotesize\ttfamily \#define LEDDDR~DDRB}
+
+\mbox{\Hypertarget{setup_8h_afc9565c547105e5535bd356fa93ae10b}\label{setup_8h_afc9565c547105e5535bd356fa93ae10b}} 
+\index{setup.h@{setup.h}!LEDPORT@{LEDPORT}}
+\index{LEDPORT@{LEDPORT}!setup.h@{setup.h}}
+\doxysubsubsection{\texorpdfstring{LEDPORT}{LEDPORT}}
+{\footnotesize\ttfamily \#define LEDPORT~PORTB}
+
+\mbox{\Hypertarget{setup_8h_a3db165c7284863dc58c9e915117157bf}\label{setup_8h_a3db165c7284863dc58c9e915117157bf}} 
+\index{setup.h@{setup.h}!TIMER4\_CONTROL\_REG\_A@{TIMER4\_CONTROL\_REG\_A}}
+\index{TIMER4\_CONTROL\_REG\_A@{TIMER4\_CONTROL\_REG\_A}!setup.h@{setup.h}}
+\doxysubsubsection{\texorpdfstring{TIMER4\_CONTROL\_REG\_A}{TIMER4\_CONTROL\_REG\_A}}
+{\footnotesize\ttfamily \#define TIMER4\+\_\+\+CONTROL\+\_\+\+REG\+\_\+A~TCCR4A}
+
+\mbox{\Hypertarget{setup_8h_af3812e44c3a5217ea45b75331453c6c3}\label{setup_8h_af3812e44c3a5217ea45b75331453c6c3}} 
+\index{setup.h@{setup.h}!TIMER4\_CONTROL\_REG\_B@{TIMER4\_CONTROL\_REG\_B}}
+\index{TIMER4\_CONTROL\_REG\_B@{TIMER4\_CONTROL\_REG\_B}!setup.h@{setup.h}}
+\doxysubsubsection{\texorpdfstring{TIMER4\_CONTROL\_REG\_B}{TIMER4\_CONTROL\_REG\_B}}
+{\footnotesize\ttfamily \#define TIMER4\+\_\+\+CONTROL\+\_\+\+REG\+\_\+B~TCCR4B}
+
+\mbox{\Hypertarget{setup_8h_ac3d2a2dfd370d8c43198383c5f65a1b2}\label{setup_8h_ac3d2a2dfd370d8c43198383c5f65a1b2}} 
+\index{setup.h@{setup.h}!TIMER4\_TOGGLE@{TIMER4\_TOGGLE}}
+\index{TIMER4\_TOGGLE@{TIMER4\_TOGGLE}!setup.h@{setup.h}}
+\doxysubsubsection{\texorpdfstring{TIMER4\_TOGGLE}{TIMER4\_TOGGLE}}
+{\footnotesize\ttfamily \#define TIMER4\+\_\+\+TOGGLE~OCR4C}
+
+\mbox{\Hypertarget{setup_8h_a27a8a49c193a8de59602f827e2340797}\label{setup_8h_a27a8a49c193a8de59602f827e2340797}} 
+\index{setup.h@{setup.h}!TRIGPIN\_DDR@{TRIGPIN\_DDR}}
+\index{TRIGPIN\_DDR@{TRIGPIN\_DDR}!setup.h@{setup.h}}
+\doxysubsubsection{\texorpdfstring{TRIGPIN\_DDR}{TRIGPIN\_DDR}}
+{\footnotesize\ttfamily \#define TRIGPIN\+\_\+\+DDR~DDRH}
+
+\mbox{\Hypertarget{setup_8h_afcd6c956d61bae72be8624a9c5afab18}\label{setup_8h_afcd6c956d61bae72be8624a9c5afab18}} 
+\index{setup.h@{setup.h}!TRIGPIN\_PORT@{TRIGPIN\_PORT}}
+\index{TRIGPIN\_PORT@{TRIGPIN\_PORT}!setup.h@{setup.h}}
+\doxysubsubsection{\texorpdfstring{TRIGPIN\_PORT}{TRIGPIN\_PORT}}
+{\footnotesize\ttfamily \#define TRIGPIN\+\_\+\+PORT~PORTH}
+
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{setup_8h_a94813053b130fc29c9be01d98c30c577}\label{setup_8h_a94813053b130fc29c9be01d98c30c577}} 
+\index{setup.h@{setup.h}!buzzerOff@{buzzerOff}}
+\index{buzzerOff@{buzzerOff}!setup.h@{setup.h}}
+\doxysubsubsection{\texorpdfstring{buzzerOff()}{buzzerOff()}}
+{\footnotesize\ttfamily void buzzer\+Off (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Turns the buzzer off when called. 
+
+\mbox{\Hypertarget{setup_8h_a0ceaee687a22fd7c75c815f825bde1df}\label{setup_8h_a0ceaee687a22fd7c75c815f825bde1df}} 
+\index{setup.h@{setup.h}!buzzerOn@{buzzerOn}}
+\index{buzzerOn@{buzzerOn}!setup.h@{setup.h}}
+\doxysubsubsection{\texorpdfstring{buzzerOn()}{buzzerOn()}}
+{\footnotesize\ttfamily void buzzer\+On (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Turns the buzzer on when called. 
+
+\mbox{\Hypertarget{setup_8h_ae85428f19548b3f1f5cb295c2591342f}\label{setup_8h_ae85428f19548b3f1f5cb295c2591342f}} 
+\index{setup.h@{setup.h}!changePassword@{changePassword}}
+\index{changePassword@{changePassword}!setup.h@{setup.h}}
+\doxysubsubsection{\texorpdfstring{changePassword()}{changePassword()}}
+{\footnotesize\ttfamily void change\+Password (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Changes the passcode via the keypad. 
+
+\mbox{\Hypertarget{setup_8h_adde299440aa8a50af78dc0a705748697}\label{setup_8h_adde299440aa8a50af78dc0a705748697}} 
+\index{setup.h@{setup.h}!enterPassword@{enterPassword}}
+\index{enterPassword@{enterPassword}!setup.h@{setup.h}}
+\doxysubsubsection{\texorpdfstring{enterPassword()}{enterPassword()}}
+{\footnotesize\ttfamily void enter\+Password (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Handles password entry via the keypad. 
+
+\mbox{\Hypertarget{setup_8h_abd565138f43c1381fc6f87deab386be7}\label{setup_8h_abd565138f43c1381fc6f87deab386be7}} 
+\index{setup.h@{setup.h}!getDistance@{getDistance}}
+\index{getDistance@{getDistance}!setup.h@{setup.h}}
+\doxysubsubsection{\texorpdfstring{getDistance()}{getDistance()}}
+{\footnotesize\ttfamily long get\+Distance (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Get the measured distance from the ultrasonic sensor. 
+
+\begin{DoxyReturn}{Returns}
+long variable distance 
+\end{DoxyReturn}
+\mbox{\Hypertarget{setup_8h_a276b396ddefc68352790255cc68a87ca}\label{setup_8h_a276b396ddefc68352790255cc68a87ca}} 
+\index{setup.h@{setup.h}!handleBuzz@{handleBuzz}}
+\index{handleBuzz@{handleBuzz}!setup.h@{setup.h}}
+\doxysubsubsection{\texorpdfstring{handleBuzz()}{handleBuzz()}}
+{\footnotesize\ttfamily void handle\+Buzz (\begin{DoxyParamCaption}\item[{void $\ast$}]{pv\+Parameters }\end{DoxyParamCaption})}
+
+
+
+Initialize the buzzer. If the alarm is activates and the distance is closer, turn on the buzzer until entering correct password. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pv\+Parameters} & Allocate stack space for parameters. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{setup_8h_a1745a3d13d3c2bf9e87fabf59bd4617a}\label{setup_8h_a1745a3d13d3c2bf9e87fabf59bd4617a}} 
+\index{setup.h@{setup.h}!handleLED@{handleLED}}
+\index{handleLED@{handleLED}!setup.h@{setup.h}}
+\doxysubsubsection{\texorpdfstring{handleLED()}{handleLED()}}
+{\footnotesize\ttfamily void handle\+LED (\begin{DoxyParamCaption}\item[{void $\ast$}]{pv\+Parameters }\end{DoxyParamCaption})}
+
+
+
+Initialize the alarm\textquotesingle{}s LED. If the alarm is activated, turn on the LED. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pv\+Parameters} & Allocate stack space for parameters. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{setup_8h_a9677c0437ba3c61c5b13ec0323ac5c32}\label{setup_8h_a9677c0437ba3c61c5b13ec0323ac5c32}} 
+\index{setup.h@{setup.h}!lcd@{lcd}}
+\index{lcd@{lcd}!setup.h@{setup.h}}
+\doxysubsubsection{\texorpdfstring{lcd()}{lcd()}}
+{\footnotesize\ttfamily Liquid\+Crystal lcd (\begin{DoxyParamCaption}\item[{1}]{,  }\item[{2}]{,  }\item[{4}]{,  }\item[{5}]{,  }\item[{6}]{,  }\item[{7}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{setup_8h_a7ca3e95963bf383119e73f529d418f80}\label{setup_8h_a7ca3e95963bf383119e73f529d418f80}} 
+\index{setup.h@{setup.h}!RT3p0@{RT3p0}}
+\index{RT3p0@{RT3p0}!setup.h@{setup.h}}
+\doxysubsubsection{\texorpdfstring{RT3p0()}{RT3p0()}}
+{\footnotesize\ttfamily void RT3p0 (\begin{DoxyParamCaption}\item[{void $\ast$}]{pv\+Parameters }\end{DoxyParamCaption})}
+
+
+
+Task RT-\/3p0\+: Generates an array of N pseudorandom doubles, initializes a Free\+RTOS queue, then calls Task RT-\/3p1. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pv\+Parameters} & Allocate stack space for parameters. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{setup_8h_acf7572117322f265d1801d58d8db459a}\label{setup_8h_acf7572117322f265d1801d58d8db459a}} 
+\index{setup.h@{setup.h}!RT3p1@{RT3p1}}
+\index{RT3p1@{RT3p1}!setup.h@{setup.h}}
+\doxysubsubsection{\texorpdfstring{RT3p1()}{RT3p1()}}
+{\footnotesize\ttfamily void RT3p1 (\begin{DoxyParamCaption}\item[{void $\ast$}]{pv\+Parameters }\end{DoxyParamCaption})}
+
+
+
+Task RT3p1\+: Blocks other tasks and signals for the FFT to run. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pv\+Parameters} & Allocates stack space for parameters. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{setup_8h_a204bcb9974cf5833867f103552e0c4c0}\label{setup_8h_a204bcb9974cf5833867f103552e0c4c0}} 
+\index{setup.h@{setup.h}!RT4@{RT4}}
+\index{RT4@{RT4}!setup.h@{setup.h}}
+\doxysubsubsection{\texorpdfstring{RT4()}{RT4()}}
+{\footnotesize\ttfamily void RT4 (\begin{DoxyParamCaption}\item[{void $\ast$}]{pv\+Parameters }\end{DoxyParamCaption})}
+
+
+
+Calculate FFT and report the \char`\"{}wall-\/clock time\char`\"{} taken by the FFT. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pv\+Parameters} & Allocates stack space for parameters. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{setup_8h_a9b37e02004df4d0fff15866ca16eaad5}\label{setup_8h_a9b37e02004df4d0fff15866ca16eaad5}} 
+\index{setup.h@{setup.h}!Task\_ActivateAlarm@{Task\_ActivateAlarm}}
+\index{Task\_ActivateAlarm@{Task\_ActivateAlarm}!setup.h@{setup.h}}
+\doxysubsubsection{\texorpdfstring{Task\_ActivateAlarm()}{Task\_ActivateAlarm()}}
+{\footnotesize\ttfamily void Task\+\_\+\+Activate\+Alarm (\begin{DoxyParamCaption}\item[{void $\ast$}]{pv\+Parameters }\end{DoxyParamCaption})}
+
+
+
+Arms the alarm system. Displays countdown on LCD and triggers auditory and visual alarms if correct passcode is not entered during the countdown. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pv\+Parameters} & Allocate stack space for parameters. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{setup_8h_a3d3beba9d8dd8f6cb4b31d4395404054}\label{setup_8h_a3d3beba9d8dd8f6cb4b31d4395404054}} 
+\index{setup.h@{setup.h}!Task\_BlinkOffBoard@{Task\_BlinkOffBoard}}
+\index{Task\_BlinkOffBoard@{Task\_BlinkOffBoard}!setup.h@{setup.h}}
+\doxysubsubsection{\texorpdfstring{Task\_BlinkOffBoard()}{Task\_BlinkOffBoard()}}
+{\footnotesize\ttfamily void Task\+\_\+\+Blink\+Off\+Board (\begin{DoxyParamCaption}\item[{void $\ast$}]{pv\+Parameters }\end{DoxyParamCaption})}
+
+
+
+Task RT-\/1\+: Turns an off-\/board LED ON for 100 ms, then OFF for 200ms, repeatedly. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pv\+Parameters} & Allocate stack space for parameters. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{setup_8h_a67dec0da8281fc172bc5287421c4f924}\label{setup_8h_a67dec0da8281fc172bc5287421c4f924}} 
+\index{setup.h@{setup.h}!Task\_CheckAlarm@{Task\_CheckAlarm}}
+\index{Task\_CheckAlarm@{Task\_CheckAlarm}!setup.h@{setup.h}}
+\doxysubsubsection{\texorpdfstring{Task\_CheckAlarm()}{Task\_CheckAlarm()}}
+{\footnotesize\ttfamily void Task\+\_\+\+Check\+Alarm (\begin{DoxyParamCaption}\item[{void $\ast$}]{pv\+Parameters }\end{DoxyParamCaption})}
+
+
+
+Polls the ultrasonic sensor to determine if there is something \char`\"{}close\char`\"{} to the sensor. Triggers password request when approached. If alarm is not activate, choose between two options -\/ activate or change passcode. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pv\+Parameters} & Allocate stack space for parameters. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{setup_8h_a749f67d48321416b08ec4902c010634c}\label{setup_8h_a749f67d48321416b08ec4902c010634c}} 
+\index{setup.h@{setup.h}!TaskBlink\_OffBoard@{TaskBlink\_OffBoard}}
+\index{TaskBlink\_OffBoard@{TaskBlink\_OffBoard}!setup.h@{setup.h}}
+\doxysubsubsection{\texorpdfstring{TaskBlink\_OffBoard()}{TaskBlink\_OffBoard()}}
+{\footnotesize\ttfamily void Task\+Blink\+\_\+\+Off\+Board (\begin{DoxyParamCaption}\item[{void $\ast$}]{pv\+Parameters }\end{DoxyParamCaption})}
+
+
+
+Task RT-\/1\+: Blink offboard LED at a rate of 100ms on and 200ms off, repeatedly. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pv\+Parameters} & Allocate stack space for parameters. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{setup_8h_a960b642b2eecb120b20d79b01ca3cba2}\label{setup_8h_a960b642b2eecb120b20d79b01ca3cba2}} 
+\index{setup.h@{setup.h}!TaskPlayingTone@{TaskPlayingTone}}
+\index{TaskPlayingTone@{TaskPlayingTone}!setup.h@{setup.h}}
+\doxysubsubsection{\texorpdfstring{TaskPlayingTone()}{TaskPlayingTone()}}
+{\footnotesize\ttfamily void Task\+Playing\+Tone (\begin{DoxyParamCaption}\item[{void $\ast$}]{pv\+Parameters }\end{DoxyParamCaption})}
+
+
+
+Task RT-\/2\+: Play \char`\"{}\+Close Encounters Theme three times with 1.\+5s pause between playbacks.\char`\"{}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pv\+Parameters} & Allocate stack space for parameters. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{setup_8h_a096e308fe7c0a07aaf410a7121072d47}\label{setup_8h_a096e308fe7c0a07aaf410a7121072d47}} 
+\index{setup.h@{setup.h}!activateAlarm@{activateAlarm}}
+\index{activateAlarm@{activateAlarm}!setup.h@{setup.h}}
+\doxysubsubsection{\texorpdfstring{activateAlarm}{activateAlarm}}
+{\footnotesize\ttfamily boolean activate\+Alarm = false}
+
+\mbox{\Hypertarget{setup_8h_ac9adbb85bed6f840b1bad3c05ff7a851}\label{setup_8h_ac9adbb85bed6f840b1bad3c05ff7a851}} 
+\index{setup.h@{setup.h}!activated@{activated}}
+\index{activated@{activated}!setup.h@{setup.h}}
+\doxysubsubsection{\texorpdfstring{activated}{activated}}
+{\footnotesize\ttfamily boolean activated = false}
+
+\mbox{\Hypertarget{setup_8h_a933c355fe98ae57807d050e8d7795d59}\label{setup_8h_a933c355fe98ae57807d050e8d7795d59}} 
+\index{setup.h@{setup.h}!alarmActivated@{alarmActivated}}
+\index{alarmActivated@{alarmActivated}!setup.h@{setup.h}}
+\doxysubsubsection{\texorpdfstring{alarmActivated}{alarmActivated}}
+{\footnotesize\ttfamily boolean alarm\+Activated = false}
+
+\mbox{\Hypertarget{setup_8h_aa9fece7b062124080e4b2976f9a8b675}\label{setup_8h_aa9fece7b062124080e4b2976f9a8b675}} 
+\index{setup.h@{setup.h}!colPins@{colPins}}
+\index{colPins@{colPins}!setup.h@{setup.h}}
+\doxysubsubsection{\texorpdfstring{colPins}{colPins}}
+{\footnotesize\ttfamily byte col\+Pins\mbox{[}\mbox{\hyperlink{setup_8h_aefd90f1160eaa105bc910d4d7c46b815}{COLS}}\mbox{]} = \{18, 19, 20, 21\}}
+
+\mbox{\Hypertarget{setup_8h_aefd90f1160eaa105bc910d4d7c46b815}\label{setup_8h_aefd90f1160eaa105bc910d4d7c46b815}} 
+\index{setup.h@{setup.h}!COLS@{COLS}}
+\index{COLS@{COLS}!setup.h@{setup.h}}
+\doxysubsubsection{\texorpdfstring{COLS}{COLS}}
+{\footnotesize\ttfamily const byte COLS = 4}
+
+\mbox{\Hypertarget{setup_8h_a249f5e1e3c8affcc05b3572cdfe24164}\label{setup_8h_a249f5e1e3c8affcc05b3572cdfe24164}} 
+\index{setup.h@{setup.h}!currentDistance@{currentDistance}}
+\index{currentDistance@{currentDistance}!setup.h@{setup.h}}
+\doxysubsubsection{\texorpdfstring{currentDistance}{currentDistance}}
+{\footnotesize\ttfamily int current\+Distance}
+
+\mbox{\Hypertarget{setup_8h_afb9412686cd344ad61757c1c19ba8a87}\label{setup_8h_afb9412686cd344ad61757c1c19ba8a87}} 
+\index{setup.h@{setup.h}!distance@{distance}}
+\index{distance@{distance}!setup.h@{setup.h}}
+\doxysubsubsection{\texorpdfstring{distance}{distance}}
+{\footnotesize\ttfamily int distance}
+
+\mbox{\Hypertarget{setup_8h_a49411c0db3bc12e9d548e069021b0645}\label{setup_8h_a49411c0db3bc12e9d548e069021b0645}} 
+\index{setup.h@{setup.h}!duration@{duration}}
+\index{duration@{duration}!setup.h@{setup.h}}
+\doxysubsubsection{\texorpdfstring{duration}{duration}}
+{\footnotesize\ttfamily long duration}
+
+\mbox{\Hypertarget{setup_8h_a5c90cfaf4c7c68337214e85f5b066bc2}\label{setup_8h_a5c90cfaf4c7c68337214e85f5b066bc2}} 
+\index{setup.h@{setup.h}!enteredPassword@{enteredPassword}}
+\index{enteredPassword@{enteredPassword}!setup.h@{setup.h}}
+\doxysubsubsection{\texorpdfstring{enteredPassword}{enteredPassword}}
+{\footnotesize\ttfamily boolean entered\+Password}
+
+\mbox{\Hypertarget{setup_8h_acb559820d9ca11295b4500f179ef6392}\label{setup_8h_acb559820d9ca11295b4500f179ef6392}} 
+\index{setup.h@{setup.h}!i@{i}}
+\index{i@{i}!setup.h@{setup.h}}
+\doxysubsubsection{\texorpdfstring{i}{i}}
+{\footnotesize\ttfamily int i}
+
+\mbox{\Hypertarget{setup_8h_aca4a027565bb0aedac75f5a293317b2e}\label{setup_8h_aca4a027565bb0aedac75f5a293317b2e}} 
+\index{setup.h@{setup.h}!initialDistance@{initialDistance}}
+\index{initialDistance@{initialDistance}!setup.h@{setup.h}}
+\doxysubsubsection{\texorpdfstring{initialDistance}{initialDistance}}
+{\footnotesize\ttfamily int initial\+Distance}
+
+\mbox{\Hypertarget{setup_8h_aeb6a6c42b44694fa3ffab75cbcb6a903}\label{setup_8h_aeb6a6c42b44694fa3ffab75cbcb6a903}} 
+\index{setup.h@{setup.h}!isActivated@{isActivated}}
+\index{isActivated@{isActivated}!setup.h@{setup.h}}
+\doxysubsubsection{\texorpdfstring{isActivated}{isActivated}}
+{\footnotesize\ttfamily boolean is\+Activated}
+
+\mbox{\Hypertarget{setup_8h_abac26e7dc1b1e77065c58597699bda3d}\label{setup_8h_abac26e7dc1b1e77065c58597699bda3d}} 
+\index{setup.h@{setup.h}!keyMap@{keyMap}}
+\index{keyMap@{keyMap}!setup.h@{setup.h}}
+\doxysubsubsection{\texorpdfstring{keyMap}{keyMap}}
+{\footnotesize\ttfamily char key\+Map\mbox{[}\mbox{\hyperlink{setup_8h_a829655a147df70dd4cc94eae40a2204e}{ROWS}}\mbox{]}\mbox{[}\mbox{\hyperlink{setup_8h_aefd90f1160eaa105bc910d4d7c46b815}{COLS}}\mbox{]}}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{= \{}
+\DoxyCodeLine{  \{\textcolor{charliteral}{'1'},\textcolor{charliteral}{'2'},\textcolor{charliteral}{'3'},\textcolor{charliteral}{'A'}\},}
+\DoxyCodeLine{  \{\textcolor{charliteral}{'4'},\textcolor{charliteral}{'5'},\textcolor{charliteral}{'6'},\textcolor{charliteral}{'B'}\},}
+\DoxyCodeLine{  \{\textcolor{charliteral}{'7'},\textcolor{charliteral}{'8'},\textcolor{charliteral}{'9'},\textcolor{charliteral}{'C'}\},}
+\DoxyCodeLine{  \{\textcolor{charliteral}{'*'},\textcolor{charliteral}{'0'},\textcolor{charliteral}{'\#'},\textcolor{charliteral}{'D'}\}}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{setup_8h_a2bc32809e2da2cf4d1c5d8068d1cebe2}\label{setup_8h_a2bc32809e2da2cf4d1c5d8068d1cebe2}} 
+\index{setup.h@{setup.h}!keypressed@{keypressed}}
+\index{keypressed@{keypressed}!setup.h@{setup.h}}
+\doxysubsubsection{\texorpdfstring{keypressed}{keypressed}}
+{\footnotesize\ttfamily char keypressed}
+
+\mbox{\Hypertarget{setup_8h_a3adfe9ec4b25ddbe7c2450ab09a47886}\label{setup_8h_a3adfe9ec4b25ddbe7c2450ab09a47886}} 
+\index{setup.h@{setup.h}!myKeypad@{myKeypad}}
+\index{myKeypad@{myKeypad}!setup.h@{setup.h}}
+\doxysubsubsection{\texorpdfstring{myKeypad}{myKeypad}}
+{\footnotesize\ttfamily Keypad my\+Keypad = Keypad( make\+Keymap(\mbox{\hyperlink{setup_8h_abac26e7dc1b1e77065c58597699bda3d}{key\+Map}}), \mbox{\hyperlink{setup_8h_a6d6753e0ae098b31e2f84d4024e361cf}{row\+Pins}}, \mbox{\hyperlink{setup_8h_aa9fece7b062124080e4b2976f9a8b675}{col\+Pins}}, \mbox{\hyperlink{setup_8h_a829655a147df70dd4cc94eae40a2204e}{ROWS}}, \mbox{\hyperlink{setup_8h_aefd90f1160eaa105bc910d4d7c46b815}{COLS}})}
+
+\mbox{\Hypertarget{setup_8h_aa7d04818226ec40f4b94602e449a0160}\label{setup_8h_aa7d04818226ec40f4b94602e449a0160}} 
+\index{setup.h@{setup.h}!passChanged@{passChanged}}
+\index{passChanged@{passChanged}!setup.h@{setup.h}}
+\doxysubsubsection{\texorpdfstring{passChanged}{passChanged}}
+{\footnotesize\ttfamily boolean pass\+Changed = false}
+
+\mbox{\Hypertarget{setup_8h_a4ac9c13b2dc6a9a8ff311eea950ccdf5}\label{setup_8h_a4ac9c13b2dc6a9a8ff311eea950ccdf5}} 
+\index{setup.h@{setup.h}!passChangeMode@{passChangeMode}}
+\index{passChangeMode@{passChangeMode}!setup.h@{setup.h}}
+\doxysubsubsection{\texorpdfstring{passChangeMode}{passChangeMode}}
+{\footnotesize\ttfamily boolean pass\+Change\+Mode = false}
+
+\mbox{\Hypertarget{setup_8h_acbd76b816d055b7a642c219fd9751020}\label{setup_8h_acbd76b816d055b7a642c219fd9751020}} 
+\index{setup.h@{setup.h}!password@{password}}
+\index{password@{password}!setup.h@{setup.h}}
+\doxysubsubsection{\texorpdfstring{password}{password}}
+{\footnotesize\ttfamily String password =\char`\"{}0000\char`\"{}}
+
+\mbox{\Hypertarget{setup_8h_a6d6753e0ae098b31e2f84d4024e361cf}\label{setup_8h_a6d6753e0ae098b31e2f84d4024e361cf}} 
+\index{setup.h@{setup.h}!rowPins@{rowPins}}
+\index{rowPins@{rowPins}!setup.h@{setup.h}}
+\doxysubsubsection{\texorpdfstring{rowPins}{rowPins}}
+{\footnotesize\ttfamily byte row\+Pins\mbox{[}\mbox{\hyperlink{setup_8h_a829655a147df70dd4cc94eae40a2204e}{ROWS}}\mbox{]} = \{14, 15, 16, 17\}}
+
+\mbox{\Hypertarget{setup_8h_a829655a147df70dd4cc94eae40a2204e}\label{setup_8h_a829655a147df70dd4cc94eae40a2204e}} 
+\index{setup.h@{setup.h}!ROWS@{ROWS}}
+\index{ROWS@{ROWS}!setup.h@{setup.h}}
+\doxysubsubsection{\texorpdfstring{ROWS}{ROWS}}
+{\footnotesize\ttfamily const byte ROWS = 4}
+
+\mbox{\Hypertarget{setup_8h_a928e85a922e156af9aa25d972c18181a}\label{setup_8h_a928e85a922e156af9aa25d972c18181a}} 
+\index{setup.h@{setup.h}!screenOffMsg@{screenOffMsg}}
+\index{screenOffMsg@{screenOffMsg}!setup.h@{setup.h}}
+\doxysubsubsection{\texorpdfstring{screenOffMsg}{screenOffMsg}}
+{\footnotesize\ttfamily int screen\+Off\+Msg =0}
+
+\mbox{\Hypertarget{setup_8h_a309b0772394b2ea6887b2e82bb42bd94}\label{setup_8h_a309b0772394b2ea6887b2e82bb42bd94}} 
+\index{setup.h@{setup.h}!tempPassword@{tempPassword}}
+\index{tempPassword@{tempPassword}!setup.h@{setup.h}}
+\doxysubsubsection{\texorpdfstring{tempPassword}{tempPassword}}
+{\footnotesize\ttfamily String temp\+Password}
+

@@ -1,0 +1,130 @@
+\hypertarget{FreeRTOSConfig_8h_source}{}\doxysection{Free\+RTOSConfig.\+h}
+\label{FreeRTOSConfig_8h_source}\index{lib/Arduino\_FreeRTOS/src/FreeRTOSConfig.h@{lib/Arduino\_FreeRTOS/src/FreeRTOSConfig.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{comment}{/*}}
+\DoxyCodeLine{2 \textcolor{comment}{ * FreeRTOS Kernel V10.4.3}}
+\DoxyCodeLine{3 \textcolor{comment}{ * Copyright (C) 2020 Amazon.com, Inc. or its affiliates.  All Rights Reserved.}}
+\DoxyCodeLine{4 \textcolor{comment}{ *}}
+\DoxyCodeLine{5 \textcolor{comment}{ * Permission is hereby granted, free of charge, to any person obtaining a copy of}}
+\DoxyCodeLine{6 \textcolor{comment}{ * this software and associated documentation files (the "{}Software"{}), to deal in}}
+\DoxyCodeLine{7 \textcolor{comment}{ * the Software without restriction, including without limitation the rights to}}
+\DoxyCodeLine{8 \textcolor{comment}{ * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of}}
+\DoxyCodeLine{9 \textcolor{comment}{ * the Software, and to permit persons to whom the Software is furnished to do so,}}
+\DoxyCodeLine{10 \textcolor{comment}{ * subject to the following conditions:}}
+\DoxyCodeLine{11 \textcolor{comment}{ *}}
+\DoxyCodeLine{12 \textcolor{comment}{ * The above copyright notice and this permission notice shall be included in all}}
+\DoxyCodeLine{13 \textcolor{comment}{ * copies or substantial portions of the Software.}}
+\DoxyCodeLine{14 \textcolor{comment}{ *}}
+\DoxyCodeLine{15 \textcolor{comment}{ * THE SOFTWARE IS PROVIDED "{}AS IS"{}, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR}}
+\DoxyCodeLine{16 \textcolor{comment}{ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS}}
+\DoxyCodeLine{17 \textcolor{comment}{ * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR}}
+\DoxyCodeLine{18 \textcolor{comment}{ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER}}
+\DoxyCodeLine{19 \textcolor{comment}{ * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN}}
+\DoxyCodeLine{20 \textcolor{comment}{ * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.}}
+\DoxyCodeLine{21 \textcolor{comment}{ *}}
+\DoxyCodeLine{22 \textcolor{comment}{ * https://www.FreeRTOS.org}}
+\DoxyCodeLine{23 \textcolor{comment}{ * https://github.com/FreeRTOS}}
+\DoxyCodeLine{24 \textcolor{comment}{ *}}
+\DoxyCodeLine{25 \textcolor{comment}{ */}}
+\DoxyCodeLine{26 }
+\DoxyCodeLine{27 \textcolor{preprocessor}{\#ifndef FREERTOS\_CONFIG\_H}}
+\DoxyCodeLine{28 \textcolor{preprocessor}{\#define FREERTOS\_CONFIG\_H}}
+\DoxyCodeLine{29 }
+\DoxyCodeLine{30 \textcolor{preprocessor}{\#include <avr/io.h>}}
+\DoxyCodeLine{31 }
+\DoxyCodeLine{32 \textcolor{comment}{/*-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{33 \textcolor{comment}{ * Application specific definitions.}}
+\DoxyCodeLine{34 \textcolor{comment}{ *}}
+\DoxyCodeLine{35 \textcolor{comment}{ * These definitions should be adjusted for your particular hardware and}}
+\DoxyCodeLine{36 \textcolor{comment}{ * application requirements.}}
+\DoxyCodeLine{37 \textcolor{comment}{ *}}
+\DoxyCodeLine{38 \textcolor{comment}{ * THESE PARAMETERS ARE DESCRIBED WITHIN THE 'CONFIGURATION' SECTION OF THE}}
+\DoxyCodeLine{39 \textcolor{comment}{ * FreeRTOS API DOCUMENTATION AVAILABLE ON THE FreeRTOS.org WEB SITE.}}
+\DoxyCodeLine{40 \textcolor{comment}{ *}}
+\DoxyCodeLine{41 \textcolor{comment}{ * See https://www.freertos.org/a00110.html.}}
+\DoxyCodeLine{42 \textcolor{comment}{ *-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/*/}}
+\DoxyCodeLine{43 }
+\DoxyCodeLine{44 \textcolor{comment}{// And on to the things the same no matter the AVR type...}}
+\DoxyCodeLine{45 \textcolor{preprocessor}{\#define configUSE\_PREEMPTION                1}}
+\DoxyCodeLine{46 }
+\DoxyCodeLine{47 \textcolor{comment}{// Define configUSE\_IDLE\_HOOK}}
+\DoxyCodeLine{48 \textcolor{preprocessor}{\#ifndef configUSE\_IDLE\_HOOK}}
+\DoxyCodeLine{49 \textcolor{preprocessor}{    \#define configUSE\_IDLE\_HOOK             1}}
+\DoxyCodeLine{50 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{51 }
+\DoxyCodeLine{52 \textcolor{preprocessor}{\#define configUSE\_TICK\_HOOK                 0}}
+\DoxyCodeLine{53 \textcolor{preprocessor}{\#define configCPU\_CLOCK\_HZ                  ( ( uint32\_t ) F\_CPU )          }\textcolor{comment}{// This F\_CPU variable set by the environment}}
+\DoxyCodeLine{54 \textcolor{preprocessor}{\#define configMAX\_PRIORITIES                4}}
+\DoxyCodeLine{55 \textcolor{preprocessor}{\#define configIDLE\_SHOULD\_YIELD             1}}
+\DoxyCodeLine{56 \textcolor{preprocessor}{\#define configMINIMAL\_STACK\_SIZE            ( 192 )}}
+\DoxyCodeLine{57 \textcolor{preprocessor}{\#define configMAX\_TASK\_NAME\_LEN             ( 8 )}}
+\DoxyCodeLine{58 }
+\DoxyCodeLine{59 \textcolor{preprocessor}{\#define configQUEUE\_REGISTRY\_SIZE           0}}
+\DoxyCodeLine{60 \textcolor{preprocessor}{\#define configCHECK\_FOR\_STACK\_OVERFLOW      1}}
+\DoxyCodeLine{61 }
+\DoxyCodeLine{62 \textcolor{preprocessor}{\#define configUSE\_TRACE\_FACILITY            0}}
+\DoxyCodeLine{63 \textcolor{preprocessor}{\#define configUSE\_16\_BIT\_TICKS              1}}
+\DoxyCodeLine{64 }
+\DoxyCodeLine{65 \textcolor{preprocessor}{\#define configUSE\_MUTEXES                   1}}
+\DoxyCodeLine{66 \textcolor{preprocessor}{\#define configUSE\_RECURSIVE\_MUTEXES         1}}
+\DoxyCodeLine{67 \textcolor{preprocessor}{\#define configUSE\_COUNTING\_SEMAPHORES       1}}
+\DoxyCodeLine{68 \textcolor{preprocessor}{\#define configUSE\_TIME\_SLICING              1}}
+\DoxyCodeLine{69 \textcolor{preprocessor}{\#define configUSE\_QUEUE\_SETS                0}}
+\DoxyCodeLine{70 \textcolor{preprocessor}{\#define configUSE\_MALLOC\_FAILED\_HOOK        1}}
+\DoxyCodeLine{71 }
+\DoxyCodeLine{72 \textcolor{preprocessor}{\#define configSUPPORT\_DYNAMIC\_ALLOCATION    1}}
+\DoxyCodeLine{73 \textcolor{preprocessor}{\#define configSUPPORT\_STATIC\_ALLOCATION     0}}
+\DoxyCodeLine{74 }
+\DoxyCodeLine{75 \textcolor{comment}{/* Timer definitions. */}}
+\DoxyCodeLine{76 \textcolor{preprocessor}{\#define configUSE\_TIMERS                    1}}
+\DoxyCodeLine{77 \textcolor{preprocessor}{\#define configTIMER\_TASK\_PRIORITY           ( ( UBaseType\_t ) 3 )}}
+\DoxyCodeLine{78 \textcolor{preprocessor}{\#define configTIMER\_QUEUE\_LENGTH            ( ( UBaseType\_t ) 10 )}}
+\DoxyCodeLine{79 \textcolor{preprocessor}{\#define configTIMER\_TASK\_STACK\_DEPTH        ( 85 )}}
+\DoxyCodeLine{80 }
+\DoxyCodeLine{81 \textcolor{comment}{/* Co-\/routine definitions. */}}
+\DoxyCodeLine{82 \textcolor{preprocessor}{\#define configUSE\_CO\_ROUTINES               0}}
+\DoxyCodeLine{83 \textcolor{preprocessor}{\#define configMAX\_CO\_ROUTINE\_PRIORITIES     ( (UBaseType\_t ) 2 )}}
+\DoxyCodeLine{84 }
+\DoxyCodeLine{85 \textcolor{comment}{/* Set the stack depth type to be uint16\_t. */}}
+\DoxyCodeLine{86 \textcolor{preprocessor}{\#define configSTACK\_DEPTH\_TYPE              uint16\_t}}
+\DoxyCodeLine{87 }
+\DoxyCodeLine{88 \textcolor{comment}{/* Set the stack pointer type to be uint16\_t, otherwise it defaults to unsigned long */}}
+\DoxyCodeLine{89 \textcolor{preprocessor}{\#define portPOINTER\_SIZE\_TYPE               uint16\_t}}
+\DoxyCodeLine{90 }
+\DoxyCodeLine{91 \textcolor{comment}{/* Set the following definitions to 1 to include the API function, or zero}}
+\DoxyCodeLine{92 \textcolor{comment}{to exclude the API function. */}}
+\DoxyCodeLine{93 }
+\DoxyCodeLine{94 \textcolor{preprocessor}{\#define INCLUDE\_vTaskPrioritySet                1}}
+\DoxyCodeLine{95 \textcolor{preprocessor}{\#define INCLUDE\_uxTaskPriorityGet               1}}
+\DoxyCodeLine{96 \textcolor{preprocessor}{\#define INCLUDE\_vTaskDelete                     1}}
+\DoxyCodeLine{97 \textcolor{preprocessor}{\#define INCLUDE\_vTaskCleanUpResources           1}}
+\DoxyCodeLine{98 \textcolor{preprocessor}{\#define INCLUDE\_vTaskSuspend                    1}}
+\DoxyCodeLine{99 \textcolor{preprocessor}{\#define INCLUDE\_vResumeFromISR                  1}}
+\DoxyCodeLine{100 \textcolor{preprocessor}{\#define INCLUDE\_xTaskDelayUntil                 1}}
+\DoxyCodeLine{101 \textcolor{preprocessor}{\#define INCLUDE\_vTaskDelay                      1}}
+\DoxyCodeLine{102 \textcolor{preprocessor}{\#define INCLUDE\_xTaskGetSchedulerState          0}}
+\DoxyCodeLine{103 \textcolor{preprocessor}{\#define INCLUDE\_xTaskGetIdleTaskHandle          0 }\textcolor{comment}{// create an idle task handle.}}
+\DoxyCodeLine{104 \textcolor{preprocessor}{\#define INCLUDE\_xTaskGetCurrentTaskHandle       0}}
+\DoxyCodeLine{105 \textcolor{preprocessor}{\#define INCLUDE\_uxTaskGetStackHighWaterMark     1}}
+\DoxyCodeLine{106 }
+\DoxyCodeLine{107 \textcolor{preprocessor}{\#define configMAX(a,b)  (\{ \_\_typeof\_\_ (a) \_a = (a); \_\_typeof\_\_ (b) \_b = (b); \_a > \_b ? \_a : \_b; \})}}
+\DoxyCodeLine{108 \textcolor{preprocessor}{\#define configMIN(a,b)  (\{ \_\_typeof\_\_ (a) \_a = (a); \_\_typeof\_\_ (b) \_b = (b); \_a < \_b ? \_a : \_b; \})}}
+\DoxyCodeLine{109 }
+\DoxyCodeLine{113 \textcolor{preprocessor}{\#ifndef configASSERT}}
+\DoxyCodeLine{114 \textcolor{preprocessor}{    \#define configDEFAULT\_ASSERT 0}}
+\DoxyCodeLine{115 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{119 \textcolor{preprocessor}{    \#ifndef configDEFAULT\_ASSERT}}
+\DoxyCodeLine{120 \textcolor{preprocessor}{        \#define configDEFAULT\_ASSERT 1}}
+\DoxyCodeLine{121 \textcolor{preprocessor}{    \#endif}}
+\DoxyCodeLine{122 }
+\DoxyCodeLine{126 \textcolor{preprocessor}{    \#if configDEFAULT\_ASSERT == 1}}
+\DoxyCodeLine{127         \textcolor{keyword}{extern} \textcolor{keywordtype}{void} vApplicationAssertHook();}
+\DoxyCodeLine{128 \textcolor{preprocessor}{        \#define configASSERT( x ) if (( x ) == 0) \{ vApplicationAssertHook(); \}}}
+\DoxyCodeLine{129 \textcolor{preprocessor}{    \#endif}}
+\DoxyCodeLine{130 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{131 }
+\DoxyCodeLine{132 }
+\DoxyCodeLine{133 \textcolor{preprocessor}{\#endif }\textcolor{comment}{/* FREERTOS\_CONFIG\_H */}\textcolor{preprocessor}{}}
+
+\end{DoxyCode}

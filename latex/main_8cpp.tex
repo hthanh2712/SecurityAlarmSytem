@@ -1,0 +1,182 @@
+\hypertarget{main_8cpp}{}\doxysection{src/main.cpp File Reference}
+\label{main_8cpp}\index{src/main.cpp@{src/main.cpp}}
+{\ttfamily \#include \char`\"{}setup.\+h\char`\"{}}\newline
+{\ttfamily \#include $<$Arduino\+\_\+\+Free\+RTOS.\+h$>$}\newline
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{main_8cpp_a4fc01d736fe50cf5b977f755b675f11d}{setup}} ()
+\begin{DoxyCompactList}\small\item\em Initializes serial and creates RTOS tasks. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{main_8cpp_afe461d27b9c48d5921c00d521181f12f}{loop}} ()
+\begin{DoxyCompactList}\small\item\em Not used by Free\+RTOS. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{main_8cpp_a3d3beba9d8dd8f6cb4b31d4395404054}{Task\+\_\+\+Blink\+Off\+Board}} (void $\ast$pv\+Parameters)
+\begin{DoxyCompactList}\small\item\em Task RT-\/1\+: Turns an off-\/board LED ON for 100 ms, then OFF for 200ms, repeatedly. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{main_8cpp_a9b37e02004df4d0fff15866ca16eaad5}{Task\+\_\+\+Activate\+Alarm}} (void $\ast$pv\+Parameters)
+\begin{DoxyCompactList}\small\item\em Arms the alarm system. Displays countdown on LCD and triggers auditory and visual alarms if correct passcode is not entered during the countdown. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{main_8cpp_a67dec0da8281fc172bc5287421c4f924}{Task\+\_\+\+Check\+Alarm}} (void $\ast$pv\+Parameters)
+\begin{DoxyCompactList}\small\item\em Polls the ultrasonic sensor to determine if there is something \char`\"{}close\char`\"{} to the sensor. Triggers password request when approached. If alarm is not activate, choose between two options -\/ activate or change passcode. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{main_8cpp_a1745a3d13d3c2bf9e87fabf59bd4617a}{handle\+LED}} (void $\ast$pv\+Parameters)
+\begin{DoxyCompactList}\small\item\em Initialize the alarm\textquotesingle{}s LED. If the alarm is activated, turn on the LED. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{main_8cpp_ae85428f19548b3f1f5cb295c2591342f}{change\+Password}} ()
+\begin{DoxyCompactList}\small\item\em Changes the passcode via the keypad. \end{DoxyCompactList}\item 
+long \mbox{\hyperlink{main_8cpp_abd565138f43c1381fc6f87deab386be7}{get\+Distance}} ()
+\begin{DoxyCompactList}\small\item\em Get the measured distance from the ultrasonic sensor. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{main_8cpp_adde299440aa8a50af78dc0a705748697}{enter\+Password}} ()
+\begin{DoxyCompactList}\small\item\em Handles password entry via the keypad. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{main_8cpp_a276b396ddefc68352790255cc68a87ca}{handle\+Buzz}} (void $\ast$pv\+Parameters)
+\begin{DoxyCompactList}\small\item\em Initialize the buzzer. If the alarm is activates and the distance is closer, turn on the buzzer until entering correct password. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{main_8cpp_a0ceaee687a22fd7c75c815f825bde1df}{buzzer\+On}} ()
+\begin{DoxyCompactList}\small\item\em Turns the buzzer on when called. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{main_8cpp_a94813053b130fc29c9be01d98c30c577}{buzzer\+Off}} ()
+\begin{DoxyCompactList}\small\item\em Turns the buzzer off when called. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{main_8cpp_a94813053b130fc29c9be01d98c30c577}\label{main_8cpp_a94813053b130fc29c9be01d98c30c577}} 
+\index{main.cpp@{main.cpp}!buzzerOff@{buzzerOff}}
+\index{buzzerOff@{buzzerOff}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{buzzerOff()}{buzzerOff()}}
+{\footnotesize\ttfamily void buzzer\+Off (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Turns the buzzer off when called. 
+
+\mbox{\Hypertarget{main_8cpp_a0ceaee687a22fd7c75c815f825bde1df}\label{main_8cpp_a0ceaee687a22fd7c75c815f825bde1df}} 
+\index{main.cpp@{main.cpp}!buzzerOn@{buzzerOn}}
+\index{buzzerOn@{buzzerOn}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{buzzerOn()}{buzzerOn()}}
+{\footnotesize\ttfamily void buzzer\+On (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Turns the buzzer on when called. 
+
+\mbox{\Hypertarget{main_8cpp_ae85428f19548b3f1f5cb295c2591342f}\label{main_8cpp_ae85428f19548b3f1f5cb295c2591342f}} 
+\index{main.cpp@{main.cpp}!changePassword@{changePassword}}
+\index{changePassword@{changePassword}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{changePassword()}{changePassword()}}
+{\footnotesize\ttfamily void change\+Password (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Changes the passcode via the keypad. 
+
+\mbox{\Hypertarget{main_8cpp_adde299440aa8a50af78dc0a705748697}\label{main_8cpp_adde299440aa8a50af78dc0a705748697}} 
+\index{main.cpp@{main.cpp}!enterPassword@{enterPassword}}
+\index{enterPassword@{enterPassword}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{enterPassword()}{enterPassword()}}
+{\footnotesize\ttfamily void enter\+Password (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Handles password entry via the keypad. 
+
+\mbox{\Hypertarget{main_8cpp_abd565138f43c1381fc6f87deab386be7}\label{main_8cpp_abd565138f43c1381fc6f87deab386be7}} 
+\index{main.cpp@{main.cpp}!getDistance@{getDistance}}
+\index{getDistance@{getDistance}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{getDistance()}{getDistance()}}
+{\footnotesize\ttfamily long get\+Distance (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Get the measured distance from the ultrasonic sensor. 
+
+\begin{DoxyReturn}{Returns}
+long variable distance 
+\end{DoxyReturn}
+\mbox{\Hypertarget{main_8cpp_a276b396ddefc68352790255cc68a87ca}\label{main_8cpp_a276b396ddefc68352790255cc68a87ca}} 
+\index{main.cpp@{main.cpp}!handleBuzz@{handleBuzz}}
+\index{handleBuzz@{handleBuzz}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{handleBuzz()}{handleBuzz()}}
+{\footnotesize\ttfamily void handle\+Buzz (\begin{DoxyParamCaption}\item[{void $\ast$}]{pv\+Parameters }\end{DoxyParamCaption})}
+
+
+
+Initialize the buzzer. If the alarm is activates and the distance is closer, turn on the buzzer until entering correct password. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pv\+Parameters} & Allocate stack space for parameters. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{main_8cpp_a1745a3d13d3c2bf9e87fabf59bd4617a}\label{main_8cpp_a1745a3d13d3c2bf9e87fabf59bd4617a}} 
+\index{main.cpp@{main.cpp}!handleLED@{handleLED}}
+\index{handleLED@{handleLED}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{handleLED()}{handleLED()}}
+{\footnotesize\ttfamily void handle\+LED (\begin{DoxyParamCaption}\item[{void $\ast$}]{pv\+Parameters }\end{DoxyParamCaption})}
+
+
+
+Initialize the alarm\textquotesingle{}s LED. If the alarm is activated, turn on the LED. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pv\+Parameters} & Allocate stack space for parameters. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{main_8cpp_afe461d27b9c48d5921c00d521181f12f}\label{main_8cpp_afe461d27b9c48d5921c00d521181f12f}} 
+\index{main.cpp@{main.cpp}!loop@{loop}}
+\index{loop@{loop}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{loop()}{loop()}}
+{\footnotesize\ttfamily void loop (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Not used by Free\+RTOS. 
+
+\mbox{\Hypertarget{main_8cpp_a4fc01d736fe50cf5b977f755b675f11d}\label{main_8cpp_a4fc01d736fe50cf5b977f755b675f11d}} 
+\index{main.cpp@{main.cpp}!setup@{setup}}
+\index{setup@{setup}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{setup()}{setup()}}
+{\footnotesize\ttfamily void setup (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Initializes serial and creates RTOS tasks. 
+
+\mbox{\Hypertarget{main_8cpp_a9b37e02004df4d0fff15866ca16eaad5}\label{main_8cpp_a9b37e02004df4d0fff15866ca16eaad5}} 
+\index{main.cpp@{main.cpp}!Task\_ActivateAlarm@{Task\_ActivateAlarm}}
+\index{Task\_ActivateAlarm@{Task\_ActivateAlarm}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{Task\_ActivateAlarm()}{Task\_ActivateAlarm()}}
+{\footnotesize\ttfamily void Task\+\_\+\+Activate\+Alarm (\begin{DoxyParamCaption}\item[{void $\ast$}]{pv\+Parameters }\end{DoxyParamCaption})}
+
+
+
+Arms the alarm system. Displays countdown on LCD and triggers auditory and visual alarms if correct passcode is not entered during the countdown. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pv\+Parameters} & Allocate stack space for parameters. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{main_8cpp_a3d3beba9d8dd8f6cb4b31d4395404054}\label{main_8cpp_a3d3beba9d8dd8f6cb4b31d4395404054}} 
+\index{main.cpp@{main.cpp}!Task\_BlinkOffBoard@{Task\_BlinkOffBoard}}
+\index{Task\_BlinkOffBoard@{Task\_BlinkOffBoard}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{Task\_BlinkOffBoard()}{Task\_BlinkOffBoard()}}
+{\footnotesize\ttfamily void Task\+\_\+\+Blink\+Off\+Board (\begin{DoxyParamCaption}\item[{void $\ast$}]{pv\+Parameters }\end{DoxyParamCaption})}
+
+
+
+Task RT-\/1\+: Turns an off-\/board LED ON for 100 ms, then OFF for 200ms, repeatedly. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pv\+Parameters} & Allocate stack space for parameters. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{main_8cpp_a67dec0da8281fc172bc5287421c4f924}\label{main_8cpp_a67dec0da8281fc172bc5287421c4f924}} 
+\index{main.cpp@{main.cpp}!Task\_CheckAlarm@{Task\_CheckAlarm}}
+\index{Task\_CheckAlarm@{Task\_CheckAlarm}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{Task\_CheckAlarm()}{Task\_CheckAlarm()}}
+{\footnotesize\ttfamily void Task\+\_\+\+Check\+Alarm (\begin{DoxyParamCaption}\item[{void $\ast$}]{pv\+Parameters }\end{DoxyParamCaption})}
+
+
+
+Polls the ultrasonic sensor to determine if there is something \char`\"{}close\char`\"{} to the sensor. Triggers password request when approached. If alarm is not activate, choose between two options -\/ activate or change passcode. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pv\+Parameters} & Allocate stack space for parameters. \\
+\hline
+\end{DoxyParams}

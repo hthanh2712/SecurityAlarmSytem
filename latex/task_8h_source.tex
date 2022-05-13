@@ -1,0 +1,650 @@
+\hypertarget{task_8h_source}{}\doxysection{task.\+h}
+\label{task_8h_source}\index{lib/Arduino\_FreeRTOS/src/task.h@{lib/Arduino\_FreeRTOS/src/task.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{comment}{/*}}
+\DoxyCodeLine{2 \textcolor{comment}{ * FreeRTOS Kernel V10.4.3}}
+\DoxyCodeLine{3 \textcolor{comment}{ * Copyright (C) 2020 Amazon.com, Inc. or its affiliates.  All Rights Reserved.}}
+\DoxyCodeLine{4 \textcolor{comment}{ *}}
+\DoxyCodeLine{5 \textcolor{comment}{ * Permission is hereby granted, free of charge, to any person obtaining a copy of}}
+\DoxyCodeLine{6 \textcolor{comment}{ * this software and associated documentation files (the "{}Software"{}), to deal in}}
+\DoxyCodeLine{7 \textcolor{comment}{ * the Software without restriction, including without limitation the rights to}}
+\DoxyCodeLine{8 \textcolor{comment}{ * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of}}
+\DoxyCodeLine{9 \textcolor{comment}{ * the Software, and to permit persons to whom the Software is furnished to do so,}}
+\DoxyCodeLine{10 \textcolor{comment}{ * subject to the following conditions:}}
+\DoxyCodeLine{11 \textcolor{comment}{ *}}
+\DoxyCodeLine{12 \textcolor{comment}{ * The above copyright notice and this permission notice shall be included in all}}
+\DoxyCodeLine{13 \textcolor{comment}{ * copies or substantial portions of the Software.}}
+\DoxyCodeLine{14 \textcolor{comment}{ *}}
+\DoxyCodeLine{15 \textcolor{comment}{ * THE SOFTWARE IS PROVIDED "{}AS IS"{}, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR}}
+\DoxyCodeLine{16 \textcolor{comment}{ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS}}
+\DoxyCodeLine{17 \textcolor{comment}{ * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR}}
+\DoxyCodeLine{18 \textcolor{comment}{ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER}}
+\DoxyCodeLine{19 \textcolor{comment}{ * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN}}
+\DoxyCodeLine{20 \textcolor{comment}{ * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.}}
+\DoxyCodeLine{21 \textcolor{comment}{ *}}
+\DoxyCodeLine{22 \textcolor{comment}{ * https://www.FreeRTOS.org}}
+\DoxyCodeLine{23 \textcolor{comment}{ * https://github.com/FreeRTOS}}
+\DoxyCodeLine{24 \textcolor{comment}{ *}}
+\DoxyCodeLine{25 \textcolor{comment}{ */}}
+\DoxyCodeLine{26 }
+\DoxyCodeLine{27 }
+\DoxyCodeLine{28 \textcolor{preprocessor}{\#ifndef INC\_TASK\_H}}
+\DoxyCodeLine{29 \textcolor{preprocessor}{\#define INC\_TASK\_H}}
+\DoxyCodeLine{30 }
+\DoxyCodeLine{31 \textcolor{preprocessor}{\#ifndef INC\_ARDUINO\_FREERTOS\_H}}
+\DoxyCodeLine{32 \textcolor{preprocessor}{    \#error "{}include Arduino\_FreeRTOS.h must appear in source files before include task.h"{}}}
+\DoxyCodeLine{33 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{34 }
+\DoxyCodeLine{35 \textcolor{preprocessor}{\#include "{}list.h"{}}}
+\DoxyCodeLine{36 }
+\DoxyCodeLine{37 \textcolor{comment}{/* *INDENT-\/OFF* */}}
+\DoxyCodeLine{38 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{39     \textcolor{keyword}{extern} \textcolor{stringliteral}{"{}C"{}} \{}
+\DoxyCodeLine{40 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{41 \textcolor{comment}{/* *INDENT-\/ON* */}}
+\DoxyCodeLine{42 }
+\DoxyCodeLine{43 \textcolor{comment}{/*-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{44 \textcolor{comment}{* MACROS AND DEFINITIONS}}
+\DoxyCodeLine{45 \textcolor{comment}{*-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/*/}}
+\DoxyCodeLine{46 }
+\DoxyCodeLine{47 \textcolor{preprocessor}{\#define tskKERNEL\_VERSION\_NUMBER       "{}V10.4.3"{}}}
+\DoxyCodeLine{48 \textcolor{preprocessor}{\#define tskKERNEL\_VERSION\_MAJOR        10}}
+\DoxyCodeLine{49 \textcolor{preprocessor}{\#define tskKERNEL\_VERSION\_MINOR        4}}
+\DoxyCodeLine{50 \textcolor{preprocessor}{\#define tskKERNEL\_VERSION\_BUILD        3}}
+\DoxyCodeLine{51 }
+\DoxyCodeLine{52 \textcolor{comment}{/* MPU region parameters passed in ulParameters}}
+\DoxyCodeLine{53 \textcolor{comment}{ * of MemoryRegion\_t struct. */}}
+\DoxyCodeLine{54 \textcolor{preprocessor}{\#define tskMPU\_REGION\_READ\_ONLY        ( 1UL << 0UL )}}
+\DoxyCodeLine{55 \textcolor{preprocessor}{\#define tskMPU\_REGION\_READ\_WRITE       ( 1UL << 1UL )}}
+\DoxyCodeLine{56 \textcolor{preprocessor}{\#define tskMPU\_REGION\_EXECUTE\_NEVER    ( 1UL << 2UL )}}
+\DoxyCodeLine{57 \textcolor{preprocessor}{\#define tskMPU\_REGION\_NORMAL\_MEMORY    ( 1UL << 3UL )}}
+\DoxyCodeLine{58 \textcolor{preprocessor}{\#define tskMPU\_REGION\_DEVICE\_MEMORY    ( 1UL << 4UL )}}
+\DoxyCodeLine{59 }
+\DoxyCodeLine{60 \textcolor{comment}{/* The direct to task notification feature used to have only a single notification}}
+\DoxyCodeLine{61 \textcolor{comment}{ * per task.  Now there is an array of notifications per task that is dimensioned by}}
+\DoxyCodeLine{62 \textcolor{comment}{ * configTASK\_NOTIFICATION\_ARRAY\_ENTRIES.  For backward compatibility, any use of the}}
+\DoxyCodeLine{63 \textcolor{comment}{ * original direct to task notification defaults to using the first index in the}}
+\DoxyCodeLine{64 \textcolor{comment}{ * array. */}}
+\DoxyCodeLine{65 \textcolor{preprocessor}{\#define tskDEFAULT\_INDEX\_TO\_NOTIFY     ( 0 )}}
+\DoxyCodeLine{66 }
+\DoxyCodeLine{77 \textcolor{keyword}{struct }TaskControlBlock\_t;}
+\DoxyCodeLine{78 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }TaskControlBlock\_t* TaskHandle\_t;}
+\DoxyCodeLine{79 }
+\DoxyCodeLine{80 \textcolor{comment}{/*}}
+\DoxyCodeLine{81 \textcolor{comment}{ * Defines the prototype to which the application task hook function must}}
+\DoxyCodeLine{82 \textcolor{comment}{ * conform.}}
+\DoxyCodeLine{83 \textcolor{comment}{ */}}
+\DoxyCodeLine{84 \textcolor{keyword}{typedef} BaseType\_t (* TaskHookFunction\_t)( \textcolor{keywordtype}{void} * );}
+\DoxyCodeLine{85 }
+\DoxyCodeLine{86 \textcolor{comment}{/* Task states returned by eTaskGetState. */}}
+\DoxyCodeLine{87 \textcolor{keyword}{typedef} \textcolor{keyword}{enum}}
+\DoxyCodeLine{88 \{}
+\DoxyCodeLine{89     eRunning = 0,     \textcolor{comment}{/* A task is querying the state of itself, so must be running. */}}
+\DoxyCodeLine{90     eReady,           \textcolor{comment}{/* The task being queried is in a read or pending ready list. */}}
+\DoxyCodeLine{91     eBlocked,         \textcolor{comment}{/* The task being queried is in the Blocked state. */}}
+\DoxyCodeLine{92     eSuspended,       \textcolor{comment}{/* The task being queried is in the Suspended state, or is in the Blocked state with an infinite time out. */}}
+\DoxyCodeLine{93     eDeleted,         \textcolor{comment}{/* The task being queried has been deleted, but its TCB has not yet been freed. */}}
+\DoxyCodeLine{94     eInvalid          \textcolor{comment}{/* Used as an 'invalid state' value. */}}
+\DoxyCodeLine{95 \} eTaskState;}
+\DoxyCodeLine{96 }
+\DoxyCodeLine{97 \textcolor{comment}{/* Actions that can be performed when vTaskNotify() is called. */}}
+\DoxyCodeLine{98 \textcolor{keyword}{typedef} \textcolor{keyword}{enum}}
+\DoxyCodeLine{99 \{}
+\DoxyCodeLine{100     eNoAction = 0,                \textcolor{comment}{/* Notify the task without updating its notify value. */}}
+\DoxyCodeLine{101     eSetBits,                     \textcolor{comment}{/* Set bits in the task's notification value. */}}
+\DoxyCodeLine{102     eIncrement,                   \textcolor{comment}{/* Increment the task's notification value. */}}
+\DoxyCodeLine{103     eSetValueWithOverwrite,       \textcolor{comment}{/* Set the task's notification value to a specific value even if the previous value has not yet been read by the task. */}}
+\DoxyCodeLine{104     eSetValueWithoutOverwrite     \textcolor{comment}{/* Set the task's notification value if the previous value has been read by the task. */}}
+\DoxyCodeLine{105 \} eNotifyAction;}
+\DoxyCodeLine{106 }
+\DoxyCodeLine{107 \textcolor{comment}{/*}}
+\DoxyCodeLine{108 \textcolor{comment}{ * Used internally only.}}
+\DoxyCodeLine{109 \textcolor{comment}{ */}}
+\DoxyCodeLine{110 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{structxTIME__OUT}{xTIME\_OUT}}}
+\DoxyCodeLine{111 \{}
+\DoxyCodeLine{112     BaseType\_t xOverflowCount;}
+\DoxyCodeLine{113     TickType\_t xTimeOnEntering;}
+\DoxyCodeLine{114 \} \mbox{\hyperlink{structxTIME__OUT}{TimeOut\_t}};}
+\DoxyCodeLine{115 }
+\DoxyCodeLine{116 \textcolor{comment}{/*}}
+\DoxyCodeLine{117 \textcolor{comment}{ * Defines the memory ranges allocated to the task when an MPU is used.}}
+\DoxyCodeLine{118 \textcolor{comment}{ */}}
+\DoxyCodeLine{119 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{structxMEMORY__REGION}{xMEMORY\_REGION}}}
+\DoxyCodeLine{120 \{}
+\DoxyCodeLine{121     \textcolor{keywordtype}{void} * pvBaseAddress;}
+\DoxyCodeLine{122     uint32\_t ulLengthInBytes;}
+\DoxyCodeLine{123     uint32\_t ulParameters;}
+\DoxyCodeLine{124 \} \mbox{\hyperlink{structxMEMORY__REGION}{MemoryRegion\_t}};}
+\DoxyCodeLine{125 }
+\DoxyCodeLine{126 \textcolor{comment}{/*}}
+\DoxyCodeLine{127 \textcolor{comment}{ * Parameters required to create an MPU protected task.}}
+\DoxyCodeLine{128 \textcolor{comment}{ */}}
+\DoxyCodeLine{129 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{structxTASK__PARAMETERS}{xTASK\_PARAMETERS}}}
+\DoxyCodeLine{130 \{}
+\DoxyCodeLine{131     TaskFunction\_t pvTaskCode;}
+\DoxyCodeLine{132     \textcolor{keyword}{const} \textcolor{keywordtype}{char} * pcName;     \textcolor{comment}{/*lint !e971 Unqualified char types are allowed for strings and single characters only. */}}
+\DoxyCodeLine{133     configSTACK\_DEPTH\_TYPE usStackDepth;}
+\DoxyCodeLine{134     \textcolor{keywordtype}{void} * pvParameters;}
+\DoxyCodeLine{135     UBaseType\_t uxPriority;}
+\DoxyCodeLine{136     StackType\_t * puxStackBuffer;}
+\DoxyCodeLine{137     \mbox{\hyperlink{structxMEMORY__REGION}{MemoryRegion\_t}} xRegions[ portNUM\_CONFIGURABLE\_REGIONS ];}
+\DoxyCodeLine{138 \textcolor{preprocessor}{    \#if ( ( portUSING\_MPU\_WRAPPERS == 1 ) \&\& ( configSUPPORT\_STATIC\_ALLOCATION == 1 ) )}}
+\DoxyCodeLine{139         \mbox{\hyperlink{structxSTATIC__TCB}{StaticTask\_t}} * \textcolor{keyword}{const} pxTaskBuffer;}
+\DoxyCodeLine{140 \textcolor{preprocessor}{    \#endif}}
+\DoxyCodeLine{141 \} \mbox{\hyperlink{structxTASK__PARAMETERS}{TaskParameters\_t}};}
+\DoxyCodeLine{142 }
+\DoxyCodeLine{143 \textcolor{comment}{/* Used with the uxTaskGetSystemState() function to return the state of each task}}
+\DoxyCodeLine{144 \textcolor{comment}{ * in the system. */}}
+\DoxyCodeLine{145 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{structxTASK__STATUS}{xTASK\_STATUS}}}
+\DoxyCodeLine{146 \{}
+\DoxyCodeLine{147     TaskHandle\_t xHandle;                            \textcolor{comment}{/* The handle of the task to which the rest of the information in the structure relates. */}}
+\DoxyCodeLine{148     \textcolor{keyword}{const} \textcolor{keywordtype}{char} * pcTaskName;                         \textcolor{comment}{/* A pointer to the task's name.  This value will be invalid if the task was deleted since the structure was populated! */} \textcolor{comment}{/*lint !e971 Unqualified char types are allowed for strings and single characters only. */}}
+\DoxyCodeLine{149     UBaseType\_t xTaskNumber;                         \textcolor{comment}{/* A number unique to the task. */}}
+\DoxyCodeLine{150     eTaskState eCurrentState;                        \textcolor{comment}{/* The state in which the task existed when the structure was populated. */}}
+\DoxyCodeLine{151     UBaseType\_t uxCurrentPriority;                   \textcolor{comment}{/* The priority at which the task was running (may be inherited) when the structure was populated. */}}
+\DoxyCodeLine{152     UBaseType\_t uxBasePriority;                      \textcolor{comment}{/* The priority to which the task will return if the task's current priority has been inherited to avoid unbounded priority inversion when obtaining a mutex.  Only valid if configUSE\_MUTEXES is defined as 1 in FreeRTOSConfig.h. */}}
+\DoxyCodeLine{153     uint32\_t ulRunTimeCounter;                       \textcolor{comment}{/* The total run time allocated to the task so far, as defined by the run time stats clock.  See https://www.FreeRTOS.org/rtos-\/run-\/time-\/stats.html.  Only valid when configGENERATE\_RUN\_TIME\_STATS is defined as 1 in FreeRTOSConfig.h. */}}
+\DoxyCodeLine{154     StackType\_t * pxStackBase;                       \textcolor{comment}{/* Points to the lowest address of the task's stack area. */}}
+\DoxyCodeLine{155     configSTACK\_DEPTH\_TYPE usStackHighWaterMark;     \textcolor{comment}{/* The minimum amount of stack space that has remained for the task since the task was created.  The closer this value is to zero the closer the task has come to overflowing its stack. */}}
+\DoxyCodeLine{156 \} \mbox{\hyperlink{structxTASK__STATUS}{TaskStatus\_t}};}
+\DoxyCodeLine{157 }
+\DoxyCodeLine{158 \textcolor{comment}{/* Possible return values for eTaskConfirmSleepModeStatus(). */}}
+\DoxyCodeLine{159 \textcolor{keyword}{typedef} \textcolor{keyword}{enum}}
+\DoxyCodeLine{160 \{}
+\DoxyCodeLine{161     eAbortSleep = 0,           \textcolor{comment}{/* A task has been made ready or a context switch pended since portSUPPORESS\_TICKS\_AND\_SLEEP() was called -\/ abort entering a sleep mode. */}}
+\DoxyCodeLine{162     eStandardSleep,            \textcolor{comment}{/* Enter a sleep mode that will not last any longer than the expected idle time. */}}
+\DoxyCodeLine{163     eNoTasksWaitingTimeout     \textcolor{comment}{/* No tasks are waiting for a timeout so it is safe to enter a sleep mode that can only be exited by an external interrupt. */}}
+\DoxyCodeLine{164 \} eSleepModeStatus;}
+\DoxyCodeLine{165 }
+\DoxyCodeLine{171 \textcolor{preprocessor}{\#define tskIDLE\_PRIORITY    ( ( UBaseType\_t ) 0U )}}
+\DoxyCodeLine{172 }
+\DoxyCodeLine{181 \textcolor{preprocessor}{\#define taskYIELD()                        portYIELD()}}
+\DoxyCodeLine{182 }
+\DoxyCodeLine{195 \textcolor{preprocessor}{\#define taskENTER\_CRITICAL()               portENTER\_CRITICAL()}}
+\DoxyCodeLine{196 \textcolor{preprocessor}{\#define taskENTER\_CRITICAL\_FROM\_ISR()      portSET\_INTERRUPT\_MASK\_FROM\_ISR()}}
+\DoxyCodeLine{197 }
+\DoxyCodeLine{210 \textcolor{preprocessor}{\#define taskEXIT\_CRITICAL()                portEXIT\_CRITICAL()}}
+\DoxyCodeLine{211 \textcolor{preprocessor}{\#define taskEXIT\_CRITICAL\_FROM\_ISR( x )    portCLEAR\_INTERRUPT\_MASK\_FROM\_ISR( x )}}
+\DoxyCodeLine{212 }
+\DoxyCodeLine{221 \textcolor{preprocessor}{\#define taskDISABLE\_INTERRUPTS()           portDISABLE\_INTERRUPTS()}}
+\DoxyCodeLine{222 }
+\DoxyCodeLine{231 \textcolor{preprocessor}{\#define taskENABLE\_INTERRUPTS()            portENABLE\_INTERRUPTS()}}
+\DoxyCodeLine{232 }
+\DoxyCodeLine{233 \textcolor{comment}{/* Definitions returned by xTaskGetSchedulerState().  taskSCHEDULER\_SUSPENDED is}}
+\DoxyCodeLine{234 \textcolor{comment}{ * 0 to generate more optimal code when configASSERT() is defined as the constant}}
+\DoxyCodeLine{235 \textcolor{comment}{ * is used in assert() statements. */}}
+\DoxyCodeLine{236 \textcolor{preprocessor}{\#define taskSCHEDULER\_SUSPENDED      ( ( BaseType\_t ) 0 )}}
+\DoxyCodeLine{237 \textcolor{preprocessor}{\#define taskSCHEDULER\_NOT\_STARTED    ( ( BaseType\_t ) 1 )}}
+\DoxyCodeLine{238 \textcolor{preprocessor}{\#define taskSCHEDULER\_RUNNING        ( ( BaseType\_t ) 2 )}}
+\DoxyCodeLine{239 }
+\DoxyCodeLine{240 }
+\DoxyCodeLine{241 \textcolor{comment}{/*-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{242 \textcolor{comment}{* TASK CREATION API}}
+\DoxyCodeLine{243 \textcolor{comment}{*-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/*/}}
+\DoxyCodeLine{244 }
+\DoxyCodeLine{339 \textcolor{preprocessor}{\#if ( configSUPPORT\_DYNAMIC\_ALLOCATION == 1 )}}
+\DoxyCodeLine{340     BaseType\_t xTaskCreate( TaskFunction\_t pxTaskCode,}
+\DoxyCodeLine{341                             \textcolor{keyword}{const} \textcolor{keywordtype}{char} * \textcolor{keyword}{const} pcName,     \textcolor{comment}{/*lint !e971 Unqualified char types are allowed for strings and single characters only. */}}
+\DoxyCodeLine{342                             \textcolor{keyword}{const} configSTACK\_DEPTH\_TYPE usStackDepth,}
+\DoxyCodeLine{343                             \textcolor{keywordtype}{void} * \textcolor{keyword}{const} pvParameters,}
+\DoxyCodeLine{344                             UBaseType\_t uxPriority,}
+\DoxyCodeLine{345                             TaskHandle\_t * \textcolor{keyword}{const} pxCreatedTask ) PRIVILEGED\_FUNCTION;}
+\DoxyCodeLine{346 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{347 }
+\DoxyCodeLine{456 \textcolor{preprocessor}{\#if ( configSUPPORT\_STATIC\_ALLOCATION == 1 )}}
+\DoxyCodeLine{457     TaskHandle\_t xTaskCreateStatic( TaskFunction\_t pxTaskCode,}
+\DoxyCodeLine{458                                     \textcolor{keyword}{const} \textcolor{keywordtype}{char} * \textcolor{keyword}{const} pcName,     \textcolor{comment}{/*lint !e971 Unqualified char types are allowed for strings and single characters only. */}}
+\DoxyCodeLine{459                                     \textcolor{keyword}{const} configSTACK\_DEPTH\_TYPE ulStackDepth,}
+\DoxyCodeLine{460                                     \textcolor{keywordtype}{void} * \textcolor{keyword}{const} pvParameters,}
+\DoxyCodeLine{461                                     UBaseType\_t uxPriority,}
+\DoxyCodeLine{462                                     StackType\_t * \textcolor{keyword}{const} puxStackBuffer,}
+\DoxyCodeLine{463                                     \mbox{\hyperlink{structxSTATIC__TCB}{StaticTask\_t}} * \textcolor{keyword}{const} pxTaskBuffer ) PRIVILEGED\_FUNCTION;}
+\DoxyCodeLine{464 \textcolor{preprocessor}{\#endif }\textcolor{comment}{/* configSUPPORT\_STATIC\_ALLOCATION */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{465 }
+\DoxyCodeLine{539 \textcolor{preprocessor}{\#if ( portUSING\_MPU\_WRAPPERS == 1 )}}
+\DoxyCodeLine{540     BaseType\_t xTaskCreateRestricted( \textcolor{keyword}{const} \mbox{\hyperlink{structxTASK__PARAMETERS}{TaskParameters\_t}} * \textcolor{keyword}{const} pxTaskDefinition,}
+\DoxyCodeLine{541                                       TaskHandle\_t * pxCreatedTask ) PRIVILEGED\_FUNCTION;}
+\DoxyCodeLine{542 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{543 }
+\DoxyCodeLine{629 \textcolor{preprocessor}{\#if ( ( portUSING\_MPU\_WRAPPERS == 1 ) \&\& ( configSUPPORT\_STATIC\_ALLOCATION == 1 ) )}}
+\DoxyCodeLine{630     BaseType\_t xTaskCreateRestrictedStatic( \textcolor{keyword}{const} \mbox{\hyperlink{structxTASK__PARAMETERS}{TaskParameters\_t}} * \textcolor{keyword}{const} pxTaskDefinition,}
+\DoxyCodeLine{631                                             TaskHandle\_t * pxCreatedTask ) PRIVILEGED\_FUNCTION;}
+\DoxyCodeLine{632 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{633 }
+\DoxyCodeLine{681 \textcolor{keywordtype}{void} vTaskAllocateMPURegions( TaskHandle\_t xTask,}
+\DoxyCodeLine{682                               \textcolor{keyword}{const} \mbox{\hyperlink{structxMEMORY__REGION}{MemoryRegion\_t}} * \textcolor{keyword}{const} pxRegions ) PRIVILEGED\_FUNCTION;}
+\DoxyCodeLine{683 }
+\DoxyCodeLine{725 \textcolor{keywordtype}{void} vTaskDelete( TaskHandle\_t xTaskToDelete ) PRIVILEGED\_FUNCTION;}
+\DoxyCodeLine{726 }
+\DoxyCodeLine{727 \textcolor{comment}{/*-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{728 \textcolor{comment}{* TASK CONTROL API}}
+\DoxyCodeLine{729 \textcolor{comment}{*-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/*/}}
+\DoxyCodeLine{730 }
+\DoxyCodeLine{779 \textcolor{keywordtype}{void} vTaskDelay( \textcolor{keyword}{const} TickType\_t xTicksToDelay ) PRIVILEGED\_FUNCTION;}
+\DoxyCodeLine{780 }
+\DoxyCodeLine{846 BaseType\_t xTaskDelayUntil( TickType\_t * \textcolor{keyword}{const} pxPreviousWakeTime,}
+\DoxyCodeLine{847                             \textcolor{keyword}{const} TickType\_t xTimeIncrement ) PRIVILEGED\_FUNCTION;}
+\DoxyCodeLine{848 }
+\DoxyCodeLine{849 }
+\DoxyCodeLine{880 BaseType\_t xTaskAbortDelay( TaskHandle\_t xTask ) PRIVILEGED\_FUNCTION;}
+\DoxyCodeLine{881 }
+\DoxyCodeLine{929 UBaseType\_t uxTaskPriorityGet( \textcolor{keyword}{const} TaskHandle\_t xTask ) PRIVILEGED\_FUNCTION;}
+\DoxyCodeLine{930 }
+\DoxyCodeLine{939 UBaseType\_t uxTaskPriorityGetFromISR( \textcolor{keyword}{const} TaskHandle\_t xTask ) PRIVILEGED\_FUNCTION;}
+\DoxyCodeLine{940 }
+\DoxyCodeLine{959 eTaskState eTaskGetState( TaskHandle\_t xTask ) PRIVILEGED\_FUNCTION;}
+\DoxyCodeLine{960 }
+\DoxyCodeLine{1017 \textcolor{keywordtype}{void} vTaskGetInfo( TaskHandle\_t xTask,}
+\DoxyCodeLine{1018                    \mbox{\hyperlink{structxTASK__STATUS}{TaskStatus\_t}} * pxTaskStatus,}
+\DoxyCodeLine{1019                    BaseType\_t xGetFreeStackSpace,}
+\DoxyCodeLine{1020                    eTaskState eState ) PRIVILEGED\_FUNCTION;}
+\DoxyCodeLine{1021 }
+\DoxyCodeLine{1064 \textcolor{keywordtype}{void} vTaskPrioritySet( TaskHandle\_t xTask,}
+\DoxyCodeLine{1065                        UBaseType\_t uxNewPriority ) PRIVILEGED\_FUNCTION;}
+\DoxyCodeLine{1066 }
+\DoxyCodeLine{1118 \textcolor{keywordtype}{void} vTaskSuspend( TaskHandle\_t xTaskToSuspend ) PRIVILEGED\_FUNCTION;}
+\DoxyCodeLine{1119 }
+\DoxyCodeLine{1169 \textcolor{keywordtype}{void} vTaskResume( TaskHandle\_t xTaskToResume ) PRIVILEGED\_FUNCTION;}
+\DoxyCodeLine{1170 }
+\DoxyCodeLine{1200 BaseType\_t xTaskResumeFromISR( TaskHandle\_t xTaskToResume ) PRIVILEGED\_FUNCTION;}
+\DoxyCodeLine{1201 }
+\DoxyCodeLine{1202 \textcolor{comment}{/*-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{1203 \textcolor{comment}{* SCHEDULER CONTROL}}
+\DoxyCodeLine{1204 \textcolor{comment}{*-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/*/}}
+\DoxyCodeLine{1205 }
+\DoxyCodeLine{1235 \textcolor{keywordtype}{void} vTaskStartScheduler( \textcolor{keywordtype}{void} ) PRIVILEGED\_FUNCTION;}
+\DoxyCodeLine{1236 }
+\DoxyCodeLine{1293 \textcolor{keywordtype}{void} vTaskEndScheduler( \textcolor{keywordtype}{void} ) PRIVILEGED\_FUNCTION;}
+\DoxyCodeLine{1294 }
+\DoxyCodeLine{1346 \textcolor{keywordtype}{void} vTaskSuspendAll( \textcolor{keywordtype}{void} ) PRIVILEGED\_FUNCTION;}
+\DoxyCodeLine{1347 }
+\DoxyCodeLine{1402 BaseType\_t xTaskResumeAll( \textcolor{keywordtype}{void} ) PRIVILEGED\_FUNCTION;}
+\DoxyCodeLine{1403 }
+\DoxyCodeLine{1404 \textcolor{comment}{/*-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{1405 \textcolor{comment}{* TASK UTILITIES}}
+\DoxyCodeLine{1406 \textcolor{comment}{*-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/*/}}
+\DoxyCodeLine{1407 }
+\DoxyCodeLine{1417 TickType\_t xTaskGetTickCount( \textcolor{keywordtype}{void} ) PRIVILEGED\_FUNCTION;}
+\DoxyCodeLine{1418 }
+\DoxyCodeLine{1433 TickType\_t xTaskGetTickCountFromISR( \textcolor{keywordtype}{void} ) PRIVILEGED\_FUNCTION;}
+\DoxyCodeLine{1434 }
+\DoxyCodeLine{1447 UBaseType\_t uxTaskGetNumberOfTasks( \textcolor{keywordtype}{void} ) PRIVILEGED\_FUNCTION;}
+\DoxyCodeLine{1448 }
+\DoxyCodeLine{1460 \textcolor{keywordtype}{char} * pcTaskGetName( TaskHandle\_t xTaskToQuery ) PRIVILEGED\_FUNCTION;     \textcolor{comment}{/*lint !e971 Unqualified char types are allowed for strings and single characters only. */}}
+\DoxyCodeLine{1461 }
+\DoxyCodeLine{1476 TaskHandle\_t xTaskGetHandle( \textcolor{keyword}{const} \textcolor{keywordtype}{char} * pcNameToQuery ) PRIVILEGED\_FUNCTION;     \textcolor{comment}{/*lint !e971 Unqualified char types are allowed for strings and single characters only. */}}
+\DoxyCodeLine{1477 }
+\DoxyCodeLine{1503 \textcolor{preprocessor}{\#if configENABLE\_BACKWARD\_COMPATIBILITY == 1}}
+\DoxyCodeLine{1504 UBaseType\_t uxTaskGetStackHighWaterMark( TaskHandle\_t xTask ) PRIVILEGED\_FUNCTION;}
+\DoxyCodeLine{1505 \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{1506 configSTACK\_DEPTH\_TYPE uxTaskGetStackHighWaterMark( TaskHandle\_t xTask ) PRIVILEGED\_FUNCTION;}
+\DoxyCodeLine{1507 \textcolor{preprocessor}{\#endif }\textcolor{comment}{/* configENABLE\_BACKWARD\_COMPATIBILITY */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{1508 }
+\DoxyCodeLine{1509 \textcolor{comment}{/* When using trace macros it is sometimes necessary to include task.h before}}
+\DoxyCodeLine{1510 \textcolor{comment}{ * FreeRTOS.h.  When this is done TaskHookFunction\_t will not yet have been defined,}}
+\DoxyCodeLine{1511 \textcolor{comment}{ * so the following two prototypes will cause a compilation error.  This can be}}
+\DoxyCodeLine{1512 \textcolor{comment}{ * fixed by simply guarding against the inclusion of these two prototypes unless}}
+\DoxyCodeLine{1513 \textcolor{comment}{ * they are explicitly required by the configUSE\_APPLICATION\_TASK\_TAG configuration}}
+\DoxyCodeLine{1514 \textcolor{comment}{ * constant. */}}
+\DoxyCodeLine{1515 \textcolor{preprocessor}{\#ifdef configUSE\_APPLICATION\_TASK\_TAG}}
+\DoxyCodeLine{1516 \textcolor{preprocessor}{    \#if configUSE\_APPLICATION\_TASK\_TAG == 1}}
+\DoxyCodeLine{1517 }
+\DoxyCodeLine{1528         \textcolor{keywordtype}{void} vTaskSetApplicationTaskTag( TaskHandle\_t xTask,}
+\DoxyCodeLine{1529                                          TaskHookFunction\_t pxHookFunction ) PRIVILEGED\_FUNCTION;}
+\DoxyCodeLine{1530 }
+\DoxyCodeLine{1541         TaskHookFunction\_t xTaskGetApplicationTaskTag( TaskHandle\_t xTask ) PRIVILEGED\_FUNCTION;}
+\DoxyCodeLine{1542 }
+\DoxyCodeLine{1552         TaskHookFunction\_t xTaskGetApplicationTaskTagFromISR( TaskHandle\_t xTask ) PRIVILEGED\_FUNCTION;}
+\DoxyCodeLine{1553 \textcolor{preprocessor}{    \#endif }\textcolor{comment}{/* configUSE\_APPLICATION\_TASK\_TAG ==1 */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{1554 \textcolor{preprocessor}{\#endif }\textcolor{comment}{/* ifdef configUSE\_APPLICATION\_TASK\_TAG */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{1555 }
+\DoxyCodeLine{1556 \textcolor{preprocessor}{\#if ( configNUM\_THREAD\_LOCAL\_STORAGE\_POINTERS > 0 )}}
+\DoxyCodeLine{1557 }
+\DoxyCodeLine{1558 \textcolor{comment}{/* Each task contains an array of pointers that is dimensioned by the}}
+\DoxyCodeLine{1559 \textcolor{comment}{ * configNUM\_THREAD\_LOCAL\_STORAGE\_POINTERS setting in FreeRTOSConfig.h.  The}}
+\DoxyCodeLine{1560 \textcolor{comment}{ * kernel does not use the pointers itself, so the application writer can use}}
+\DoxyCodeLine{1561 \textcolor{comment}{ * the pointers for any purpose they wish.  The following two functions are}}
+\DoxyCodeLine{1562 \textcolor{comment}{ * used to set and query a pointer respectively. */}}
+\DoxyCodeLine{1563     \textcolor{keywordtype}{void} vTaskSetThreadLocalStoragePointer( TaskHandle\_t xTaskToSet,}
+\DoxyCodeLine{1564                                             BaseType\_t xIndex,}
+\DoxyCodeLine{1565                                             \textcolor{keywordtype}{void} * pvValue ) PRIVILEGED\_FUNCTION;}
+\DoxyCodeLine{1566     \textcolor{keywordtype}{void} * pvTaskGetThreadLocalStoragePointer( TaskHandle\_t xTaskToQuery,}
+\DoxyCodeLine{1567                                                BaseType\_t xIndex ) PRIVILEGED\_FUNCTION;}
+\DoxyCodeLine{1568 }
+\DoxyCodeLine{1569 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{1570 }
+\DoxyCodeLine{1571 \textcolor{preprocessor}{\#if ( configCHECK\_FOR\_STACK\_OVERFLOW > 0 )}}
+\DoxyCodeLine{1572 }
+\DoxyCodeLine{1584      \textcolor{keywordtype}{void} vApplicationStackOverflowHook( TaskHandle\_t xTask,}
+\DoxyCodeLine{1585                                                \textcolor{keywordtype}{char} * pcTaskName );}
+\DoxyCodeLine{1586 }
+\DoxyCodeLine{1587 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{1588 }
+\DoxyCodeLine{1589 \textcolor{preprocessor}{\#if  (  configUSE\_TICK\_HOOK > 0 )}}
+\DoxyCodeLine{1596     \textcolor{keywordtype}{void} vApplicationTickHook( \textcolor{keywordtype}{void} ); \textcolor{comment}{/*lint !e526 Symbol not defined as it is an application callback. */}}
+\DoxyCodeLine{1597 }
+\DoxyCodeLine{1598 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{1599 }
+\DoxyCodeLine{1600 \textcolor{preprocessor}{\#if ( configSUPPORT\_STATIC\_ALLOCATION == 1 )}}
+\DoxyCodeLine{1612     \textcolor{keywordtype}{void} vApplicationGetIdleTaskMemory( \mbox{\hyperlink{structxSTATIC__TCB}{StaticTask\_t}} ** ppxIdleTaskTCBBuffer,}
+\DoxyCodeLine{1613                                                StackType\_t ** ppxIdleTaskStackBuffer,}
+\DoxyCodeLine{1614                                                configSTACK\_DEPTH\_TYPE * pulIdleTaskStackSize ); \textcolor{comment}{/*lint !e526 Symbol not defined as it is an application callback. */}}
+\DoxyCodeLine{1615 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{1616 }
+\DoxyCodeLine{1630 BaseType\_t xTaskCallApplicationTaskHook( TaskHandle\_t xTask,}
+\DoxyCodeLine{1631                                          \textcolor{keywordtype}{void} * pvParameter ) PRIVILEGED\_FUNCTION;}
+\DoxyCodeLine{1632 }
+\DoxyCodeLine{1640 TaskHandle\_t xTaskGetIdleTaskHandle( \textcolor{keywordtype}{void} ) PRIVILEGED\_FUNCTION;}
+\DoxyCodeLine{1641 }
+\DoxyCodeLine{1739 UBaseType\_t uxTaskGetSystemState( \mbox{\hyperlink{structxTASK__STATUS}{TaskStatus\_t}} * \textcolor{keyword}{const} pxTaskStatusArray,}
+\DoxyCodeLine{1740                                   \textcolor{keyword}{const} UBaseType\_t uxArraySize,}
+\DoxyCodeLine{1741                                   uint32\_t * \textcolor{keyword}{const} pulTotalRunTime ) PRIVILEGED\_FUNCTION;}
+\DoxyCodeLine{1742 }
+\DoxyCodeLine{1788 \textcolor{keywordtype}{void} vTaskList( \textcolor{keywordtype}{char} * pcWriteBuffer ) PRIVILEGED\_FUNCTION;     \textcolor{comment}{/*lint !e971 Unqualified char types are allowed for strings and single characters only. */}}
+\DoxyCodeLine{1789 }
+\DoxyCodeLine{1842 \textcolor{keywordtype}{void} vTaskGetRunTimeStats( \textcolor{keywordtype}{char} * pcWriteBuffer ) PRIVILEGED\_FUNCTION;     \textcolor{comment}{/*lint !e971 Unqualified char types are allowed for strings and single characters only. */}}
+\DoxyCodeLine{1843 }
+\DoxyCodeLine{1872 uint32\_t ulTaskGetIdleRunTimeCounter( \textcolor{keywordtype}{void} ) PRIVILEGED\_FUNCTION;}
+\DoxyCodeLine{1873 }
+\DoxyCodeLine{1981 BaseType\_t xTaskGenericNotify( TaskHandle\_t xTaskToNotify,}
+\DoxyCodeLine{1982                                UBaseType\_t uxIndexToNotify,}
+\DoxyCodeLine{1983                                uint32\_t ulValue,}
+\DoxyCodeLine{1984                                eNotifyAction eAction,}
+\DoxyCodeLine{1985                                uint32\_t * pulPreviousNotificationValue ) PRIVILEGED\_FUNCTION;}
+\DoxyCodeLine{1986 \textcolor{preprocessor}{\#define xTaskNotify( xTaskToNotify, ulValue, eAction ) \(\backslash\)}}
+\DoxyCodeLine{1987 \textcolor{preprocessor}{    xTaskGenericNotify( ( xTaskToNotify ), ( tskDEFAULT\_INDEX\_TO\_NOTIFY ), ( ulValue ), ( eAction ), NULL )}}
+\DoxyCodeLine{1988 \textcolor{preprocessor}{\#define xTaskNotifyIndexed( xTaskToNotify, uxIndexToNotify, ulValue, eAction ) \(\backslash\)}}
+\DoxyCodeLine{1989 \textcolor{preprocessor}{    xTaskGenericNotify( ( xTaskToNotify ), ( uxIndexToNotify ), ( ulValue ), ( eAction ), NULL )}}
+\DoxyCodeLine{1990 }
+\DoxyCodeLine{2013 \textcolor{preprocessor}{\#define xTaskNotifyAndQuery( xTaskToNotify, ulValue, eAction, pulPreviousNotifyValue ) \(\backslash\)}}
+\DoxyCodeLine{2014 \textcolor{preprocessor}{    xTaskGenericNotify( ( xTaskToNotify ), ( tskDEFAULT\_INDEX\_TO\_NOTIFY ), ( ulValue ), ( eAction ), ( pulPreviousNotifyValue ) )}}
+\DoxyCodeLine{2015 \textcolor{preprocessor}{\#define xTaskNotifyAndQueryIndexed( xTaskToNotify, uxIndexToNotify, ulValue, eAction, pulPreviousNotifyValue ) \(\backslash\)}}
+\DoxyCodeLine{2016 \textcolor{preprocessor}{    xTaskGenericNotify( ( xTaskToNotify ), ( uxIndexToNotify ), ( ulValue ), ( eAction ), ( pulPreviousNotifyValue ) )}}
+\DoxyCodeLine{2017 }
+\DoxyCodeLine{2129 BaseType\_t xTaskGenericNotifyFromISR( TaskHandle\_t xTaskToNotify,}
+\DoxyCodeLine{2130                                       UBaseType\_t uxIndexToNotify,}
+\DoxyCodeLine{2131                                       uint32\_t ulValue,}
+\DoxyCodeLine{2132                                       eNotifyAction eAction,}
+\DoxyCodeLine{2133                                       uint32\_t * pulPreviousNotificationValue,}
+\DoxyCodeLine{2134                                       BaseType\_t * pxHigherPriorityTaskWoken ) PRIVILEGED\_FUNCTION;}
+\DoxyCodeLine{2135 \textcolor{preprocessor}{\#define xTaskNotifyFromISR( xTaskToNotify, ulValue, eAction, pxHigherPriorityTaskWoken ) \(\backslash\)}}
+\DoxyCodeLine{2136 \textcolor{preprocessor}{    xTaskGenericNotifyFromISR( ( xTaskToNotify ), ( tskDEFAULT\_INDEX\_TO\_NOTIFY ), ( ulValue ), ( eAction ), NULL, ( pxHigherPriorityTaskWoken ) )}}
+\DoxyCodeLine{2137 \textcolor{preprocessor}{\#define xTaskNotifyIndexedFromISR( xTaskToNotify, uxIndexToNotify, ulValue, eAction, pxHigherPriorityTaskWoken ) \(\backslash\)}}
+\DoxyCodeLine{2138 \textcolor{preprocessor}{    xTaskGenericNotifyFromISR( ( xTaskToNotify ), ( uxIndexToNotify ), ( ulValue ), ( eAction ), NULL, ( pxHigherPriorityTaskWoken ) )}}
+\DoxyCodeLine{2139 }
+\DoxyCodeLine{2162 \textcolor{preprocessor}{\#define xTaskNotifyAndQueryIndexedFromISR( xTaskToNotify, uxIndexToNotify, ulValue, eAction, pulPreviousNotificationValue, pxHigherPriorityTaskWoken ) \(\backslash\)}}
+\DoxyCodeLine{2163 \textcolor{preprocessor}{    xTaskGenericNotifyFromISR( ( xTaskToNotify ), ( uxIndexToNotify ), ( ulValue ), ( eAction ), ( pulPreviousNotificationValue ), ( pxHigherPriorityTaskWoken ) )}}
+\DoxyCodeLine{2164 \textcolor{preprocessor}{\#define xTaskNotifyAndQueryFromISR( xTaskToNotify, ulValue, eAction, pulPreviousNotificationValue, pxHigherPriorityTaskWoken ) \(\backslash\)}}
+\DoxyCodeLine{2165 \textcolor{preprocessor}{    xTaskGenericNotifyFromISR( ( xTaskToNotify ), ( tskDEFAULT\_INDEX\_TO\_NOTIFY ), ( ulValue ), ( eAction ), ( pulPreviousNotificationValue ), ( pxHigherPriorityTaskWoken ) )}}
+\DoxyCodeLine{2166 }
+\DoxyCodeLine{2271 BaseType\_t xTaskGenericNotifyWait( UBaseType\_t uxIndexToWaitOn,}
+\DoxyCodeLine{2272                                    uint32\_t ulBitsToClearOnEntry,}
+\DoxyCodeLine{2273                                    uint32\_t ulBitsToClearOnExit,}
+\DoxyCodeLine{2274                                    uint32\_t * pulNotificationValue,}
+\DoxyCodeLine{2275                                    TickType\_t xTicksToWait ) PRIVILEGED\_FUNCTION;}
+\DoxyCodeLine{2276 \textcolor{preprocessor}{\#define xTaskNotifyWait( ulBitsToClearOnEntry, ulBitsToClearOnExit, pulNotificationValue, xTicksToWait ) \(\backslash\)}}
+\DoxyCodeLine{2277 \textcolor{preprocessor}{    xTaskGenericNotifyWait( tskDEFAULT\_INDEX\_TO\_NOTIFY, ( ulBitsToClearOnEntry ), ( ulBitsToClearOnExit ), ( pulNotificationValue ), ( xTicksToWait ) )}}
+\DoxyCodeLine{2278 \textcolor{preprocessor}{\#define xTaskNotifyWaitIndexed( uxIndexToWaitOn, ulBitsToClearOnEntry, ulBitsToClearOnExit, pulNotificationValue, xTicksToWait ) \(\backslash\)}}
+\DoxyCodeLine{2279 \textcolor{preprocessor}{    xTaskGenericNotifyWait( ( uxIndexToWaitOn ), ( ulBitsToClearOnEntry ), ( ulBitsToClearOnExit ), ( pulNotificationValue ), ( xTicksToWait ) )}}
+\DoxyCodeLine{2280 }
+\DoxyCodeLine{2351 \textcolor{preprocessor}{\#define xTaskNotifyGive( xTaskToNotify ) \(\backslash\)}}
+\DoxyCodeLine{2352 \textcolor{preprocessor}{    xTaskGenericNotify( ( xTaskToNotify ), ( tskDEFAULT\_INDEX\_TO\_NOTIFY ), ( 0 ), eIncrement, NULL )}}
+\DoxyCodeLine{2353 \textcolor{preprocessor}{\#define xTaskNotifyGiveIndexed( xTaskToNotify, uxIndexToNotify ) \(\backslash\)}}
+\DoxyCodeLine{2354 \textcolor{preprocessor}{    xTaskGenericNotify( ( xTaskToNotify ), ( uxIndexToNotify ), ( 0 ), eIncrement, NULL )}}
+\DoxyCodeLine{2355 }
+\DoxyCodeLine{2433 \textcolor{keywordtype}{void} vTaskGenericNotifyGiveFromISR( TaskHandle\_t xTaskToNotify,}
+\DoxyCodeLine{2434                                     UBaseType\_t uxIndexToNotify,}
+\DoxyCodeLine{2435                                     BaseType\_t * pxHigherPriorityTaskWoken ) PRIVILEGED\_FUNCTION;}
+\DoxyCodeLine{2436 \textcolor{preprocessor}{\#define vTaskNotifyGiveFromISR( xTaskToNotify, pxHigherPriorityTaskWoken ) \(\backslash\)}}
+\DoxyCodeLine{2437 \textcolor{preprocessor}{    vTaskGenericNotifyGiveFromISR( ( xTaskToNotify ), ( tskDEFAULT\_INDEX\_TO\_NOTIFY ), ( pxHigherPriorityTaskWoken ) );}}
+\DoxyCodeLine{2438 \textcolor{preprocessor}{\#define vTaskNotifyGiveIndexedFromISR( xTaskToNotify, uxIndexToNotify, pxHigherPriorityTaskWoken ) \(\backslash\)}}
+\DoxyCodeLine{2439 \textcolor{preprocessor}{    vTaskGenericNotifyGiveFromISR( ( xTaskToNotify ), ( uxIndexToNotify ), ( pxHigherPriorityTaskWoken ) );}}
+\DoxyCodeLine{2440 }
+\DoxyCodeLine{2539 uint32\_t ulTaskGenericNotifyTake( UBaseType\_t uxIndexToWaitOn,}
+\DoxyCodeLine{2540                                   BaseType\_t xClearCountOnExit,}
+\DoxyCodeLine{2541                                   TickType\_t xTicksToWait ) PRIVILEGED\_FUNCTION;}
+\DoxyCodeLine{2542 \textcolor{preprocessor}{\#define ulTaskNotifyTake( xClearCountOnExit, xTicksToWait ) \(\backslash\)}}
+\DoxyCodeLine{2543 \textcolor{preprocessor}{    ulTaskGenericNotifyTake( ( tskDEFAULT\_INDEX\_TO\_NOTIFY ), ( xClearCountOnExit ), ( xTicksToWait ) )}}
+\DoxyCodeLine{2544 \textcolor{preprocessor}{\#define ulTaskNotifyTakeIndexed( uxIndexToWaitOn, xClearCountOnExit, xTicksToWait ) \(\backslash\)}}
+\DoxyCodeLine{2545 \textcolor{preprocessor}{    ulTaskGenericNotifyTake( ( uxIndexToWaitOn ), ( xClearCountOnExit ), ( xTicksToWait ) )}}
+\DoxyCodeLine{2546 }
+\DoxyCodeLine{2604 BaseType\_t xTaskGenericNotifyStateClear( TaskHandle\_t xTask,}
+\DoxyCodeLine{2605                                          UBaseType\_t uxIndexToClear ) PRIVILEGED\_FUNCTION;}
+\DoxyCodeLine{2606 \textcolor{preprocessor}{\#define xTaskNotifyStateClear( xTask ) \(\backslash\)}}
+\DoxyCodeLine{2607 \textcolor{preprocessor}{    xTaskGenericNotifyStateClear( ( xTask ), ( tskDEFAULT\_INDEX\_TO\_NOTIFY ) )}}
+\DoxyCodeLine{2608 \textcolor{preprocessor}{\#define xTaskNotifyStateClearIndexed( xTask, uxIndexToClear ) \(\backslash\)}}
+\DoxyCodeLine{2609 \textcolor{preprocessor}{    xTaskGenericNotifyStateClear( ( xTask ), ( uxIndexToClear ) )}}
+\DoxyCodeLine{2610 }
+\DoxyCodeLine{2669 uint32\_t ulTaskGenericNotifyValueClear( TaskHandle\_t xTask,}
+\DoxyCodeLine{2670                                         UBaseType\_t uxIndexToClear,}
+\DoxyCodeLine{2671                                         uint32\_t ulBitsToClear ) PRIVILEGED\_FUNCTION;}
+\DoxyCodeLine{2672 \textcolor{preprocessor}{\#define ulTaskNotifyValueClear( xTask, ulBitsToClear ) \(\backslash\)}}
+\DoxyCodeLine{2673 \textcolor{preprocessor}{    ulTaskGenericNotifyValueClear( ( xTask ), ( tskDEFAULT\_INDEX\_TO\_NOTIFY ), ( ulBitsToClear ) )}}
+\DoxyCodeLine{2674 \textcolor{preprocessor}{\#define ulTaskNotifyValueClearIndexed( xTask, uxIndexToClear, ulBitsToClear ) \(\backslash\)}}
+\DoxyCodeLine{2675 \textcolor{preprocessor}{    ulTaskGenericNotifyValueClear( ( xTask ), ( uxIndexToClear ), ( ulBitsToClear ) )}}
+\DoxyCodeLine{2676 }
+\DoxyCodeLine{2691 \textcolor{keywordtype}{void} vTaskSetTimeOutState( \mbox{\hyperlink{structxTIME__OUT}{TimeOut\_t}} * \textcolor{keyword}{const} pxTimeOut ) PRIVILEGED\_FUNCTION;}
+\DoxyCodeLine{2692 }
+\DoxyCodeLine{2776 BaseType\_t xTaskCheckForTimeOut( \mbox{\hyperlink{structxTIME__OUT}{TimeOut\_t}} * \textcolor{keyword}{const} pxTimeOut,}
+\DoxyCodeLine{2777                                  TickType\_t * \textcolor{keyword}{const} pxTicksToWait ) PRIVILEGED\_FUNCTION;}
+\DoxyCodeLine{2778 }
+\DoxyCodeLine{2805 BaseType\_t xTaskCatchUpTicks( TickType\_t xTicksToCatchUp ) PRIVILEGED\_FUNCTION;}
+\DoxyCodeLine{2806 }
+\DoxyCodeLine{2807 }
+\DoxyCodeLine{2808 \textcolor{comment}{/*-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{2809 \textcolor{comment}{* SCHEDULER INTERNALS AVAILABLE FOR PORTING PURPOSES}}
+\DoxyCodeLine{2810 \textcolor{comment}{*-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/*/}}
+\DoxyCodeLine{2811 }
+\DoxyCodeLine{2812 \textcolor{comment}{/*}}
+\DoxyCodeLine{2813 \textcolor{comment}{ * THIS FUNCTION MUST NOT BE USED FROM APPLICATION CODE.  IT IS ONLY}}
+\DoxyCodeLine{2814 \textcolor{comment}{ * INTENDED FOR USE WHEN IMPLEMENTING A PORT OF THE SCHEDULER AND IS}}
+\DoxyCodeLine{2815 \textcolor{comment}{ * AN INTERFACE WHICH IS FOR THE EXCLUSIVE USE OF THE SCHEDULER.}}
+\DoxyCodeLine{2816 \textcolor{comment}{ *}}
+\DoxyCodeLine{2817 \textcolor{comment}{ * Called from the real time kernel tick (either preemptive or cooperative),}}
+\DoxyCodeLine{2818 \textcolor{comment}{ * this increments the tick count and checks if any tasks that are blocked}}
+\DoxyCodeLine{2819 \textcolor{comment}{ * for a finite period required removing from a blocked list and placing on}}
+\DoxyCodeLine{2820 \textcolor{comment}{ * a ready list.  If a non-\/zero value is returned then a context switch is}}
+\DoxyCodeLine{2821 \textcolor{comment}{ * required because either:}}
+\DoxyCodeLine{2822 \textcolor{comment}{ *   + A task was removed from a blocked list because its timeout had expired,}}
+\DoxyCodeLine{2823 \textcolor{comment}{ *     or}}
+\DoxyCodeLine{2824 \textcolor{comment}{ *   + Time slicing is in use and there is a task of equal priority to the}}
+\DoxyCodeLine{2825 \textcolor{comment}{ *     currently running task.}}
+\DoxyCodeLine{2826 \textcolor{comment}{ */}}
+\DoxyCodeLine{2827 BaseType\_t xTaskIncrementTick( \textcolor{keywordtype}{void} ) PRIVILEGED\_FUNCTION;}
+\DoxyCodeLine{2828 }
+\DoxyCodeLine{2829 \textcolor{comment}{/*}}
+\DoxyCodeLine{2830 \textcolor{comment}{ * THIS FUNCTION MUST NOT BE USED FROM APPLICATION CODE.  IT IS AN}}
+\DoxyCodeLine{2831 \textcolor{comment}{ * INTERFACE WHICH IS FOR THE EXCLUSIVE USE OF THE SCHEDULER.}}
+\DoxyCodeLine{2832 \textcolor{comment}{ *}}
+\DoxyCodeLine{2833 \textcolor{comment}{ * THIS FUNCTION MUST BE CALLED WITH INTERRUPTS DISABLED.}}
+\DoxyCodeLine{2834 \textcolor{comment}{ *}}
+\DoxyCodeLine{2835 \textcolor{comment}{ * Removes the calling task from the ready list and places it both}}
+\DoxyCodeLine{2836 \textcolor{comment}{ * on the list of tasks waiting for a particular event, and the}}
+\DoxyCodeLine{2837 \textcolor{comment}{ * list of delayed tasks.  The task will be removed from both lists}}
+\DoxyCodeLine{2838 \textcolor{comment}{ * and replaced on the ready list should either the event occur (and}}
+\DoxyCodeLine{2839 \textcolor{comment}{ * there be no higher priority tasks waiting on the same event) or}}
+\DoxyCodeLine{2840 \textcolor{comment}{ * the delay period expires.}}
+\DoxyCodeLine{2841 \textcolor{comment}{ *}}
+\DoxyCodeLine{2842 \textcolor{comment}{ * The 'unordered' version replaces the event list item value with the}}
+\DoxyCodeLine{2843 \textcolor{comment}{ * xItemValue value, and inserts the list item at the end of the list.}}
+\DoxyCodeLine{2844 \textcolor{comment}{ *}}
+\DoxyCodeLine{2845 \textcolor{comment}{ * The 'ordered' version uses the existing event list item value (which is the}}
+\DoxyCodeLine{2846 \textcolor{comment}{ * owning tasks priority) to insert the list item into the event list is task}}
+\DoxyCodeLine{2847 \textcolor{comment}{ * priority order.}}
+\DoxyCodeLine{2848 \textcolor{comment}{ *}}
+\DoxyCodeLine{2849 \textcolor{comment}{ * @param pxEventList The list containing tasks that are blocked waiting}}
+\DoxyCodeLine{2850 \textcolor{comment}{ * for the event to occur.}}
+\DoxyCodeLine{2851 \textcolor{comment}{ *}}
+\DoxyCodeLine{2852 \textcolor{comment}{ * @param xItemValue The item value to use for the event list item when the}}
+\DoxyCodeLine{2853 \textcolor{comment}{ * event list is not ordered by task priority.}}
+\DoxyCodeLine{2854 \textcolor{comment}{ *}}
+\DoxyCodeLine{2855 \textcolor{comment}{ * @param xTicksToWait The maximum amount of time that the task should wait}}
+\DoxyCodeLine{2856 \textcolor{comment}{ * for the event to occur.  This is specified in kernel ticks,the constant}}
+\DoxyCodeLine{2857 \textcolor{comment}{ * portTICK\_PERIOD\_MS can be used to convert kernel ticks into a real time}}
+\DoxyCodeLine{2858 \textcolor{comment}{ * period.}}
+\DoxyCodeLine{2859 \textcolor{comment}{ */}}
+\DoxyCodeLine{2860 \textcolor{keywordtype}{void} vTaskPlaceOnEventList( \mbox{\hyperlink{structxLIST}{List\_t}} * \textcolor{keyword}{const} pxEventList,}
+\DoxyCodeLine{2861                             \textcolor{keyword}{const} TickType\_t xTicksToWait ) PRIVILEGED\_FUNCTION;}
+\DoxyCodeLine{2862 \textcolor{keywordtype}{void} vTaskPlaceOnUnorderedEventList( \mbox{\hyperlink{structxLIST}{List\_t}} * pxEventList,}
+\DoxyCodeLine{2863                                      \textcolor{keyword}{const} TickType\_t xItemValue,}
+\DoxyCodeLine{2864                                      \textcolor{keyword}{const} TickType\_t xTicksToWait ) PRIVILEGED\_FUNCTION;}
+\DoxyCodeLine{2865 }
+\DoxyCodeLine{2866 \textcolor{comment}{/*}}
+\DoxyCodeLine{2867 \textcolor{comment}{ * THIS FUNCTION MUST NOT BE USED FROM APPLICATION CODE.  IT IS AN}}
+\DoxyCodeLine{2868 \textcolor{comment}{ * INTERFACE WHICH IS FOR THE EXCLUSIVE USE OF THE SCHEDULER.}}
+\DoxyCodeLine{2869 \textcolor{comment}{ *}}
+\DoxyCodeLine{2870 \textcolor{comment}{ * THIS FUNCTION MUST BE CALLED WITH INTERRUPTS DISABLED.}}
+\DoxyCodeLine{2871 \textcolor{comment}{ *}}
+\DoxyCodeLine{2872 \textcolor{comment}{ * This function performs nearly the same function as vTaskPlaceOnEventList().}}
+\DoxyCodeLine{2873 \textcolor{comment}{ * The difference being that this function does not permit tasks to block}}
+\DoxyCodeLine{2874 \textcolor{comment}{ * indefinitely, whereas vTaskPlaceOnEventList() does.}}
+\DoxyCodeLine{2875 \textcolor{comment}{ *}}
+\DoxyCodeLine{2876 \textcolor{comment}{ */}}
+\DoxyCodeLine{2877 \textcolor{keywordtype}{void} vTaskPlaceOnEventListRestricted( \mbox{\hyperlink{structxLIST}{List\_t}} * \textcolor{keyword}{const} pxEventList,}
+\DoxyCodeLine{2878                                       TickType\_t xTicksToWait,}
+\DoxyCodeLine{2879                                       \textcolor{keyword}{const} BaseType\_t xWaitIndefinitely ) PRIVILEGED\_FUNCTION;}
+\DoxyCodeLine{2880 }
+\DoxyCodeLine{2881 \textcolor{comment}{/*}}
+\DoxyCodeLine{2882 \textcolor{comment}{ * THIS FUNCTION MUST NOT BE USED FROM APPLICATION CODE.  IT IS AN}}
+\DoxyCodeLine{2883 \textcolor{comment}{ * INTERFACE WHICH IS FOR THE EXCLUSIVE USE OF THE SCHEDULER.}}
+\DoxyCodeLine{2884 \textcolor{comment}{ *}}
+\DoxyCodeLine{2885 \textcolor{comment}{ * THIS FUNCTION MUST BE CALLED WITH INTERRUPTS DISABLED.}}
+\DoxyCodeLine{2886 \textcolor{comment}{ *}}
+\DoxyCodeLine{2887 \textcolor{comment}{ * Removes a task from both the specified event list and the list of blocked}}
+\DoxyCodeLine{2888 \textcolor{comment}{ * tasks, and places it on a ready queue.}}
+\DoxyCodeLine{2889 \textcolor{comment}{ *}}
+\DoxyCodeLine{2890 \textcolor{comment}{ * xTaskRemoveFromEventList()/vTaskRemoveFromUnorderedEventList() will be called}}
+\DoxyCodeLine{2891 \textcolor{comment}{ * if either an event occurs to unblock a task, or the block timeout period}}
+\DoxyCodeLine{2892 \textcolor{comment}{ * expires.}}
+\DoxyCodeLine{2893 \textcolor{comment}{ *}}
+\DoxyCodeLine{2894 \textcolor{comment}{ * xTaskRemoveFromEventList() is used when the event list is in task priority}}
+\DoxyCodeLine{2895 \textcolor{comment}{ * order.  It removes the list item from the head of the event list as that will}}
+\DoxyCodeLine{2896 \textcolor{comment}{ * have the highest priority owning task of all the tasks on the event list.}}
+\DoxyCodeLine{2897 \textcolor{comment}{ * vTaskRemoveFromUnorderedEventList() is used when the event list is not}}
+\DoxyCodeLine{2898 \textcolor{comment}{ * ordered and the event list items hold something other than the owning tasks}}
+\DoxyCodeLine{2899 \textcolor{comment}{ * priority.  In this case the event list item value is updated to the value}}
+\DoxyCodeLine{2900 \textcolor{comment}{ * passed in the xItemValue parameter.}}
+\DoxyCodeLine{2901 \textcolor{comment}{ *}}
+\DoxyCodeLine{2902 \textcolor{comment}{ * @return pdTRUE if the task being removed has a higher priority than the task}}
+\DoxyCodeLine{2903 \textcolor{comment}{ * making the call, otherwise pdFALSE.}}
+\DoxyCodeLine{2904 \textcolor{comment}{ */}}
+\DoxyCodeLine{2905 BaseType\_t xTaskRemoveFromEventList( \textcolor{keyword}{const} \mbox{\hyperlink{structxLIST}{List\_t}} * \textcolor{keyword}{const} pxEventList ) PRIVILEGED\_FUNCTION;}
+\DoxyCodeLine{2906 \textcolor{keywordtype}{void} vTaskRemoveFromUnorderedEventList( \mbox{\hyperlink{structxLIST__ITEM}{ListItem\_t}} * pxEventListItem,}
+\DoxyCodeLine{2907                                         \textcolor{keyword}{const} TickType\_t xItemValue ) PRIVILEGED\_FUNCTION;}
+\DoxyCodeLine{2908 }
+\DoxyCodeLine{2909 \textcolor{comment}{/*}}
+\DoxyCodeLine{2910 \textcolor{comment}{ * THIS FUNCTION MUST NOT BE USED FROM APPLICATION CODE.  IT IS ONLY}}
+\DoxyCodeLine{2911 \textcolor{comment}{ * INTENDED FOR USE WHEN IMPLEMENTING A PORT OF THE SCHEDULER AND IS}}
+\DoxyCodeLine{2912 \textcolor{comment}{ * AN INTERFACE WHICH IS FOR THE EXCLUSIVE USE OF THE SCHEDULER.}}
+\DoxyCodeLine{2913 \textcolor{comment}{ *}}
+\DoxyCodeLine{2914 \textcolor{comment}{ * Sets the pointer to the current TCB to the TCB of the highest priority task}}
+\DoxyCodeLine{2915 \textcolor{comment}{ * that is ready to run.}}
+\DoxyCodeLine{2916 \textcolor{comment}{ */}}
+\DoxyCodeLine{2917 portDONT\_DISCARD \textcolor{keywordtype}{void} vTaskSwitchContext( \textcolor{keywordtype}{void} ) PRIVILEGED\_FUNCTION;}
+\DoxyCodeLine{2918 }
+\DoxyCodeLine{2919 \textcolor{comment}{/*}}
+\DoxyCodeLine{2920 \textcolor{comment}{ * THESE FUNCTIONS MUST NOT BE USED FROM APPLICATION CODE.  THEY ARE USED BY}}
+\DoxyCodeLine{2921 \textcolor{comment}{ * THE EVENT BITS MODULE.}}
+\DoxyCodeLine{2922 \textcolor{comment}{ */}}
+\DoxyCodeLine{2923 TickType\_t uxTaskResetEventItemValue( \textcolor{keywordtype}{void} ) PRIVILEGED\_FUNCTION;}
+\DoxyCodeLine{2924 }
+\DoxyCodeLine{2925 \textcolor{comment}{/*}}
+\DoxyCodeLine{2926 \textcolor{comment}{ * Return the handle of the calling task.}}
+\DoxyCodeLine{2927 \textcolor{comment}{ */}}
+\DoxyCodeLine{2928 TaskHandle\_t xTaskGetCurrentTaskHandle( \textcolor{keywordtype}{void} ) PRIVILEGED\_FUNCTION;}
+\DoxyCodeLine{2929 }
+\DoxyCodeLine{2930 \textcolor{comment}{/*}}
+\DoxyCodeLine{2931 \textcolor{comment}{ * Shortcut used by the queue implementation to prevent unnecessary call to}}
+\DoxyCodeLine{2932 \textcolor{comment}{ * taskYIELD();}}
+\DoxyCodeLine{2933 \textcolor{comment}{ */}}
+\DoxyCodeLine{2934 \textcolor{keywordtype}{void} vTaskMissedYield( \textcolor{keywordtype}{void} ) PRIVILEGED\_FUNCTION;}
+\DoxyCodeLine{2935 }
+\DoxyCodeLine{2936 \textcolor{comment}{/*}}
+\DoxyCodeLine{2937 \textcolor{comment}{ * Returns the scheduler state as taskSCHEDULER\_RUNNING,}}
+\DoxyCodeLine{2938 \textcolor{comment}{ * taskSCHEDULER\_NOT\_STARTED or taskSCHEDULER\_SUSPENDED.}}
+\DoxyCodeLine{2939 \textcolor{comment}{ */}}
+\DoxyCodeLine{2940 BaseType\_t xTaskGetSchedulerState( \textcolor{keywordtype}{void} ) PRIVILEGED\_FUNCTION;}
+\DoxyCodeLine{2941 }
+\DoxyCodeLine{2942 \textcolor{comment}{/*}}
+\DoxyCodeLine{2943 \textcolor{comment}{ * Raises the priority of the mutex holder to that of the calling task should}}
+\DoxyCodeLine{2944 \textcolor{comment}{ * the mutex holder have a priority less than the calling task.}}
+\DoxyCodeLine{2945 \textcolor{comment}{ */}}
+\DoxyCodeLine{2946 BaseType\_t xTaskPriorityInherit( TaskHandle\_t \textcolor{keyword}{const} pxMutexHolder ) PRIVILEGED\_FUNCTION;}
+\DoxyCodeLine{2947 }
+\DoxyCodeLine{2948 \textcolor{comment}{/*}}
+\DoxyCodeLine{2949 \textcolor{comment}{ * Set the priority of a task back to its proper priority in the case that it}}
+\DoxyCodeLine{2950 \textcolor{comment}{ * inherited a higher priority while it was holding a semaphore.}}
+\DoxyCodeLine{2951 \textcolor{comment}{ */}}
+\DoxyCodeLine{2952 BaseType\_t xTaskPriorityDisinherit( TaskHandle\_t \textcolor{keyword}{const} pxMutexHolder ) PRIVILEGED\_FUNCTION;}
+\DoxyCodeLine{2953 }
+\DoxyCodeLine{2954 \textcolor{comment}{/*}}
+\DoxyCodeLine{2955 \textcolor{comment}{ * If a higher priority task attempting to obtain a mutex caused a lower}}
+\DoxyCodeLine{2956 \textcolor{comment}{ * priority task to inherit the higher priority task's priority -\/ but the higher}}
+\DoxyCodeLine{2957 \textcolor{comment}{ * priority task then timed out without obtaining the mutex, then the lower}}
+\DoxyCodeLine{2958 \textcolor{comment}{ * priority task will disinherit the priority again -\/ but only down as far as}}
+\DoxyCodeLine{2959 \textcolor{comment}{ * the highest priority task that is still waiting for the mutex (if there were}}
+\DoxyCodeLine{2960 \textcolor{comment}{ * more than one task waiting for the mutex).}}
+\DoxyCodeLine{2961 \textcolor{comment}{ */}}
+\DoxyCodeLine{2962 \textcolor{keywordtype}{void} vTaskPriorityDisinheritAfterTimeout( TaskHandle\_t \textcolor{keyword}{const} pxMutexHolder,}
+\DoxyCodeLine{2963                                           UBaseType\_t uxHighestPriorityWaitingTask ) PRIVILEGED\_FUNCTION;}
+\DoxyCodeLine{2964 }
+\DoxyCodeLine{2965 \textcolor{comment}{/*}}
+\DoxyCodeLine{2966 \textcolor{comment}{ * Get the uxTCBNumber assigned to the task referenced by the xTask parameter.}}
+\DoxyCodeLine{2967 \textcolor{comment}{ */}}
+\DoxyCodeLine{2968 UBaseType\_t uxTaskGetTaskNumber( TaskHandle\_t xTask ) PRIVILEGED\_FUNCTION;}
+\DoxyCodeLine{2969 }
+\DoxyCodeLine{2970 \textcolor{comment}{/*}}
+\DoxyCodeLine{2971 \textcolor{comment}{ * Set the uxTaskNumber of the task referenced by the xTask parameter to}}
+\DoxyCodeLine{2972 \textcolor{comment}{ * uxHandle.}}
+\DoxyCodeLine{2973 \textcolor{comment}{ */}}
+\DoxyCodeLine{2974 \textcolor{keywordtype}{void} vTaskSetTaskNumber( TaskHandle\_t xTask,}
+\DoxyCodeLine{2975                          \textcolor{keyword}{const} UBaseType\_t uxHandle ) PRIVILEGED\_FUNCTION;}
+\DoxyCodeLine{2976 }
+\DoxyCodeLine{2977 \textcolor{comment}{/*}}
+\DoxyCodeLine{2978 \textcolor{comment}{ * Only available when configUSE\_TICKLESS\_IDLE is set to 1.}}
+\DoxyCodeLine{2979 \textcolor{comment}{ * If tickless mode is being used, or a low power mode is implemented, then}}
+\DoxyCodeLine{2980 \textcolor{comment}{ * the tick interrupt will not execute during idle periods.  When this is the}}
+\DoxyCodeLine{2981 \textcolor{comment}{ * case, the tick count value maintained by the scheduler needs to be kept up}}
+\DoxyCodeLine{2982 \textcolor{comment}{ * to date with the actual execution time by being skipped forward by a time}}
+\DoxyCodeLine{2983 \textcolor{comment}{ * equal to the idle period.}}
+\DoxyCodeLine{2984 \textcolor{comment}{ */}}
+\DoxyCodeLine{2985 \textcolor{keywordtype}{void} vTaskStepTick( \textcolor{keyword}{const} TickType\_t xTicksToJump ) PRIVILEGED\_FUNCTION;}
+\DoxyCodeLine{2986 }
+\DoxyCodeLine{2987 \textcolor{comment}{/*}}
+\DoxyCodeLine{2988 \textcolor{comment}{ * Only available when configUSE\_TICKLESS\_IDLE is set to 1.}}
+\DoxyCodeLine{2989 \textcolor{comment}{ * Provided for use within portSUPPRESS\_TICKS\_AND\_SLEEP() to allow the port}}
+\DoxyCodeLine{2990 \textcolor{comment}{ * specific sleep function to determine if it is ok to proceed with the sleep,}}
+\DoxyCodeLine{2991 \textcolor{comment}{ * and if it is ok to proceed, if it is ok to sleep indefinitely.}}
+\DoxyCodeLine{2992 \textcolor{comment}{ *}}
+\DoxyCodeLine{2993 \textcolor{comment}{ * This function is necessary because portSUPPRESS\_TICKS\_AND\_SLEEP() is only}}
+\DoxyCodeLine{2994 \textcolor{comment}{ * called with the scheduler suspended, not from within a critical section.  It}}
+\DoxyCodeLine{2995 \textcolor{comment}{ * is therefore possible for an interrupt to request a context switch between}}
+\DoxyCodeLine{2996 \textcolor{comment}{ * portSUPPRESS\_TICKS\_AND\_SLEEP() and the low power mode actually being}}
+\DoxyCodeLine{2997 \textcolor{comment}{ * entered.  eTaskConfirmSleepModeStatus() should be called from a short}}
+\DoxyCodeLine{2998 \textcolor{comment}{ * critical section between the timer being stopped and the sleep mode being}}
+\DoxyCodeLine{2999 \textcolor{comment}{ * entered to ensure it is ok to proceed into the sleep mode.}}
+\DoxyCodeLine{3000 \textcolor{comment}{ */}}
+\DoxyCodeLine{3001 eSleepModeStatus eTaskConfirmSleepModeStatus( \textcolor{keywordtype}{void} ) PRIVILEGED\_FUNCTION;}
+\DoxyCodeLine{3002 }
+\DoxyCodeLine{3003 \textcolor{comment}{/*}}
+\DoxyCodeLine{3004 \textcolor{comment}{ * For internal use only.  Increment the mutex held count when a mutex is}}
+\DoxyCodeLine{3005 \textcolor{comment}{ * taken and return the handle of the task that has taken the mutex.}}
+\DoxyCodeLine{3006 \textcolor{comment}{ */}}
+\DoxyCodeLine{3007 TaskHandle\_t pvTaskIncrementMutexHeldCount( \textcolor{keywordtype}{void} ) PRIVILEGED\_FUNCTION;}
+\DoxyCodeLine{3008 }
+\DoxyCodeLine{3009 \textcolor{comment}{/*}}
+\DoxyCodeLine{3010 \textcolor{comment}{ * For internal use only.  Same as vTaskSetTimeOutState(), but without a critical}}
+\DoxyCodeLine{3011 \textcolor{comment}{ * section.}}
+\DoxyCodeLine{3012 \textcolor{comment}{ */}}
+\DoxyCodeLine{3013 \textcolor{keywordtype}{void} vTaskInternalSetTimeOutState( \mbox{\hyperlink{structxTIME__OUT}{TimeOut\_t}} * \textcolor{keyword}{const} pxTimeOut ) PRIVILEGED\_FUNCTION;}
+\DoxyCodeLine{3014 }
+\DoxyCodeLine{3015 }
+\DoxyCodeLine{3016 \textcolor{comment}{/* *INDENT-\/OFF* */}}
+\DoxyCodeLine{3017 \textcolor{preprocessor}{\#ifdef \_\_cplusplus}}
+\DoxyCodeLine{3018     \}}
+\DoxyCodeLine{3019 \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{3020 \textcolor{comment}{/* *INDENT-\/ON* */}}
+\DoxyCodeLine{3021 \textcolor{preprocessor}{\#endif }\textcolor{comment}{/* INC\_TASK\_H */}\textcolor{preprocessor}{}}
+
+\end{DoxyCode}
