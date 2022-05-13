@@ -4,16 +4,18 @@ Final academic project for ECE/CSE 474
 
 ## Part I: Implement a series of tasks applying FreeRTOS to create a pre-emptive scheduler
 
-### Blinking an External LED 
+### Blinking an External LED consistenly every N miliseconds
 * Connect a LED to pin D50.
-#### Reading Analog Inputs from an Analog Thumbstick
+
+### Reading Analog Inputs from an Analog Thumbstick
 * Connect a thumbstick to pin A1
 * Receive the x-value data of the thumbstick via analog pin A1.
 * Use the Serial Monitor to watch the x-value data as it was received.
-### Play the "Close Encounters" theme song
+
+### Play the "Close Encounters" theme song, then sleep for M seconds, and then suspend itself at the end
 * Connect the speaker to pin D46.
 * Plays the tune from the movie “Close Encounter of the Third Kind” using Timer4 interrupt.
-* Play and then sleep for N seconds, and then suspend itself at the end.
+
 ### Measure the Fast Fourier Transform
 * Compute the Fast Fourier Transform five times as a background task.
 
